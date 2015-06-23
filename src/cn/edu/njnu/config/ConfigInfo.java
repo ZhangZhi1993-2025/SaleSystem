@@ -68,6 +68,7 @@ public class ConfigInfo extends JFinalConfig {
 		arp.addMapping("t_order", Order.class);
 		arp.addMapping("t_authority", Authority.class);
 		arp.addMapping("t_shoppingcar", ShoppingCar.class);
+		arp.addMapping("t_book", Book.class);
 
 	}
 
@@ -77,7 +78,7 @@ public class ConfigInfo extends JFinalConfig {
 	@Override
 	public void configRoute(Routes routes) {
 
-		routes.add("/entrance", EntranceController.class);
+		routes.add("/", EntranceController.class);
 		routes.add("/user", UserController.class);
 		routes.add("/admin", AdminController.class);
 	}

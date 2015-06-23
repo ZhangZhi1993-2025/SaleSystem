@@ -8,7 +8,7 @@ import com.jfinal.core.Controller;
 
 /**
  * ********************EntranceController(系统入口 )****************************
- * 1.登陆; 2.注册;*******************************************************
+ * 0.首页;1.登陆; 2.注册;*******************************************************
  * EntranceController的访问权限：无权限要求;
  */
 
@@ -16,6 +16,12 @@ public class EntranceController extends Controller {
 
 	UserService userService = new UserService();
 	OrderService orderService = new OrderService();
+
+	// 0.首页
+	
+	public void index() {
+		render("/WEB-INF/content/main.jsp");
+	}
 
 	// 1.登陆
 	public void login() {
