@@ -44,12 +44,38 @@ public class Book extends Model<Book> {
 		return set("amount", amount - 1).set("sale", sale + 1).save();
 	}
 
-	// 管理员增加书入库存货量
-	public boolean updateBookAmount(int bookid, int addition) {
-		List<Book> list = find("select b.amount from t_book b where "
-				+ "b.id = ?", bookid);
-		int amount = list.get(0).getInt("id");
-		return set("amount", amount + addition).save();
+	// 管理员更新书的信息
+	public boolean updateBook(int bookid, int type, Object info) {
+		boolean success = false;
+		List<Book> list;
+		switch (type) {
+		case 0:// 更新书的库存
+			list = find("select b.amount from t_book b where " + "b.id = ?",
+					bookid);
+			int amount = list.get(0).getInt("id");
+			success = set("amount", amount + (int) info).save();
+		case 1:// 更新书的分类
+			success = findById(bookid).set("category", (String) info).update();
+		case 2:// 更新书的价格
+			success = findById(bookid).set("price", (double) info).update();
+		case 3:// 更新书的名字
+			success = findById(bookid).set("name", (String) info).update();
+		case 4:// 更新书的描述
+			success = findById(bookid).set("desc", (String) info).update();
+		default:
+		}
+		return success;
+	}
+
+	// 用户为某本书评分
+	public boolean updateStar(int bookid, double star) {
+		Book book = findById(bookid);
+		int star_number = book.getInt("star_number");
+		double oldStar = book.getDouble("star");
+		return book
+				.set("star_number", star_number + 1)
+				.set("star", (oldStar * star_number + star) / (star_number + 1))
+				.update();
 	}
 
 	// 根据给定条件综合查询

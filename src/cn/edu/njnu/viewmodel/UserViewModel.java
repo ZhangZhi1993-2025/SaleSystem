@@ -9,17 +9,13 @@ public class UserViewModel {
 	// id号
 	private int id;
 
-	// 手机号
-	private String phone;
-
 	// 积分
 	private int score;
 
 	// 昵称
 	private String name;
 
-	public UserViewModel(int id, String phone, int score, String name) {
-		this.phone = phone;
+	public UserViewModel(int id, int score, String name) {
 		this.name = name;
 		this.score = score;
 		this.id = id;
@@ -33,14 +29,6 @@ public class UserViewModel {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
 	}
 
 	public String getName() {

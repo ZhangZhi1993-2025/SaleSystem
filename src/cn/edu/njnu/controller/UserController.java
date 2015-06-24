@@ -13,6 +13,7 @@ import cn.edu.njnu.viewmodel.ShoppingCarViewModel;
 import cn.edu.njnu.viewmodel.ShoppingDetail;
 import cn.edu.njnu.viewmodel.ShoppingInfo;
 import cn.edu.njnu.viewmodel.OrderViewModel;
+import cn.edu.njnu.viewmodel.UserViewModel;
 
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
@@ -37,9 +38,13 @@ public class UserController extends Controller {
 	public void change_password() {
 		int userid = Integer.parseInt(getPara("user"));
 		String newpassword = getPara("newpassword");
-		if (userService.userUpdate(userid, newpassword, 0) == true)
-			renderJson(true);
-		else
+		if (userService.userUpdate(userid, newpassword, 0) == true) {
+			String phone = userService.getUserPhone(userid);
+			UserViewModel model;
+			model = userService.getUserInfo(phone);
+			setAttr("userInfo", model);
+			redirect("/WEB-INF/content/main.jsp");
+		} else
 			renderJson(false);
 	}
 
@@ -47,9 +52,12 @@ public class UserController extends Controller {
 	public void change_phone_number() {
 		int userid = Integer.parseInt(getPara("user"));
 		String newphone = getPara("newphone");
-		if (userService.userUpdate(userid, newphone, 0) == true)
-			renderJson(true);
-		else
+		if (userService.userUpdate(userid, newphone, 1) == true) {
+			UserViewModel model;
+			model = userService.getUserInfo(newphone);
+			setAttr("userInfo", model);
+			redirect("/WEB-INF/content/main.jsp");
+		} else
 			renderJson(false);
 	}
 
@@ -59,13 +67,14 @@ public class UserController extends Controller {
 		int bookid = Integer.parseInt(getPara("book"));
 		int amount = Integer.parseInt(getPara("amount"));
 		carService.addItem(userid, bookid, amount);
+		renderJson(true);
 	}
 
 	// 4.注销账户
 	public void delete_account() {
 		int userid = Integer.parseInt(getPara("userid"));
 		if (userService.userDelete(userid) == true)
-			renderJson(true);
+			redirect("/WEB-INF/content/main.jsp");
 		else
 			renderJson(false);
 	}
@@ -89,34 +98,41 @@ public class UserController extends Controller {
 	public void current_order() {
 		int userid = Integer.parseInt(getPara("userid"));
 		List<OrderViewModel> models = orderService.userGetOrder(userid);
-		renderJson(models);
+		setAttr("currentOrder", models);
+		render("/WEB-INF/content/order/current_order_list.jsp");
 	}
 
 	// 7.历史订单列表
 	public void history_order() {
 		int userid = Integer.parseInt(getPara("userid"));
 		List<OrderViewModel> models = orderService.userGetOrder(userid);
-		renderJson(models);
+		setAttr("historyOrder", models);
+		render("/WEB-INF/content/order/history_order_list.jsp");
 	}
 
 	// 8.购物车内的书确认下单
 	public void create_order_by_shoppingcar() {
 		int userid = Integer.parseInt(getPara("user"));
-		carService.createOrder(userid);
+		if (carService.createOrder(userid) == true)
+			renderJson(true);
+		else
+			renderJson(false);
 	}
 
 	// 9.查看订单详情
 	public void detail_order() {
 		OrderDetailViewModel model = orderService.userDetailOrder(Integer
 				.parseInt(getPara("id")));
-		renderJson(model);
+		setAttr("detailOrder", model);
+		render("/WEB-INF/content/order/detail_order.jsp");
 	}
 
 	// 10.查看购物车
 	public void car_content() {
 		int userid = Integer.parseInt(getPara("userid"));
 		ShoppingCarViewModel model = carService.getAllItem(userid);
-		renderJson(model);
+		setAttr("shoppingcar", model);
+		render("/WEB-INF/content/shoppingcar/shopping_car.jsp");
 	}
 
 	// 11.多条件查询商品
@@ -128,7 +144,8 @@ public class UserController extends Controller {
 		boolean saleSort = Boolean.parseBoolean(getPara("sale"));
 		List<BookViewModel> models = bookService.search(name, category,
 				priceSort, starSort, saleSort);
-		renderJson(models);
+		setAttr("searchResult", models);
+		render("/WEB-INF/content/search/search_result.jsp");
 	}
 
 }

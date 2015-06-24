@@ -63,4 +63,9 @@ public class BookService {
 		}
 		return models;
 	}
+
+	// 3.对某本书更新库存
+	public boolean updateBookAmount(int bookid, int addition) {
+		return bookDao.updateBook(bookid, 0, addition);
+	}
 }

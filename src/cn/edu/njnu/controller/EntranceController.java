@@ -8,7 +8,7 @@ import com.jfinal.core.Controller;
 
 /**
  * ********************EntranceController(系统入口 )****************************
- * 0.首页;1.登陆; 2.注册;*******************************************************
+ * 0.首页;1.登陆验证; 2.注册验证;3.登陆页面;4.注册页面;**********************************
  * EntranceController的访问权限：无权限要求;
  */
 
@@ -18,26 +18,26 @@ public class EntranceController extends Controller {
 	OrderService orderService = new OrderService();
 
 	// 0.首页
-	
 	public void index() {
-		render("/WEB-INF/content/main.jsp");
+		render("/content/main.jsp");
 	}
 
-	// 1.登陆
-	public void login() {
+	// 1.登陆验证
+	public void login_validate() {
 		String phone = getPara("phone");
 		String password = getPara("password");
-		UserViewModel model;
 		if (userService.userLogin(phone, password) == true) {
+			UserViewModel model;
 			model = userService.getUserInfo(phone);
-			renderJson(model);
+			setAttr("userInfo", model);
+			redirect("/WEB-INF/content/main.jsp");
 		} else {
-			renderJson("用户名或密码不正确！");
+			renderJson(false);
 		}
 	}
 
-	// 2.注册
-	public void register() {
+	// 2.注册验证
+	public void register_validate() {
 		String phone = getPara("phone");
 		String password = getPara("password");
 		UserViewModel model;
@@ -45,7 +45,8 @@ public class EntranceController extends Controller {
 		switch (result) {
 		case 2:
 			model = userService.getUserInfo(phone);
-			renderJson(model);
+			setAttr("userInfo", model);
+			redirect("/WEB-INF/content/main.jsp");
 			break;
 		case 1:
 			renderJson("该用户名已经被注册！");
@@ -56,6 +57,16 @@ public class EntranceController extends Controller {
 		default:
 			renderJson("注册失败！");
 		}
+	}
+
+	// 3.登陆页面
+	public void login() {
+		render("/content/login.jsp");
+	}
+
+	// 4.注册页面
+	public void register() {
+		render("/content/register.jsp");
 	}
 
 }

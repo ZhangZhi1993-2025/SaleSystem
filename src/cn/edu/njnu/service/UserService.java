@@ -21,7 +21,6 @@ import static cn.edu.njnu.model.Authority.authDao;
 /**
  * *****************************基于用户的服务*****************************************
  * 1.登陆;2.通过给定手机号返回指定的用户信息;3.依据给定的用户及权限代号判断用户是否符合权限;4.注册;5.用户账号信息修改;6.注销用户;
- * 7.根据用户id号查找学校id号;
  */
 
 public class UserService {
@@ -53,9 +52,13 @@ public class UserService {
 	public UserViewModel getUserInfo(String phone) {
 		List<User> users = usrDao.findUserInfo(phone);
 		UserViewModel model = new UserViewModel(users.get(0).getInt("id"),
-				users.get(0).getStr("phone"), users.get(0).getInt("score"),
-				users.get(0).getStr("score"));
+				users.get(0).getInt("score"), users.get(0).getStr("name"));
 		return model;
+	}
+
+	/* 通过给定的id号返回用户手机号 */
+	public String getUserPhone(int userid) {
+		return usrDao.findPhoneById(userid);
 	}
 
 	/* 3.依据给定的用户及权限代号判断用户是否符合权限 */
@@ -94,7 +97,7 @@ public class UserService {
 			return usrDao.updateUser(userid, info, type);
 		case 1:// 修改手机号
 			return usrDao.updateUser(userid, info, type);
-		case 2:// 修改默认地址
+		case 2:// 修改昵称
 			return usrDao.updateUser(userid, info, type);
 		default:
 			return false;
@@ -115,12 +118,6 @@ public class UserService {
 			}
 
 		});
-	}
-
-	/* 7.根据用户id号查找学校id号 */
-	public int returnSchoolById(int id) {
-		List<User> users = usrDao.findSchoolById(id);
-		return users.get(0).getInt("schoolid");
 	}
 
 	/** 基于给定的 盐值+口令 混合串返回哈希值 */

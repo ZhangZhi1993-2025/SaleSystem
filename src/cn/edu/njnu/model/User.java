@@ -1,11 +1,9 @@
 package cn.edu.njnu.model;
 
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 
 import com.jfinal.plugin.activerecord.Db;
-import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Model;
 
 /**
@@ -35,26 +33,20 @@ public class User extends Model<User> {
 				phone, saltedPassword);
 	}
 
+	// 通过id号返回用户手机号
+	public String findPhoneById(int userid) {
+		return findById(userid).getStr("phone");
+	}
+
 	// 通过给定手机号查找用户，用于注册时判断账号是否已被注册
 	public List<User> findUserByGivenPhone(String phone) {
 		return find("select u.id from t_user u where t_user.phone = ?", phone);
 	}
 
-	// 通过店铺查找店主的id号
-	public List<User> findSellerIdByStore(int storeid) {
-		return find("select u.id from t_user u, t_store_user su where "
-				+ "su.storeid = ? and u.id = su.userid", storeid);
-	}
-
-	// 通过给定手机号返回指定的用户信息
+	// 通过给定信息返回指定的用户信息
 	public List<User> findUserInfo(String phone) {
-		return find("select u.id, u.phone, u.cash, u.score, u.avatar_addr "
+		return find("select u.id, u.score, u.name"
 				+ "from t_user u where u.phone = ?", phone);
-	}
-
-	// 根据指定用户id号返回学校id号
-	public List<User> findSchoolById(int id) {
-		return find("select u.schoolid from user u where u.id = ?", id);
 	}
 
 	// 用于注册插入一条用户账户信息
@@ -72,30 +64,16 @@ public class User extends Model<User> {
 			return findById(userid).set("password", info).update();
 		case 1:/* 修改手机号 */
 			return findById(userid).set("phone", info).update();
-		case 2:/* 修改默认地址 */
-			return Db.tx(new IAtom() {
-
-				@Override
-				public boolean run() throws SQLException {
-					return /* 先将原默认地址变为普通地址 */
-					Db.update("update t_address set isdefault = 0  where "
-							+ "userid = ? and isdefault = 1", userid) == 1
-							&& /* 再将指定普通地址变为默认地址 */
-							Db.update(
-									"update t_address set isdefault = 1 where "
-											+ "userid = ? and id = ?", userid,
-									info) == 1;
-				}
-
-			});
+		case 2:/* 修改昵称 */
+			return findById(userid).set("name", info).update();
 		default:
 			return false;
 		}
 	}
 
 	// 注销用户操作
-	public boolean deleteUser(int userID) {
-		return Db.update("delete from t_user where userid = ?", userID) == 1;
+	public boolean deleteUser(int userid) {
+		return Db.update("delete from t_user where userid = ?", userid) == 1;
 	}
 
 }
