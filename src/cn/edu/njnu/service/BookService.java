@@ -1,4 +1,4 @@
-package cn.edu.njnu.service;
+锘縫ackage cn.edu.njnu.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,13 +8,13 @@ import cn.edu.njnu.viewmodel.BookViewModel;
 import static cn.edu.njnu.model.Book.bookDao;
 
 /**
- * *****************************订单相关服务*****************************************
- * 0.默认根据销量查找一类书;1.根据书id号查找某本书;2.综合查询;
+ * *****************************璁㈠崟鐩稿叧鏈嶅姟*****************************************
+ * 0.榛樿鏍规嵁閿�閲忔煡鎵句竴绫讳功;1.鏍规嵁涔d鍙锋煡鎵炬煇鏈功;2.缁煎悎鏌ヨ;
  */
 
 public class BookService {
 
-	// 0.默认根据销量查找一类书
+	// 0.榛樿鏍规嵁閿�閲忔煡鎵句竴绫讳功
 	public List<BookViewModel> getBooks(int page) {
 		List<BookViewModel> models = new ArrayList<BookViewModel>();
 		List<Book> list = bookDao.pushHotBooks(page);
@@ -28,16 +28,16 @@ public class BookService {
 		return models;
 	}
 
-	// 1.根据书id号查找某本书
+	// 1.鏍规嵁涔d鍙锋煡鎵炬煇鏈功
 	public BookViewModel findBook(int bookid, boolean isDetail) {
 		Book book;
 		List<Book> list;
 		BookViewModel model;
-		// 用于生成订单时查询必要的信息
+		// 鐢ㄤ簬鐢熸垚璁㈠崟鏃舵煡璇㈠繀瑕佺殑淇℃伅
 		if (!isDetail) {
 			list = bookDao.findBookById(bookid);
 			model = new BookViewModel(bookid, list.get(0).getDouble("price"));
-		}// 返回详细的书介绍
+		}// 杩斿洖璇︾粏鐨勪功浠嬬粛
 		else {
 			book = bookDao.findById(bookid);
 			model = new BookViewModel(bookid, book.getStr("name"),
@@ -48,7 +48,7 @@ public class BookService {
 		return model;
 	}
 
-	// 2.综合查询
+	// 2.缁煎悎鏌ヨ
 	public List<BookViewModel> search(String name, String category,
 			boolean priceSort, boolean starSort, boolean saleSort) {
 		List<Book> list = bookDao.findBookByGivenConditions(name, category,
@@ -64,7 +64,7 @@ public class BookService {
 		return models;
 	}
 
-	// 3.对某本书更新库存
+	// 3.瀵规煇鏈功鏇存柊搴撳瓨
 	public boolean updateBookAmount(int bookid, int addition) {
 		return bookDao.updateBook(bookid, 0, addition);
 	}

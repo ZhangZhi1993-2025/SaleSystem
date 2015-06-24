@@ -1,4 +1,4 @@
-package cn.edu.njnu.model;
+ï»¿package cn.edu.njnu.model;
 
 import java.util.List;
 
@@ -6,21 +6,21 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 
 /**
- * ¸»ÁìÓòÄ£ĞÍAuthority£¬¶ÔÓ¦Êı¾İ¿â±ít_authority
+ * å¯Œé¢†åŸŸæ¨¡å‹Authorityï¼Œå¯¹åº”æ•°æ®åº“è¡¨t_authority
  */
 
 public class Authority extends Model<Authority> {
 
 	private static final long serialVersionUID = 1L;
 
-	// ¾²Ì¬È«¾Ö±äÁ¿authDao×÷Îªt_authority±í²éÑ¯µÄÍ¨ÓÃÈë¿Ú£¬¼ò»¯±à³Ì
+	// é™æ€å…¨å±€å˜é‡authDaoä½œä¸ºt_authorityè¡¨æŸ¥è¯¢çš„é€šç”¨å…¥å£ï¼Œç®€åŒ–ç¼–ç¨‹
 	public static final Authority authDao = new Authority();
 
 	/**
-	 * ·â×°AuthorityµÄÊı¾İ¿â²Ù×İ½Ó¿Ú
+	 * å°è£…Authorityçš„æ•°æ®åº“æ“çºµæ¥å£
 	 */
 
-	// ÒÀ¾İ¸ø¶¨µÄÓÃ»§¼°È¨ÏŞ´úºÅÅĞ¶ÏÓÃ»§ÊÇ·ñ·ûºÏÈ¨ÏŞ
+	// ä¾æ®ç»™å®šçš„ç”¨æˆ·åŠæƒé™ä»£å·åˆ¤æ–­ç”¨æˆ·æ˜¯å¦ç¬¦åˆæƒé™
 	public boolean hasAuthority(int userID, int authNeed) {
 		List<Authority> authList = find(
 				"select * from authority where userID = ?0 and auth = ?1",
@@ -31,19 +31,19 @@ public class Authority extends Model<Authority> {
 			return false;
 	}
 
-	// ²åÈëĞÂµÄÓÃ»§È¨ÏŞ
+	// æ’å…¥æ–°çš„ç”¨æˆ·æƒé™
 	public boolean saveAuthority(int userID, int auth) {
 		return new Authority().set("userID", userID).set("auth", auth).save();
 	}
 
-	// É¾³ıÖ¸¶¨ÓÃ»§µÄÖ¸¶¨È¨ÏŞ
+	// åˆ é™¤æŒ‡å®šç”¨æˆ·çš„æŒ‡å®šæƒé™
 	public boolean deleteAuthority(int userID, int auth) {
 		return Db.update(
 				"delete from authority where userID = ?0 and auth = ?1",
 				userID, auth) > 0;
 	}
 
-	// É¾³ıÖ¸¶¨ÓÃ»§µÄËùÓĞÈ¨ÏŞ£¬Í¨³£°éËæ×ÅÉ¾³ıÓÃ»§
+	// åˆ é™¤æŒ‡å®šç”¨æˆ·çš„æ‰€æœ‰æƒé™ï¼Œé€šå¸¸ä¼´éšç€åˆ é™¤ç”¨æˆ·
 	public boolean deleteAuthority(int userID) {
 		return Db.update("delete from authority where userID = ?0", userID) > 0;
 	}

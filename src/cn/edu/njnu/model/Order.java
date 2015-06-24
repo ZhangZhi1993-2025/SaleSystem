@@ -1,4 +1,4 @@
-package cn.edu.njnu.model;
+ï»¿package cn.edu.njnu.model;
 
 import java.sql.Timestamp;
 import java.sql.SQLException;
@@ -14,21 +14,21 @@ import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Record;
 
 /**
- * ¸»ÁìÓòÄ£ĞÍOrder£¬¶ÔÓ¦Êı¾İ¿â±ít_order
+ * å¯Œé¢†åŸŸæ¨¡å‹Orderï¼Œå¯¹åº”æ•°æ®åº“è¡¨t_order
  */
 
 public class Order extends Model<Order> {
 
 	private static final long serialVersionUID = 1L;
 
-	// ¾²Ì¬È«¾Ö±äÁ¿orderDao×÷Îªt_order±í²éÑ¯µÄÍ¨ÓÃÈë¿Ú£¬¼ò»¯±à³Ì
+	// é™æ€å…¨å±€å˜é‡orderDaoä½œä¸ºt_orderè¡¨æŸ¥è¯¢çš„é€šç”¨å…¥å£ï¼Œç®€åŒ–ç¼–ç¨‹
 	public static final Order orderDao = new Order();
 
 	/**
-	 * ·â×°OrderµÄÊı¾İ¿â²Ù×İ½Ó¿Ú
+	 * å°è£…Orderçš„æ•°æ®åº“æ“çºµæ¥å£
 	 */
 
-	// ¸ù¾İÓÃ»§idºÅ¼°×´Ì¬·µ»Ø¶©µ¥¸ÅÒªĞÅÏ¢
+	// æ ¹æ®ç”¨æˆ·idå·åŠçŠ¶æ€è¿”å›è®¢å•æ¦‚è¦ä¿¡æ¯
 	public List<Order> findOrderByUser(int userid) {
 		List<Order> orders = find(
 				"select o.createtime, o.price, o.state, o.id from t_order o"
@@ -36,13 +36,13 @@ public class Order extends Model<Order> {
 		return orders;
 	}
 
-	// ¸ù¾İ¶©µ¥ºÅ·µ»Ø¶©µ¥ÏêÏ¸ĞÅÏ¢
+	// æ ¹æ®è®¢å•å·è¿”å›è®¢å•è¯¦ç»†ä¿¡æ¯
 	public List<Order> findDetailOrderById(int orderid) {
 		List<Order> orders = find(
 				"select o.createtime, u.phone, o.id, s.name, "
 						+ "o.price, from t_user u, t_order o "
 						+ "where o.id = ? and o.userid = u.id ", orderid);
-		// »ñÈ¡ÏêÏ¸µÄ¹ºÂòÉÌÆ·
+		// è·å–è¯¦ç»†çš„è´­ä¹°å•†å“
 		List<Order> goodsList = find("select ob.amount, b.name, b.price, b.id "
 				+ "from t_book b, t_order_books ob where ob.orderid = ? and "
 				+ "ob.bookid = b.id ", orderid);
@@ -57,25 +57,25 @@ public class Order extends Model<Order> {
 		return orders;
 	}
 
-	// ¹Ø±ÕÄ³¶©µ¥µÄ»î¶¯×´Ì¬
+	// å…³é—­æŸè®¢å•çš„æ´»åŠ¨çŠ¶æ€
 	public boolean changeOrderState(int orderid) {
 		return findById(orderid).set("state", false).update();
 	}
 
-	// Éú³ÉÓÃ»§ĞÂ¶©µ¥,ËùĞèÊÂÎñÄÚÈİÈçÏÂ£º(1). t_order±íĞÂÔöÒ»Ìõ¼ÇÂ¼;(2).t_order_booksĞÂÔö¶ÔÓ¦µÄÉÌÆ·¼¯
+	// ç”Ÿæˆç”¨æˆ·æ–°è®¢å•,æ‰€éœ€äº‹åŠ¡å†…å®¹å¦‚ä¸‹ï¼š(1). t_orderè¡¨æ–°å¢ä¸€æ¡è®°å½•;(2).t_order_booksæ–°å¢å¯¹åº”çš„å•†å“é›†
 	public boolean createOrder(ShoppingInfo info) {
 		return Db.tx(new IAtom() {
 
 			@Override
 			public boolean run() throws SQLException {
 
-				// Éú³É×Ü¼Û
+				// ç”Ÿæˆæ€»ä»·
 				double price = 0;
 				for (int i = 0; i < info.getShoppingDetail().length; i++) {
 					price += info.getShoppingDetail()[i].getPrice();
 				}
 
-				// t_orderÔö¼ÓÒ»Ìõ¼ÇÂ¼
+				// t_orderå¢åŠ ä¸€æ¡è®°å½•
 				set("userid", info.getUserid())
 						.set("state", false)
 						.set("price", price)
@@ -83,7 +83,7 @@ public class Order extends Model<Order> {
 								new Timestamp(System.currentTimeMillis()))
 						.save();
 
-				// t_order_booksÔö¼ÓÈô¸ÉÌõ¼ÇÂ¼£¬±êÊ¶ÓÃ»§¹ºÂòµÄÉÌÆ·¼¯
+				// t_order_bookså¢åŠ è‹¥å¹²æ¡è®°å½•ï¼Œæ ‡è¯†ç”¨æˆ·è´­ä¹°çš„å•†å“é›†
 				int orderid = find(
 						"select o.id from t_order o where o.userid = ?",
 						info.getUserid()).get(0).getInt("id");
@@ -97,7 +97,7 @@ public class Order extends Model<Order> {
 							.set("orderid", orderid);
 					Db.save("t_order_books", goodsRecord);
 					
-					// t_book¶ÔÓ¦Êé¼ÇÂ¼µÄ´æ»õÁ¿ÓëÏúÁ¿×Ö¶Î·¢Éú¸Ä±ä
+					// t_bookå¯¹åº”ä¹¦è®°å½•çš„å­˜è´§é‡ä¸é”€é‡å­—æ®µå‘ç”Ÿæ”¹å˜
 					bookDao.updateBookData(info.getShoppingDetail()[i]
 							.getBookid());
 				}

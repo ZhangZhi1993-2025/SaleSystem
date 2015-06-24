@@ -1,26 +1,26 @@
-package cn.edu.njnu.viewmodel;
+ï»¿package cn.edu.njnu.viewmodel;
 
 import java.sql.Timestamp;
 
 /**
- * ¶©µ¥ÏêÇéÄ£ĞÍ,ÓÃÓÚ¶ÁÊı¾İ¿â
+ * è®¢å•è¯¦æƒ…æ¨¡å‹,ç”¨äºè¯»æ•°æ®åº“
  */
 
 public class OrderDetailViewModel {
 
-	// ¶©µ¥ºÅ
+	// è®¢å•å·
 	private int id;
 
-	// ÏÂµ¥Ê±¼ä
+	// ä¸‹å•æ—¶é—´
 	private Timestamp createtime;
 
-	// ÁªÏµµç»°
+	// è”ç³»ç”µè¯
 	private String phone;
 
-	// ×Ü¼Û
+	// æ€»ä»·
 	private double price;
 
-	// ¹ºÂòÉÌÆ·ÏêÇé
+	// è´­ä¹°å•†å“è¯¦æƒ…
 	private ShoppingDetail[] shoppingDetail;
 
 	public OrderDetailViewModel(int id, Timestamp createtime, String phone,

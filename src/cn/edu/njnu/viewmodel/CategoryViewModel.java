@@ -1,15 +1,15 @@
-package cn.edu.njnu.viewmodel;
+ï»¿package cn.edu.njnu.viewmodel;
 
 /**
- * ÊéÄ¿Àà±ğ
+ * ä¹¦ç›®ç±»åˆ«
  */
 
 public class CategoryViewModel {
 
-	// Àà±ğ
+	// ç±»åˆ«
 	private String name;
 
-	// idºÅ
+	// idå·
 	private int id;
 
 	public CategoryViewModel(String name, int id) {

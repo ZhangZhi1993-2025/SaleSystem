@@ -1,29 +1,29 @@
-package cn.edu.njnu.viewmodel;
+ï»¿package cn.edu.njnu.viewmodel;
 
 public class BookViewModel {
 
-	// idºÅ
+	// idå·
 	private int id;
 
-	// ÊéÃû
+	// ä¹¦å
 	private String name;
 
-	// ¼Û¸ñ
+	// ä»·æ ¼
 	private double price;
 
-	// ·ÖÀà
+	// åˆ†ç±»
 	private String category;
 
-	// ÏúÁ¿
+	// é”€é‡
 	private int sale;
 
-	// ´æ»õÁ¿
+	// å­˜è´§é‡
 	private int amount;
 
-	// ÆÀ·Ö
+	// è¯„åˆ†
 	private double star;
 
-	// ÃèÊö
+	// æè¿°
 	private String desc;
 
 	public BookViewModel(int id, String name, double price, String category,

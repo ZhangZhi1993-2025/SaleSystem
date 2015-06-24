@@ -1,4 +1,4 @@
-package cn.edu.njnu.controller;
+ï»¿package cn.edu.njnu.controller;
 
 import java.util.List;
 
@@ -10,9 +10,9 @@ import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 
 /**
- * ********************AdminController(ÉóºË¹ÜÀíÔ±)***********************************
- * 1.¶ÔÄ³±¾ÊéÔö¼Ó¿â´æ;*****************************************************************
- * AdminControllerµÄ·ÃÎÊÈ¨ÏŞ£º¾ßÓĞÉóºË¹ÜÀíÔ±È¨ÏŞ;
+ * ********************AdminController(ç®¡ç†å‘˜)***********************************
+ * 1.å¯¹æŸæœ¬ä¹¦å¢åŠ åº“å­˜;*****************************************************************
+ * AdminControllerçš„è®¿é—®æƒé™ï¼šå…·æœ‰ç®¡ç†å‘˜æƒé™;
  * */
 
 @Before(AdminInterceptor.class)
@@ -20,7 +20,7 @@ public class AdminController extends Controller {
 
 	BookService bookService = new BookService();
 
-	// 1.¶ÔÄ³±¾ÊéÔö¼Ó¿â´æ
+	// 1.å¯¹æŸæœ¬ä¹¦å¢åŠ åº“å­˜
 	public void add_amount() {
 		int bookid = Integer.parseInt(getPara("book"));
 		int addition = Integer.parseInt(getPara("addition"));
@@ -32,7 +32,7 @@ public class AdminController extends Controller {
 	
 	//
 
-	// .²é¿´Ä³ÊéµÄ×´¿ö
+	// .æŸ¥çœ‹æŸä¹¦çš„çŠ¶å†µ
 	public void monitor_book() {
 		String name = getPara("name");
 		String category = getPara("category");

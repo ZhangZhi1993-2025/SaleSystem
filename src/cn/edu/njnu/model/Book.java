@@ -1,25 +1,25 @@
-package cn.edu.njnu.model;
+ï»¿package cn.edu.njnu.model;
 
 import java.util.List;
 
 import com.jfinal.plugin.activerecord.Model;
 
 /**
- * ¸»ÁìÓòÄ£ĞÍBook£¬¶ÔÓ¦Êı¾İ¿â±ít_book
+ * å¯Œé¢†åŸŸæ¨¡å‹Bookï¼Œå¯¹åº”æ•°æ®åº“è¡¨t_book
  */
 
 public class Book extends Model<Book> {
 
 	private static final long serialVersionUID = 1L;
 
-	// ¾²Ì¬È«¾Ö±äÁ¿bookDao×÷Îªt_book±í²éÑ¯µÄÍ¨ÓÃÈë¿Ú£¬¼ò»¯±à³Ì
+	// é™æ€å…¨å±€å˜é‡bookDaoä½œä¸ºt_bookè¡¨æŸ¥è¯¢çš„é€šç”¨å…¥å£ï¼Œç®€åŒ–ç¼–ç¨‹
 	public static final Book bookDao = new Book();
 
 	/**
-	 * ·â×°BookµÄÊı¾İ¿â²Ù×İ½Ó¿Ú
+	 * å°è£…Bookçš„æ•°æ®åº“æ“çºµæ¥å£
 	 */
 
-	// ·µ»ØÏúÁ¿×î¸ßµÄÇ°20±¾Êé
+	// è¿”å›é”€é‡æœ€é«˜çš„å‰20æœ¬ä¹¦
 	public List<Book> pushHotBooks(int page) {
 		return paginate(
 				page,
@@ -28,14 +28,14 @@ public class Book extends Model<Book> {
 				"from t_book b orderby b.sale asc").getList();
 	}
 
-	// ¸ù¾İÄ³±¾ÊéµÄidºÅ·µ»Ø¸ÅÒªÄÚÈİ
+	// æ ¹æ®æŸæœ¬ä¹¦çš„idå·è¿”å›æ¦‚è¦å†…å®¹
 	public List<Book> findBookById(int bookid) {
 		List<Book> books = find("select b.id, b.name, b.price, b.amount from "
 				+ "t_book where b.id = ?", bookid);
 		return books;
 	}
 
-	// ÏÂµ¥ºóĞŞ¸Ä×´Ì¬
+	// ä¸‹å•åä¿®æ”¹çŠ¶æ€
 	public boolean updateBookData(int bookid) {
 		List<Book> list = find("select b.amount, b.sale from t_book b where "
 				+ "b.id = ?", bookid);
@@ -44,30 +44,30 @@ public class Book extends Model<Book> {
 		return set("amount", amount - 1).set("sale", sale + 1).save();
 	}
 
-	// ¹ÜÀíÔ±¸üĞÂÊéµÄĞÅÏ¢
+	// ç®¡ç†å‘˜æ›´æ–°ä¹¦çš„ä¿¡æ¯
 	public boolean updateBook(int bookid, int type, Object info) {
 		boolean success = false;
 		List<Book> list;
 		switch (type) {
-		case 0:// ¸üĞÂÊéµÄ¿â´æ
+		case 0:// æ›´æ–°ä¹¦çš„åº“å­˜
 			list = find("select b.amount from t_book b where " + "b.id = ?",
 					bookid);
 			int amount = list.get(0).getInt("id");
 			success = set("amount", amount + (int) info).save();
-		case 1:// ¸üĞÂÊéµÄ·ÖÀà
+		case 1:// æ›´æ–°ä¹¦çš„åˆ†ç±»
 			success = findById(bookid).set("category", (String) info).update();
-		case 2:// ¸üĞÂÊéµÄ¼Û¸ñ
+		case 2:// æ›´æ–°ä¹¦çš„ä»·æ ¼
 			success = findById(bookid).set("price", (double) info).update();
-		case 3:// ¸üĞÂÊéµÄÃû×Ö
+		case 3:// æ›´æ–°ä¹¦çš„åå­—
 			success = findById(bookid).set("name", (String) info).update();
-		case 4:// ¸üĞÂÊéµÄÃèÊö
+		case 4:// æ›´æ–°ä¹¦çš„æè¿°
 			success = findById(bookid).set("desc", (String) info).update();
 		default:
 		}
 		return success;
 	}
 
-	// ÓÃ»§ÎªÄ³±¾ÊéÆÀ·Ö
+	// ç”¨æˆ·ä¸ºæŸæœ¬ä¹¦è¯„åˆ†
 	public boolean updateStar(int bookid, double star) {
 		Book book = findById(bookid);
 		int star_number = book.getInt("star_number");
@@ -78,13 +78,13 @@ public class Book extends Model<Book> {
 				.update();
 	}
 
-	// ¸ù¾İ¸ø¶¨Ìõ¼ş×ÛºÏ²éÑ¯
+	// æ ¹æ®ç»™å®šæ¡ä»¶ç»¼åˆæŸ¥è¯¢
 	public List<Book> findBookByGivenConditions(String name, String category,
 			boolean priceSort, boolean starSort, boolean saleSort) {
 		List<Book> list;
 		String sqlSelect = "select b.id, b.name, b.price, b.category, b.amount, b.star, "
 				+ "b.desc, b.sale from t_book b ";
-		// Æ´½Ó²éÑ¯×Ö·û´®
+		// æ‹¼æ¥æŸ¥è¯¢å­—ç¬¦ä¸²
 		StringBuffer sqlCondition = new StringBuffer("");
 		if (name != null || category != null) {
 			sqlCondition.append("where ");

@@ -1,21 +1,21 @@
-package cn.edu.njnu.viewmodel;
+ï»¿package cn.edu.njnu.viewmodel;
 
 /**
- * ¶ÔÓ¦ÓÚ¶©µ¥ÖĞµÄÉÌÆ·Ãû¼°¹ºÂòÊıÁ¿¼°µ¥¼Û
+ * å¯¹åº”äºè®¢å•ä¸­çš„å•†å“ååŠè´­ä¹°æ•°é‡åŠå•ä»·
  */
 
 public class ShoppingDetail {
 
-	// ÊéidºÅ
+	// ä¹¦idå·
 	private int bookid;
 
-	// ÊéÃû
+	// ä¹¦å
 	private String name;
 
-	// ¹ºÂòÊıÁ¿
+	// è´­ä¹°æ•°é‡
 	private int amount;
 
-	// µ¥¼Û
+	// å•ä»·
 	private double price;
 
 	public ShoppingDetail(int bookid, String name, int amount, double price) {

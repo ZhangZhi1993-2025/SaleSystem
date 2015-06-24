@@ -1,4 +1,4 @@
-package cn.edu.njnu.service;
+ï»¿package cn.edu.njnu.service;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -12,18 +12,18 @@ import cn.edu.njnu.viewmodel.OrderDetailViewModel;
 import static cn.edu.njnu.model.Order.orderDao;
 
 /**
- * *****************************¶©µ¥Ïà¹Ø·şÎñ*****************************************
- * 1.ÓÃ»§Éú³ÉĞÂ¶©µ¥;2.ÓÃ»§²é¿´¶©µ¥¸ÅÒª;3.ÓÃ»§²é¿´¶©µ¥ÏêÇé;
+ * *****************************è®¢å•ç›¸å…³æœåŠ¡*****************************************
+ * 1.ç”¨æˆ·ç”Ÿæˆæ–°è®¢å•;2.ç”¨æˆ·æŸ¥çœ‹è®¢å•æ¦‚è¦;3.ç”¨æˆ·æŸ¥çœ‹è®¢å•è¯¦æƒ…;
  */
 
 public class OrderService {
 
-	/* 1.Éú³ÉĞÂ¶©µ¥ */
+	/* 1.ç”Ÿæˆæ–°è®¢å• */
 	public boolean createOrder(ShoppingInfo info) {
 		return orderDao.createOrder(info);
 	}
 
-	/* 2.ÓÃ»§²é¿´¶©µ¥ */
+	/* 2.ç”¨æˆ·æŸ¥çœ‹è®¢å• */
 	public List<OrderViewModel> userGetOrder(int userid) {
 		List<Order> result = new ArrayList<Order>();
 		result = orderDao.findOrderByUser(userid);
@@ -37,7 +37,7 @@ public class OrderService {
 		return models;
 	}
 
-	/* 3.ÓÃ»§²é¿´¶©µ¥ÏêÇé */
+	/* 3.ç”¨æˆ·æŸ¥çœ‹è®¢å•è¯¦æƒ… */
 	public OrderDetailViewModel userDetailOrder(int orderid) {
 		List<Order> result = orderDao.findDetailOrderById(orderid);
 		OrderDetailViewModel model = new OrderDetailViewModel(result.get(0)

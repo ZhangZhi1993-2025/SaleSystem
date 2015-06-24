@@ -1,4 +1,4 @@
-package cn.edu.njnu.config;
+ï»¿package cn.edu.njnu.config;
 
 import cn.edu.njnu.controller.*;
 import cn.edu.njnu.model.*;
@@ -16,12 +16,12 @@ import com.jfinal.render.ViewType;
 public class ConfigInfo extends JFinalConfig {
 
 	/**
-	 * ÅäÖÃ³£Á¿
+	 * é…ç½®å¸¸é‡
 	 */
 	@Override
 	public void configConstant(Constants constants) {
 
-		// ¼ÓÔØÈ«¾ÖÅäÖÃÎÄ¼ş
+		// åŠ è½½å…¨å±€é…ç½®æ–‡ä»¶
 		// loadPropertyFile("properties.txt");
 
 		constants.setDevMode(true/* getPropertyToBoolean("devMode") */);
@@ -29,7 +29,7 @@ public class ConfigInfo extends JFinalConfig {
 	}
 
 	/**
-	 * ÅäÖÃ´¦ÀíÆ÷
+	 * é…ç½®å¤„ç†å™¨
 	 */
 	@Override
 	public void configHandler(Handlers handlers) {
@@ -37,7 +37,7 @@ public class ConfigInfo extends JFinalConfig {
 	}
 
 	/**
-	 * ÅäÖÃÈ«¾ÖÀ¹½ØÆ÷
+	 * é…ç½®å…¨å±€æ‹¦æˆªå™¨
 	 */
 	@Override
 	public void configInterceptor(Interceptors interceptors) {
@@ -45,12 +45,12 @@ public class ConfigInfo extends JFinalConfig {
 	}
 
 	/**
-	 * ÅäÖÃ²å¼ş
+	 * é…ç½®æ’ä»¶
 	 */
 	@Override
 	public void configPlugin(Plugins plugins) {
 
-		// ÅäÖÃC3p0Êı¾İ¿âÁ¬½Ó³Ø²å¼ş
+		// é…ç½®C3p0æ•°æ®åº“è¿æ¥æ± æ’ä»¶
 		/*
 		 * C3p0Plugin c3p0Plugin = new C3p0Plugin(getProperty("jdbcUrl"),
 		 * getProperty("username"), getProperty("password"));
@@ -59,11 +59,11 @@ public class ConfigInfo extends JFinalConfig {
 				"jdbc:mysql://localhost:3306/salesystem", "root", "931065");
 		plugins.add(c3p0Plugin);
 
-		// ÅäÖÃActiveRecord²å¼ş
+		// é…ç½®ActiveRecordæ’ä»¶
 		ActiveRecordPlugin arp = new ActiveRecordPlugin(c3p0Plugin);
 		plugins.add(arp);
 
-		/* ¸»ÁìÓòÄ£ĞÍÓëÊı¾İ¿â¹ØÏµÄ£Ê½µÄÓ³Éä */
+		/* å¯Œé¢†åŸŸæ¨¡å‹ä¸æ•°æ®åº“å…³ç³»æ¨¡å¼çš„æ˜ å°„ */
 		arp.addMapping("t_user", User.class);
 		arp.addMapping("t_order", Order.class);
 		arp.addMapping("t_authority", Authority.class);
@@ -73,7 +73,7 @@ public class ConfigInfo extends JFinalConfig {
 	}
 
 	/**
-	 * ÅäÖÃÂ·ÓÉ
+	 * é…ç½®è·¯ç”±
 	 */
 	@Override
 	public void configRoute(Routes routes) {

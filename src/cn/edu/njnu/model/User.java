@@ -1,4 +1,4 @@
-package cn.edu.njnu.model;
+ï»¿package cn.edu.njnu.model;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -7,49 +7,49 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 
 /**
- * ¸»ÁìÓòÄ£ĞÍUser£¬¶ÔÓ¦Êı¾İ¿â±ít_user
+ * å¯Œé¢†åŸŸæ¨¡å‹Userï¼Œå¯¹åº”æ•°æ®åº“è¡¨t_user
  */
 
 public class User extends Model<User> {
 
 	private static final long serialVersionUID = 1L;
 
-	// ¾²Ì¬È«¾Ö±äÁ¿usrDao×÷Îªt_user±í²éÑ¯µÄÍ¨ÓÃÈë¿Ú£¬¼ò»¯±à³Ì
+	// é™æ€å…¨å±€å˜é‡usrDaoä½œä¸ºt_userè¡¨æŸ¥è¯¢çš„é€šç”¨å…¥å£ï¼Œç®€åŒ–ç¼–ç¨‹
 	public static final User usrDao = new User();
 
 	/**
-	 * ·â×°UserµÄÊı¾İ¿â²Ù×İ½Ó¿Ú
+	 * å°è£…Userçš„æ•°æ®åº“æ“çºµæ¥å£
 	 */
 
-	// Í¨¹ı¸ø¶¨ÊÖ»úºÅ²éÑ¯ÑÎÖµ£¬ÕÒ²»µ½Ä¿±êÔò·µ»Ø¿Õ¼¯£¬Ö÷ÒªÓÃÓÚµÇÂ½ÑéÖ¤ÓÃ»§ÊÇ·ñ´æÔÚ
+	// é€šè¿‡ç»™å®šæ‰‹æœºå·æŸ¥è¯¢ç›å€¼ï¼Œæ‰¾ä¸åˆ°ç›®æ ‡åˆ™è¿”å›ç©ºé›†ï¼Œä¸»è¦ç”¨äºç™»é™†éªŒè¯ç”¨æˆ·æ˜¯å¦å­˜åœ¨
 	public List<User> findSaltByPhone(String phone) {
 		return find("select u.salt from t_user u where u.phone = ?", phone);
 	}
 
-	// ÓÃÓÚµÇÂ½£¬Í¨¹ıÊÖ»úºÅÓëÃÜÂëÑéÖ¤ÓÃ»§Éí·İ
+	// ç”¨äºç™»é™†ï¼Œé€šè¿‡æ‰‹æœºå·ä¸å¯†ç éªŒè¯ç”¨æˆ·èº«ä»½
 	public List<User> findByPhoneAndPwd(String phone, String saltedPassword) {
 		return find(
 				"select * from t_user where t_user.phone = ? and t_user.password = ?",
 				phone, saltedPassword);
 	}
 
-	// Í¨¹ıidºÅ·µ»ØÓÃ»§ÊÖ»úºÅ
+	// é€šè¿‡idå·è¿”å›ç”¨æˆ·æ‰‹æœºå·
 	public String findPhoneById(int userid) {
 		return findById(userid).getStr("phone");
 	}
 
-	// Í¨¹ı¸ø¶¨ÊÖ»úºÅ²éÕÒÓÃ»§£¬ÓÃÓÚ×¢²áÊ±ÅĞ¶ÏÕËºÅÊÇ·ñÒÑ±»×¢²á
+	// é€šè¿‡ç»™å®šæ‰‹æœºå·æŸ¥æ‰¾ç”¨æˆ·ï¼Œç”¨äºæ³¨å†Œæ—¶åˆ¤æ–­è´¦å·æ˜¯å¦å·²è¢«æ³¨å†Œ
 	public List<User> findUserByGivenPhone(String phone) {
 		return find("select u.id from t_user u where t_user.phone = ?", phone);
 	}
 
-	// Í¨¹ı¸ø¶¨ĞÅÏ¢·µ»ØÖ¸¶¨µÄÓÃ»§ĞÅÏ¢
+	// é€šè¿‡ç»™å®šä¿¡æ¯è¿”å›æŒ‡å®šçš„ç”¨æˆ·ä¿¡æ¯
 	public List<User> findUserInfo(String phone) {
 		return find("select u.id, u.score, u.name"
 				+ "from t_user u where u.phone = ?", phone);
 	}
 
-	// ÓÃÓÚ×¢²á²åÈëÒ»ÌõÓÃ»§ÕË»§ĞÅÏ¢
+	// ç”¨äºæ³¨å†Œæ’å…¥ä¸€æ¡ç”¨æˆ·è´¦æˆ·ä¿¡æ¯
 	public boolean saveUser(String phone, String salt, String password) {
 		return new User().set("phone", phone).set("salt", salt)
 				.set("password", password)
@@ -57,21 +57,21 @@ public class User extends Model<User> {
 				.save();
 	}
 
-	// µ±ÓÃ»§ĞŞ¸Ä¸öÈËĞÅÏ¢Ê±¸üĞÂ¼ÇÂ¼
+	// å½“ç”¨æˆ·ä¿®æ”¹ä¸ªäººä¿¡æ¯æ—¶æ›´æ–°è®°å½•
 	public boolean updateUser(int userid, String info, int type) {
 		switch (type) {
-		case 0:/* ĞŞ¸ÄÃÜÂë */
+		case 0:/* ä¿®æ”¹å¯†ç  */
 			return findById(userid).set("password", info).update();
-		case 1:/* ĞŞ¸ÄÊÖ»úºÅ */
+		case 1:/* ä¿®æ”¹æ‰‹æœºå· */
 			return findById(userid).set("phone", info).update();
-		case 2:/* ĞŞ¸ÄêÇ³Æ */
+		case 2:/* ä¿®æ”¹æ˜µç§° */
 			return findById(userid).set("name", info).update();
 		default:
 			return false;
 		}
 	}
 
-	// ×¢ÏúÓÃ»§²Ù×÷
+	// æ³¨é”€ç”¨æˆ·æ“ä½œ
 	public boolean deleteUser(int userid) {
 		return Db.update("delete from t_user where userid = ?", userid) == 1;
 	}

@@ -1,4 +1,4 @@
-package cn.edu.njnu.model;
+ï»¿package cn.edu.njnu.model;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -13,28 +13,28 @@ import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Model;
 
 /**
- * ¸»ÁìÓòÄ£ĞÍShoppingCar£¬¶ÔÓ¦Êı¾İ¿â±ít_shoppingcar
+ * å¯Œé¢†åŸŸæ¨¡å‹ShoppingCarï¼Œå¯¹åº”æ•°æ®åº“è¡¨t_shoppingcar
  */
 
 public class ShoppingCar extends Model<ShoppingCar> {
 
 	private static final long serialVersionUID = 1L;
 
-	// ¾²Ì¬È«¾Ö±äÁ¿carDao×÷Îªt_shoppingcar±í²éÑ¯µÄÍ¨ÓÃÈë¿Ú£¬¼ò»¯±à³Ì
+	// é™æ€å…¨å±€å˜é‡carDaoä½œä¸ºt_shoppingcarè¡¨æŸ¥è¯¢çš„é€šç”¨å…¥å£ï¼Œç®€åŒ–ç¼–ç¨‹
 	public static final ShoppingCar carDao = new ShoppingCar();
 
 	/**
-	 * ·â×°ShoppingCarµÄÊı¾İ¿â²Ù×İ½Ó¿Ú
+	 * å°è£…ShoppingCarçš„æ•°æ®åº“æ“çºµæ¥å£
 	 */
 
-	// ¸ù¾İÓÃ»§id¼°¹ºÊéÄÚÈİÏò¹ºÎï³µÀïÌí¼ÓÎïÆ·
+	// æ ¹æ®ç”¨æˆ·idåŠè´­ä¹¦å†…å®¹å‘è´­ç‰©è½¦é‡Œæ·»åŠ ç‰©å“
 	public boolean addItem(int userid, ShoppingDetail detail) {
 		return new ShoppingCar().set("userid", userid)
 				.set("bookid", detail.getBookid())
 				.set("amount", detail.getAmount()).save();
 	}
 
-	// ¸ù¾İÓÃ»§id·µ»Ø¹ºÎï³µÀïµÄÄÚÈİ
+	// æ ¹æ®ç”¨æˆ·idè¿”å›è´­ç‰©è½¦é‡Œçš„å†…å®¹
 	public List<ShoppingCar> findItemByUserId(int userid) {
 		List<ShoppingCar> list = find(
 				"select c.bookid, c.amount from t_shoppingcar c "
@@ -42,14 +42,14 @@ public class ShoppingCar extends Model<ShoppingCar> {
 		return list;
 	}
 
-	// ¸ù¾İÓÃ»§id½«¹ºÎï³µÄÚµÄÊéÏÂµ¥
+	// æ ¹æ®ç”¨æˆ·idå°†è´­ç‰©è½¦å†…çš„ä¹¦ä¸‹å•
 	public boolean createOrder(int userid) {
 		return Db.tx(new IAtom() {
 
 			@Override
 			public boolean run() throws SQLException {
 
-				// ½«¹ºÎï³µÄÚµÄÉÌÆ·×ª»¯ÎªShoppingDetail[]
+				// å°†è´­ç‰©è½¦å†…çš„å•†å“è½¬åŒ–ä¸ºShoppingDetail[]
 				List<ShoppingCar> list = find(
 						"select c.bookid, c.amount from t_shoppingcar c "
 								+ "where c.userid = ?", userid);
@@ -62,10 +62,10 @@ public class ShoppingCar extends Model<ShoppingCar> {
 							"price"));
 				}
 
-				// Çå¿Õ¹ºÎï³µ
+				// æ¸…ç©ºè´­ç‰©è½¦
 				deleteById(userid);
 
-				// ÏÂµ¥
+				// ä¸‹å•
 				ShoppingInfo info = new ShoppingInfo(userid, details);
 				orderDao.createOrder(info);
 

@@ -1,11 +1,11 @@
-package cn.edu.njnu.viewmodel;
+锘縫ackage cn.edu.njnu.viewmodel;
 
 public class ShoppingCarViewModel {
 
-	// 总价
+	// 鎬讳环
 	private double price;
 
-	// 购买商品详情
+	// 璐拱鍟嗗搧璇︽儏
 	private ShoppingDetail[] shoppingDetail;
 
 	public ShoppingCarViewModel(double price, ShoppingDetail... shoppingDetail) {

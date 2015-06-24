@@ -1,4 +1,4 @@
-package cn.edu.njnu.service;
+ï»¿package cn.edu.njnu.service;
 
 import static cn.edu.njnu.model.ShoppingCar.carDao;
 import static cn.edu.njnu.model.Book.bookDao;
@@ -11,24 +11,24 @@ import cn.edu.njnu.viewmodel.ShoppingCarViewModel;
 import cn.edu.njnu.viewmodel.ShoppingDetail;
 
 /**
- * *****************************¶©µ¥Ïà¹Ø·şÎñ*****************************************
- * 1.¹ºÎï³µÄÚµÄÊéÈ·ÈÏÏÂµ¥;2.Ïò¹ºÎï³µÔö¼ÓÊé;3.²é¿´¹ºÎï³µ;
+ * *****************************è®¢å•ç›¸å…³æœåŠ¡*****************************************
+ * 1.è´­ç‰©è½¦å†…çš„ä¹¦ç¡®è®¤ä¸‹å•;2.å‘è´­ç‰©è½¦å¢åŠ ä¹¦;3.æŸ¥çœ‹è´­ç‰©è½¦;
  */
 
 public class ShoppingCarService {
 
-	// 1.¹ºÎï³µÄÚµÄÊéÈ·ÈÏÏÂµ¥
+	// 1.è´­ç‰©è½¦å†…çš„ä¹¦ç¡®è®¤ä¸‹å•
 	public boolean createOrder(int userid) {
 		return carDao.createOrder(userid);
 	}
 
-	// 2.Ïò¹ºÎï³µÔö¼ÓÊé
+	// 2.å‘è´­ç‰©è½¦å¢åŠ ä¹¦
 	public boolean addItem(int userid, int bookid, int amount) {
 		ShoppingDetail detail = new ShoppingDetail(bookid, amount);
 		return carDao.addItem(userid, detail);
 	}
 
-	// 3.²é¿´¹ºÎï³µ
+	// 3.æŸ¥çœ‹è´­ç‰©è½¦
 	public ShoppingCarViewModel getAllItem(int userid) {
 		List<ShoppingCar> result = carDao.findItemByUserId(userid);
 		double price = 0;

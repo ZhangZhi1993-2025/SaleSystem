@@ -1,4 +1,4 @@
-package cn.edu.njnu.service;
+ï»¿package cn.edu.njnu.service;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -19,27 +19,27 @@ import static cn.edu.njnu.model.User.usrDao;
 import static cn.edu.njnu.model.Authority.authDao;
 
 /**
- * *****************************»ùÓÚÓÃ»§µÄ·şÎñ*****************************************
- * 1.µÇÂ½;2.Í¨¹ı¸ø¶¨ÊÖ»úºÅ·µ»ØÖ¸¶¨µÄÓÃ»§ĞÅÏ¢;3.ÒÀ¾İ¸ø¶¨µÄÓÃ»§¼°È¨ÏŞ´úºÅÅĞ¶ÏÓÃ»§ÊÇ·ñ·ûºÏÈ¨ÏŞ;4.×¢²á;5.ÓÃ»§ÕËºÅĞÅÏ¢ĞŞ¸Ä;6.×¢ÏúÓÃ»§;
+ * *****************************åŸºäºç”¨æˆ·çš„æœåŠ¡*****************************************
+ * 1.ç™»é™†;2.é€šè¿‡ç»™å®šæ‰‹æœºå·è¿”å›æŒ‡å®šçš„ç”¨æˆ·ä¿¡æ¯;3.ä¾æ®ç»™å®šçš„ç”¨æˆ·åŠæƒé™ä»£å·åˆ¤æ–­ç”¨æˆ·æ˜¯å¦ç¬¦åˆæƒé™;4.æ³¨å†Œ;5.ç”¨æˆ·è´¦å·ä¿¡æ¯ä¿®æ”¹;6.æ³¨é”€ç”¨æˆ·;
  */
 
 public class UserService {
 
-	/* ÓÃ»§Ãû²»ºÏ·¨ */
+	/* ç”¨æˆ·åä¸åˆæ³• */
 	public static final int INVALID_USR_NUMBER = 0;
 
-	/* ÓÃ»§ÒÑ¾­´æÔÚ */
+	/* ç”¨æˆ·å·²ç»å­˜åœ¨ */
 	public static final int USR_HAS_EXISTED = 1;
 
-	/* ³É¹¦×¢²á */
+	/* æˆåŠŸæ³¨å†Œ */
 	public static final int REG_SUCCESS = 2;
 
-	/* 1.µÇÂ½ */
+	/* 1.ç™»é™† */
 	public boolean userLogin(String phone, String password) {
 		List<User> saltList = usrDao.findSaltByPhone(phone);
 		if (saltList.size() >= 1) {
 			String salt = saltList.get(0).getStr("salt");
-			// »ìÈëÑÎÖµ²¢Ê¹ÓÃSHA-256¹şÏ£¼ÓÃÜ
+			// æ··å…¥ç›å€¼å¹¶ä½¿ç”¨SHA-256å“ˆå¸ŒåŠ å¯†
 			password = hashPassword(password + salt);
 			List<User> userList = usrDao.findByPhoneAndPwd(phone, password);
 			if (userList.size() == 1)
@@ -48,7 +48,7 @@ public class UserService {
 		return false;
 	}
 
-	/* 2.Í¨¹ı¸ø¶¨ÊÖ»úºÅ·µ»ØÖ¸¶¨µÄÓÃ»§ĞÅÏ¢ */
+	/* 2.é€šè¿‡ç»™å®šæ‰‹æœºå·è¿”å›æŒ‡å®šçš„ç”¨æˆ·ä¿¡æ¯ */
 	public UserViewModel getUserInfo(String phone) {
 		List<User> users = usrDao.findUserInfo(phone);
 		UserViewModel model = new UserViewModel(users.get(0).getInt("id"),
@@ -56,48 +56,48 @@ public class UserService {
 		return model;
 	}
 
-	/* Í¨¹ı¸ø¶¨µÄidºÅ·µ»ØÓÃ»§ÊÖ»úºÅ */
+	/* é€šè¿‡ç»™å®šçš„idå·è¿”å›ç”¨æˆ·æ‰‹æœºå· */
 	public String getUserPhone(int userid) {
 		return usrDao.findPhoneById(userid);
 	}
 
-	/* 3.ÒÀ¾İ¸ø¶¨µÄÓÃ»§¼°È¨ÏŞ´úºÅÅĞ¶ÏÓÃ»§ÊÇ·ñ·ûºÏÈ¨ÏŞ */
+	/* 3.ä¾æ®ç»™å®šçš„ç”¨æˆ·åŠæƒé™ä»£å·åˆ¤æ–­ç”¨æˆ·æ˜¯å¦ç¬¦åˆæƒé™ */
 	public boolean userAuthority(int userid, int authNeed) {
 		return authDao.hasAuthority(userid, authNeed);
 	}
 
-	/* 4.×¢²á */
+	/* 4.æ³¨å†Œ */
 	public int userRegister(String phone, String password) {
-		// ²»ºÏ·¨µÄÊÖ»úºÅ
+		// ä¸åˆæ³•çš„æ‰‹æœºå·
 		Pattern p = Pattern
 				.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
 		if (p.matcher(phone).matches() == false)
 			return INVALID_USR_NUMBER;
 
-		// ´ËÓÃ»§ÒÑ¾­´æÔÚ
+		// æ­¤ç”¨æˆ·å·²ç»å­˜åœ¨
 		List<User> users = usrDao.findUserByGivenPhone(phone);
 		if (users.size() > 0)
 			return USR_HAS_EXISTED;
 
-		// ÒÔÏÂÎª×¢²á³É¹¦µÄ´¦Àí
+		// ä»¥ä¸‹ä¸ºæ³¨å†ŒæˆåŠŸçš„å¤„ç†
 
-		// »ìÈëÒ»¶ÎÑÎÖµ
+		// æ··å…¥ä¸€æ®µç›å€¼
 		String salt = randomStr();
 		password = hashPassword(password + salt);
 		usrDao.saveUser(phone, salt, password);
 		return REG_SUCCESS;
 	}
 
-	/* 5.ÓÃ»§ÕË»§ĞÅÏ¢ĞŞ¸Ä */
+	/* 5.ç”¨æˆ·è´¦æˆ·ä¿¡æ¯ä¿®æ”¹ */
 	public boolean userUpdate(int userid, String info, int type) {
 		switch (type) {
-		case 0:// ĞŞ¸ÄÃÜÂë
+		case 0:// ä¿®æ”¹å¯†ç 
 			String salt = randomStr();
 			info = hashPassword(salt + info);
 			return usrDao.updateUser(userid, info, type);
-		case 1:// ĞŞ¸ÄÊÖ»úºÅ
+		case 1:// ä¿®æ”¹æ‰‹æœºå·
 			return usrDao.updateUser(userid, info, type);
-		case 2:// ĞŞ¸ÄêÇ³Æ
+		case 2:// ä¿®æ”¹æ˜µç§°
 			return usrDao.updateUser(userid, info, type);
 		default:
 			return false;
@@ -105,7 +105,7 @@ public class UserService {
 	}
 
 	/*
-	 * 6.×¢ÏúÓÃ»§²Ù×÷,ËùĞèÒªµÄÊÂÎñÄÚÈİÈçÏÂ£º(1).É¾³ıuser±íÖĞ¼ÇÂ¼£»(2).É¾³ıauthority±íÖĞ¼ÇÂ¼£»
+	 * 6.æ³¨é”€ç”¨æˆ·æ“ä½œ,æ‰€éœ€è¦çš„äº‹åŠ¡å†…å®¹å¦‚ä¸‹ï¼š(1).åˆ é™¤userè¡¨ä¸­è®°å½•ï¼›(2).åˆ é™¤authorityè¡¨ä¸­è®°å½•ï¼›
 	 */
 	public boolean userDelete(int userid) {
 		return Db.tx(new IAtom() {
@@ -120,7 +120,7 @@ public class UserService {
 		});
 	}
 
-	/** »ùÓÚ¸ø¶¨µÄ ÑÎÖµ+¿ÚÁî »ìºÏ´®·µ»Ø¹şÏ£Öµ */
+	/** åŸºäºç»™å®šçš„ ç›å€¼+å£ä»¤ æ··åˆä¸²è¿”å›å“ˆå¸Œå€¼ */
 	private String hashPassword(String password) {
 		MessageDigest digest;
 		try {
@@ -135,7 +135,7 @@ public class UserService {
 		return password;
 	}
 
-	/** ²úÉúÒ»¸öËæ»úÑÎÖµ */
+	/** äº§ç”Ÿä¸€ä¸ªéšæœºç›å€¼ */
 	private String randomStr() {
 		Random random = new Random();
 		int length = random.nextInt(30);

@@ -1,15 +1,15 @@
-package cn.edu.njnu.viewmodel;
+ï»¿package cn.edu.njnu.viewmodel;
 
 /**
- * Ò»·İ¶©µ¥ËùĞèÒªµÄ»ù±¾ÄÚÈİ,ÓÃÓÚĞ´Êı¾İ¿â
+ * ä¸€ä»½è®¢å•æ‰€éœ€è¦çš„åŸºæœ¬å†…å®¹,ç”¨äºå†™æ•°æ®åº“
  */
 
 public class ShoppingInfo {
 
-	// ÏÂµ¥ÓÃ»§idºÅ
+	// ä¸‹å•ç”¨æˆ·idå·
 	private int userid;
 
-	// ¹ºÂòÉÌÆ·¼¯
+	// è´­ä¹°å•†å“é›†
 	private ShoppingDetail[] shoppingDetail;
 
 	public ShoppingInfo(int userid, ShoppingDetail... shoppingDetail) {

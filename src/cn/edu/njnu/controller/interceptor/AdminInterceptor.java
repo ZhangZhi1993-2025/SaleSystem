@@ -1,4 +1,4 @@
-package cn.edu.njnu.controller.interceptor;
+锘縫ackage cn.edu.njnu.controller.interceptor;
 
 //import javax.servlet.http.Cookie;
 
@@ -11,7 +11,7 @@ public class AdminInterceptor implements Interceptor {
 
 	UserService usrService;
 
-	/* 管理员的权限级别 */
+	/* 绠＄悊鍛樼殑鏉冮檺绾у埆 */
 	public static final int ADMIN_LEVEL = 0;
 
 	@Override
@@ -26,7 +26,7 @@ public class AdminInterceptor implements Interceptor {
 		 * (usrService.userAuthority(Integer.valueOf(userID), ADMIN_LEVEL)) {
 		 * invocation.invoke(); return; } }
 		 * 
-		 * invocation.getController().renderJson("权限不足");
+		 * invocation.getController().renderJson("鏉冮檺涓嶈冻");
 		 */
 
 	}

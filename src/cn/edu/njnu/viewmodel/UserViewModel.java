@@ -1,18 +1,18 @@
-package cn.edu.njnu.viewmodel;
+ï»¿package cn.edu.njnu.viewmodel;
 
 /**
- * ÓÃ»§Ä£ĞÍ¡ª¡ª»ù±¾±ØÒªµÄÓÃ»§ĞÅÏ¢
+ * ç”¨æˆ·æ¨¡å‹â€”â€”åŸºæœ¬å¿…è¦çš„ç”¨æˆ·ä¿¡æ¯
  */
 
 public class UserViewModel {
 
-	// idºÅ
+	// idå·
 	private int id;
 
-	// »ı·Ö
+	// ç§¯åˆ†
 	private int score;
 
-	// êÇ³Æ
+	// æ˜µç§°
 	private String name;
 
 	public UserViewModel(int id, int score, String name) {

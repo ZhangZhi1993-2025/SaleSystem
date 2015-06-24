@@ -1,4 +1,4 @@
-package cn.edu.njnu.controller;
+ï»¿package cn.edu.njnu.controller;
 
 import java.util.List;
 
@@ -19,11 +19,11 @@ import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 
 /**
- * ********************UserController(¸öÈËÖĞĞÄ )****************************
- * 1.ĞŞ¸ÄÃÜÂë;2.ĞŞ¸Ä°ó¶¨ÊÖ»úºÅ;3.½«ÎïÆ··ÅÈë¹ºÎï³µ;4.×¢ÏúÕË»§;5.È·ÈÏÏÂµ¥;6.µ±Ç°¶©µ¥ÁĞ±í;7.ÀúÊ·¶©µ¥ÁĞ±í;8.¹ºÎï³µÄÚµÄÊéÈ·ÈÏÏÂµ¥;
- * 9.²é¿´¶©µ¥ÏêÇé;10.²é¿´¹ºÎï³µ;11.¶àÌõ¼ş²éÑ¯ÉÌÆ·;
+ * ********************UserController(ä¸ªäººä¸­å¿ƒ )****************************
+ * 1.ä¿®æ”¹å¯†ç ;2.ä¿®æ”¹ç»‘å®šæ‰‹æœºå·;3.å°†ç‰©å“æ”¾å…¥è´­ç‰©è½¦;4.æ³¨é”€è´¦æˆ·;5.ç¡®è®¤ä¸‹å•;6.å½“å‰è®¢å•åˆ—è¡¨;7.å†å²è®¢å•åˆ—è¡¨;8.è´­ç‰©è½¦å†…çš„ä¹¦ç¡®è®¤ä¸‹å•;
+ * 9.æŸ¥çœ‹è®¢å•è¯¦æƒ…;10.æŸ¥çœ‹è´­ç‰©è½¦;11.å¤šæ¡ä»¶æŸ¥è¯¢å•†å“;
  * ************************************************************
- * UserControllerµÄ·ÃÎÊÈ¨ÏŞ£ºÈÎÒâÒÑ¾­µÇÂ½µÄÓÃ»§;
+ * UserControllerçš„è®¿é—®æƒé™ï¼šä»»æ„å·²ç»ç™»é™†çš„ç”¨æˆ·;
  */
 
 @Before(UserInterceptor.class)
@@ -34,7 +34,7 @@ public class UserController extends Controller {
 	BookService bookService = new BookService();
 	ShoppingCarService carService = new ShoppingCarService();
 
-	// 1.ĞŞ¸ÄÃÜÂë
+	// 1.ä¿®æ”¹å¯†ç 
 	public void change_password() {
 		int userid = Integer.parseInt(getPara("user"));
 		String newpassword = getPara("newpassword");
@@ -48,7 +48,7 @@ public class UserController extends Controller {
 			renderJson(false);
 	}
 
-	// 2.ĞŞ¸Ä°ó¶¨ÊÖ»úºÅ
+	// 2.ä¿®æ”¹ç»‘å®šæ‰‹æœºå·
 	public void change_phone_number() {
 		int userid = Integer.parseInt(getPara("user"));
 		String newphone = getPara("newphone");
@@ -61,7 +61,7 @@ public class UserController extends Controller {
 			renderJson(false);
 	}
 
-	// 3.½«ÎïÆ··ÅÈë¹ºÎï³µ
+	// 3.å°†ç‰©å“æ”¾å…¥è´­ç‰©è½¦
 	public void add_item_to_car() {
 		int userid = Integer.parseInt(getPara("user"));
 		int bookid = Integer.parseInt(getPara("book"));
@@ -70,7 +70,7 @@ public class UserController extends Controller {
 		renderJson(true);
 	}
 
-	// 4.×¢ÏúÕË»§
+	// 4.æ³¨é”€è´¦æˆ·
 	public void delete_account() {
 		int userid = Integer.parseInt(getPara("userid"));
 		if (userService.userDelete(userid) == true)
@@ -79,7 +79,7 @@ public class UserController extends Controller {
 			renderJson(false);
 	}
 
-	// 5.È·ÈÏÏÂµ¥
+	// 5.ç¡®è®¤ä¸‹å•
 	public void create_order() {
 		int userid = Integer.parseInt(getPara("user"));
 		int bookid = Integer.parseInt(getPara("book"));
@@ -94,7 +94,7 @@ public class UserController extends Controller {
 			renderJson(false);
 	}
 
-	// 6.µ±Ç°¶©µ¥ÁĞ±í
+	// 6.å½“å‰è®¢å•åˆ—è¡¨
 	public void current_order() {
 		int userid = Integer.parseInt(getPara("userid"));
 		List<OrderViewModel> models = orderService.userGetOrder(userid);
@@ -102,7 +102,7 @@ public class UserController extends Controller {
 		render("/WEB-INF/content/order/current_order_list.jsp");
 	}
 
-	// 7.ÀúÊ·¶©µ¥ÁĞ±í
+	// 7.å†å²è®¢å•åˆ—è¡¨
 	public void history_order() {
 		int userid = Integer.parseInt(getPara("userid"));
 		List<OrderViewModel> models = orderService.userGetOrder(userid);
@@ -110,7 +110,7 @@ public class UserController extends Controller {
 		render("/WEB-INF/content/order/history_order_list.jsp");
 	}
 
-	// 8.¹ºÎï³µÄÚµÄÊéÈ·ÈÏÏÂµ¥
+	// 8.è´­ç‰©è½¦å†…çš„ä¹¦ç¡®è®¤ä¸‹å•
 	public void create_order_by_shoppingcar() {
 		int userid = Integer.parseInt(getPara("user"));
 		if (carService.createOrder(userid) == true)
@@ -119,7 +119,7 @@ public class UserController extends Controller {
 			renderJson(false);
 	}
 
-	// 9.²é¿´¶©µ¥ÏêÇé
+	// 9.æŸ¥çœ‹è®¢å•è¯¦æƒ…
 	public void detail_order() {
 		OrderDetailViewModel model = orderService.userDetailOrder(Integer
 				.parseInt(getPara("id")));
@@ -127,7 +127,7 @@ public class UserController extends Controller {
 		render("/WEB-INF/content/order/detail_order.jsp");
 	}
 
-	// 10.²é¿´¹ºÎï³µ
+	// 10.æŸ¥çœ‹è´­ç‰©è½¦
 	public void car_content() {
 		int userid = Integer.parseInt(getPara("userid"));
 		ShoppingCarViewModel model = carService.getAllItem(userid);
@@ -135,7 +135,7 @@ public class UserController extends Controller {
 		render("/WEB-INF/content/shoppingcar/shopping_car.jsp");
 	}
 
-	// 11.¶àÌõ¼ş²éÑ¯ÉÌÆ·
+	// 11.å¤šæ¡ä»¶æŸ¥è¯¢å•†å“
 	public void search() {
 		String name = getPara("name");
 		String category = getPara("category");

@@ -1,4 +1,4 @@
-package cn.edu.njnu.controller;
+ï»¿package cn.edu.njnu.controller;
 
 import cn.edu.njnu.service.OrderService;
 import cn.edu.njnu.service.UserService;
@@ -7,9 +7,9 @@ import cn.edu.njnu.viewmodel.UserViewModel;
 import com.jfinal.core.Controller;
 
 /**
- * ********************EntranceController(ÏµÍ³Èë¿Ú )****************************
- * 0.Ê×Ò³;1.µÇÂ½ÑéÖ¤; 2.×¢²áÑéÖ¤;3.µÇÂ½Ò³Ãæ;4.×¢²áÒ³Ãæ;**********************************
- * EntranceControllerµÄ·ÃÎÊÈ¨ÏŞ£ºÎŞÈ¨ÏŞÒªÇó;
+ * ********************EntranceController(ç³»ç»Ÿå…¥å£ )****************************
+ * 0.é¦–é¡µ;1.ç™»é™†éªŒè¯; 2.æ³¨å†ŒéªŒè¯;3.ç™»é™†é¡µé¢;4.æ³¨å†Œé¡µé¢;**********************************
+ * EntranceControllerçš„è®¿é—®æƒé™ï¼šæ— æƒé™è¦æ±‚;
  */
 
 public class EntranceController extends Controller {
@@ -17,12 +17,12 @@ public class EntranceController extends Controller {
 	UserService userService = new UserService();
 	OrderService orderService = new OrderService();
 
-	// 0.Ê×Ò³
+	// 0.é¦–é¡µ
 	public void index() {
 		render("/content/main.jsp");
 	}
 
-	// 1.µÇÂ½ÑéÖ¤
+	// 1.ç™»é™†éªŒè¯
 	public void login_validate() {
 		String phone = getPara("phone");
 		String password = getPara("password");
@@ -36,7 +36,7 @@ public class EntranceController extends Controller {
 		}
 	}
 
-	// 2.×¢²áÑéÖ¤
+	// 2.æ³¨å†ŒéªŒè¯
 	public void register_validate() {
 		String phone = getPara("phone");
 		String password = getPara("password");
@@ -49,22 +49,22 @@ public class EntranceController extends Controller {
 			redirect("/WEB-INF/content/main.jsp");
 			break;
 		case 1:
-			renderJson("¸ÃÓÃ»§ÃûÒÑ¾­±»×¢²á£¡");
+			renderJson("è¯¥ç”¨æˆ·åå·²ç»è¢«æ³¨å†Œï¼");
 			break;
 		case 0:
-			renderJson("ÓÃ»§Ãû²»ºÏ·¨£¡");
+			renderJson("ç”¨æˆ·åä¸åˆæ³•ï¼");
 			break;
 		default:
-			renderJson("×¢²áÊ§°Ü£¡");
+			renderJson("æ³¨å†Œå¤±è´¥ï¼");
 		}
 	}
 
-	// 3.µÇÂ½Ò³Ãæ
+	// 3.ç™»é™†é¡µé¢
 	public void login() {
 		render("/content/login.jsp");
 	}
 
-	// 4.×¢²áÒ³Ãæ
+	// 4.æ³¨å†Œé¡µé¢
 	public void register() {
 		render("/content/register.jsp");
 	}
