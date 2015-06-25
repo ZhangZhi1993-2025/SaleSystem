@@ -16,17 +16,17 @@ import cn.edu.njnu.viewmodel.OrderViewModel;
 import cn.edu.njnu.viewmodel.UserViewModel;
 
 import com.jfinal.aop.Before;
+import com.jfinal.core.ActionKey;
 import com.jfinal.core.Controller;
 
 /**
  * ********************UserController(个人中心 )****************************
  * 1.修改密码;2.修改绑定手机号;3.将物品放入购物车;4.注销账户;5.确认下单;6.当前订单列表;7.历史订单列表;8.购物车内的书确认下单;
- * 9.查看订单详情;10.查看购物车;11.多条件查询商品;
+ * 9.查看订单详情;10.查看购物车;11.多条件查询商品;12.热门商品推送;
  * ************************************************************
  * UserController的访问权限：任意已经登陆的用户;
  */
 
-@Before(UserInterceptor.class)
 public class UserController extends Controller {
 
 	UserService userService = new UserService();
@@ -35,6 +35,7 @@ public class UserController extends Controller {
 	ShoppingCarService carService = new ShoppingCarService();
 
 	// 1.修改密码
+	@Before(UserInterceptor.class)
 	public void change_password() {
 		int userid = Integer.parseInt(getPara("user"));
 		String newpassword = getPara("newpassword");
@@ -43,12 +44,13 @@ public class UserController extends Controller {
 			UserViewModel model;
 			model = userService.getUserInfo(phone);
 			setAttr("userInfo", model);
-			redirect("/WEB-INF/content/main.jsp");
+			redirect("/content/main.jsp");
 		} else
 			renderJson(false);
 	}
 
-	// 2.修改绑定手机号
+	// 2.修改手机号
+	@Before(UserInterceptor.class)
 	public void change_phone_number() {
 		int userid = Integer.parseInt(getPara("user"));
 		String newphone = getPara("newphone");
@@ -56,12 +58,13 @@ public class UserController extends Controller {
 			UserViewModel model;
 			model = userService.getUserInfo(newphone);
 			setAttr("userInfo", model);
-			redirect("/WEB-INF/content/main.jsp");
+			redirect("/content/main.jsp");
 		} else
 			renderJson(false);
 	}
 
 	// 3.将物品放入购物车
+	@Before(UserInterceptor.class)
 	public void add_item_to_car() {
 		int userid = Integer.parseInt(getPara("user"));
 		int bookid = Integer.parseInt(getPara("book"));
@@ -71,15 +74,17 @@ public class UserController extends Controller {
 	}
 
 	// 4.注销账户
+	@Before(UserInterceptor.class)
 	public void delete_account() {
-		int userid = Integer.parseInt(getPara("userid"));
+		int userid = Integer.parseInt(getPara("user"));
 		if (userService.userDelete(userid) == true)
-			redirect("/WEB-INF/content/main.jsp");
+			redirect("/content/main.jsp");
 		else
 			renderJson(false);
 	}
 
 	// 5.确认下单
+	@Before(UserInterceptor.class)
 	public void create_order() {
 		int userid = Integer.parseInt(getPara("user"));
 		int bookid = Integer.parseInt(getPara("book"));
@@ -95,22 +100,25 @@ public class UserController extends Controller {
 	}
 
 	// 6.当前订单列表
+	@Before(UserInterceptor.class)
 	public void current_order() {
-		int userid = Integer.parseInt(getPara("userid"));
+		int userid = Integer.parseInt(getPara("user"));
 		List<OrderViewModel> models = orderService.userGetOrder(userid);
 		setAttr("currentOrder", models);
-		render("/WEB-INF/content/order/current_order_list.jsp");
+		render("/content/order/current_order_list.jsp");
 	}
 
 	// 7.历史订单列表
+	@Before(UserInterceptor.class)
 	public void history_order() {
-		int userid = Integer.parseInt(getPara("userid"));
+		int userid = Integer.parseInt(getPara("user"));
 		List<OrderViewModel> models = orderService.userGetOrder(userid);
 		setAttr("historyOrder", models);
-		render("/WEB-INF/content/order/history_order_list.jsp");
+		render("/content/order/history_order_list.jsp");
 	}
 
 	// 8.购物车内的书确认下单
+	@Before(UserInterceptor.class)
 	public void create_order_by_shoppingcar() {
 		int userid = Integer.parseInt(getPara("user"));
 		if (carService.createOrder(userid) == true)
@@ -120,22 +128,25 @@ public class UserController extends Controller {
 	}
 
 	// 9.查看订单详情
+	@Before(UserInterceptor.class)
 	public void detail_order() {
 		OrderDetailViewModel model = orderService.userDetailOrder(Integer
-				.parseInt(getPara("id")));
+				.parseInt(getPara("order")));
 		setAttr("detailOrder", model);
-		render("/WEB-INF/content/order/detail_order.jsp");
+		render("/content/order/detail_order.jsp");
 	}
 
 	// 10.查看购物车
+	@Before(UserInterceptor.class)
 	public void car_content() {
-		int userid = Integer.parseInt(getPara("userid"));
+		int userid = Integer.parseInt(getPara("user"));
 		ShoppingCarViewModel model = carService.getAllItem(userid);
 		setAttr("shoppingcar", model);
-		render("/WEB-INF/content/shoppingcar/shopping_car.jsp");
+		render("/content/shoppingcar/shopping_car.jsp");
 	}
 
 	// 11.多条件查询商品
+	@ActionKey("/search")
 	public void search() {
 		String name = getPara("name");
 		String category = getPara("category");
@@ -144,8 +155,27 @@ public class UserController extends Controller {
 		boolean saleSort = Boolean.parseBoolean(getPara("sale"));
 		List<BookViewModel> models = bookService.search(name, category,
 				priceSort, starSort, saleSort);
-		setAttr("searchResult", models);
-		render("/WEB-INF/content/search/search_result.jsp");
+		setAttr("results", models);
+		setAttr("type", "search");// 标识商品查询
+		render("/content/search/search_result.jsp");
+	}
+
+	// 12.热门商品推送
+	@ActionKey("/hot_books")
+	public void hot_books() {
+		List<BookViewModel> models = bookService.getBooks(0);
+		setAttr("results", models);
+		setAttr("type", "hot");// 标识热门推送
+		render("/content/search/search_result.jsp");
+	}
+
+	// 13.进入某本书的详情
+	@ActionKey("/book_detail")
+	public void book_detail() {
+		int bookid = Integer.parseInt(getPara("book"));
+		BookViewModel model = bookService.findBook(bookid, true);
+		setAttr("book", model);
+		render("/content/search/book_detail.jsp");
 	}
 
 }

@@ -1,6 +1,6 @@
 ﻿package cn.edu.njnu.controller.interceptor;
 
-//import javax.servlet.http.Cookie;
+import javax.servlet.http.Cookie;
 
 import cn.edu.njnu.service.UserService;
 
@@ -17,17 +17,24 @@ public class AdminInterceptor implements Interceptor {
 	@Override
 	public void intercept(ActionInvocation invocation) {
 
-		invocation.getController().getPara("id");
-		/*
-		 * Cookie[] cookies =
-		 * invocation.getController().getRequest().getCookies();
-		 * 
-		 * if (cookies != null) { String userID = cookies[0].getValue(); if
-		 * (usrService.userAuthority(Integer.valueOf(userID), ADMIN_LEVEL)) {
-		 * invocation.invoke(); return; } }
-		 * 
-		 * invocation.getController().renderJson("权限不足");
-		 */
+		Cookie[] cookies = invocation.getController().getRequest().getCookies();
+		boolean isLogOn = false;
+		String userid = "";
+		if (cookies != null) {
+			for (int i = 0; i < cookies.length; i++) {
+				if (cookies[i].getName() == "id") {
+					isLogOn = true;
+					userid = cookies[i].getValue();
+					break;
+				}
+			}
+			if (isLogOn
+					&& usrService.userAuthority(Integer.valueOf(userid),
+							ADMIN_LEVEL))
+				invocation.invoke();
+		}
+
+		invocation.getController().renderJson("权限不足");
 
 	}
 }

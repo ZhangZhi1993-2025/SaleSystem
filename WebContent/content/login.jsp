@@ -20,10 +20,10 @@
 
 						<div class="form-group">
 							<label class="col-md-2 control-label" for="accountNum"
-								style="font-family: 微软雅黑;">账号</label>
+								style="font-family: 微软雅黑;">手机号</label>
 							<div class="col-md-10">
 								<input class="form-control" data-val="true"
-									data-val-required="用户 字段是必需的。" id="accountNum"
+									data-val-required="手机号 字段是必需的。" id="accountNum"
 									name="accountNum" type="text" value="" /> <span
 									class="field-validation-valid text-danger"
 									data-valmsg-for="accountNum" data-valmsg-replace="true"></span>

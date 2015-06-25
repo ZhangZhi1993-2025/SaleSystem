@@ -1,6 +1,7 @@
 ﻿package cn.edu.njnu.controller;
 
-import cn.edu.njnu.service.OrderService;
+import javax.servlet.http.Cookie;
+
 import cn.edu.njnu.service.UserService;
 import cn.edu.njnu.viewmodel.UserViewModel;
 
@@ -15,7 +16,6 @@ import com.jfinal.core.Controller;
 public class EntranceController extends Controller {
 
 	UserService userService = new UserService();
-	OrderService orderService = new OrderService();
 
 	// 0.首页
 	public void index() {
@@ -27,10 +27,17 @@ public class EntranceController extends Controller {
 		String phone = getPara("phone");
 		String password = getPara("password");
 		if (userService.userLogin(phone, password) == true) {
-			UserViewModel model;
-			model = userService.getUserInfo(phone);
-			setAttr("userInfo", model);
-			redirect("/WEB-INF/content/main.jsp");
+			// 验证成功，推送cookies
+			UserViewModel model = userService.getUserInfo(phone);
+			Cookie[] cookies = new Cookie[3];
+			cookies[0] = new Cookie("id", String.valueOf(model.getId()));
+			cookies[1] = new Cookie("name", model.getName());
+			cookies[2] = new Cookie("score", String.valueOf(model.getScore()));
+			for (int i = 0; i < 3; i++) {
+				cookies[i].setMaxAge(60 * 20);
+				getResponse().addCookie(cookies[i]);
+			}
+			redirect("/content/main.jsp");
 		} else {
 			renderJson(false);
 		}
@@ -40,13 +47,20 @@ public class EntranceController extends Controller {
 	public void register_validate() {
 		String phone = getPara("phone");
 		String password = getPara("password");
-		UserViewModel model;
 		int result = userService.userRegister(phone, password);
 		switch (result) {
 		case 2:
-			model = userService.getUserInfo(phone);
-			setAttr("userInfo", model);
-			redirect("/WEB-INF/content/main.jsp");
+			// 注册成功,推送cookies
+			UserViewModel model = userService.getUserInfo(phone);
+			Cookie[] cookies = new Cookie[3];
+			cookies[0] = new Cookie("id", String.valueOf(model.getId()));
+			cookies[1] = new Cookie("name", model.getName());
+			cookies[2] = new Cookie("score", String.valueOf(model.getScore()));
+			for (int i = 0; i < 3; i++) {
+				cookies[i].setMaxAge(60 * 20);
+				getResponse().addCookie(cookies[i]);
+			}
+			redirect("/content/main.jsp");
 			break;
 		case 1:
 			renderJson("该用户名已经被注册！");
