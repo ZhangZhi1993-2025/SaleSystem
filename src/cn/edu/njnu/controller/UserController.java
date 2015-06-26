@@ -4,10 +4,12 @@ import java.util.List;
 
 import cn.edu.njnu.controller.interceptor.UserInterceptor;
 import cn.edu.njnu.service.BookService;
+import cn.edu.njnu.service.CommentService;
 import cn.edu.njnu.service.OrderService;
 import cn.edu.njnu.service.ShoppingCarService;
 import cn.edu.njnu.service.UserService;
 import cn.edu.njnu.viewmodel.BookViewModel;
+import cn.edu.njnu.viewmodel.CommentViewModel;
 import cn.edu.njnu.viewmodel.OrderDetailViewModel;
 import cn.edu.njnu.viewmodel.ShoppingCarViewModel;
 import cn.edu.njnu.viewmodel.ShoppingDetail;
@@ -22,7 +24,7 @@ import com.jfinal.core.Controller;
 /**
  * ********************UserController(个人中心 )****************************
  * 1.修改密码;2.修改绑定手机号;3.将物品放入购物车;4.注销账户;5.确认下单;6.当前订单列表;7.历史订单列表;8.购物车内的书确认下单;
- * 9.查看订单详情;10.查看购物车;11.多条件查询商品;12.热门商品推送;
+ * 9.查看订单详情;10.查看购物车;11.多条件查询商品;12.热门商品推送;13.进入某本书的详情;
  * ************************************************************
  * UserController的访问权限：任意已经登陆的用户;
  */
@@ -33,6 +35,7 @@ public class UserController extends Controller {
 	OrderService orderService = new OrderService();
 	BookService bookService = new BookService();
 	ShoppingCarService carService = new ShoppingCarService();
+	CommentService CommentService = new CommentService();
 
 	// 1.修改密码
 	@Before(UserInterceptor.class)
@@ -173,8 +176,10 @@ public class UserController extends Controller {
 	@ActionKey("/book_detail")
 	public void book_detail() {
 		int bookid = Integer.parseInt(getPara("book"));
-		BookViewModel model = bookService.findBook(bookid, true);
-		setAttr("book", model);
+		BookViewModel bmodel = bookService.findBook(bookid, true);
+		setAttr("book", bmodel);
+		List<CommentViewModel> cmodel = CommentService.getCommentById(bookid);
+		setAttr("comment", cmodel);
 		render("/content/search/book_detail.jsp");
 	}
 
