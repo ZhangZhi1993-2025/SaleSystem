@@ -45,13 +45,18 @@ public class User extends Model<User> {
 
 	// 通过给定信息返回指定的用户信息
 	public List<User> findUserInfo(String phone) {
-		return find("select u.id, u.score, u.name from t_user u where u.phone = '15651817399'");
+		return find(
+				"select u.id, u.score, u.name from t_user u where u.phone = ?",
+				phone);
 	}
 
 	// 用于注册插入一条用户账户信息
 	public boolean saveUser(String phone, String salt, String password) {
+		List<User> list = find("select count(u.id) s from t_user u");
+		long count = list.get(0).getLong("s") + 1;
+		String name = "BookSale" + count;
 		return new User().set("phone", phone).set("salt", salt)
-				.set("password", password).set("score", 0)
+				.set("password", password).set("score", 0).set("name", name)
 				.set("createtime", new Timestamp(System.currentTimeMillis()))
 				.save();
 	}

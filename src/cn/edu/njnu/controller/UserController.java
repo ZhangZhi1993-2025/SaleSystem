@@ -204,7 +204,7 @@ public class UserController extends Controller {
 	}
 
 	// 14.给某本书评分并评论
-	public void score_book() {
+	public void feedback_book() {
 		int star = Integer.parseInt(getPara("star"));
 		int bookid = Integer.parseInt(getPara("book"));
 		int userid = Integer.parseInt(getPara("user"));
