@@ -2,7 +2,9 @@
 
 import java.util.List;
 
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
+import com.jfinal.plugin.activerecord.Record;
 
 /**
  * 富领域模型Book，对应数据库表t_book
@@ -25,20 +27,21 @@ public class Book extends Model<Book> {
 				page,
 				20,
 				"select b.id, b.name, b.price, b.category, b.amount, b.star, b.desc, b.sale ",
-				"from t_book b orderby b.sale asc").getList();
+				"from t_book b order by b.sale asc").getList();
 	}
 
 	// 根据某本书的id号返回概要内容
 	public List<Book> findBookById(int bookid) {
-		List<Book> books = find("select b.id, b.name, b.price, b.amount from "
-				+ "t_book where b.id = ?", bookid);
+		List<Book> books = find(
+				"select b.id, b.name, b.price, b.amount from t_book where b.id = ?",
+				bookid);
 		return books;
 	}
 
 	// 下单后修改状态
 	public boolean updateBookData(int bookid) {
-		List<Book> list = find("select b.amount, b.sale from t_book b where "
-				+ "b.id = ?", bookid);
+		List<Book> list = find(
+				"select b.amount, b.sale from t_book b where b.id = ?", bookid);
 		int amount = list.get(0).getInt("id");
 		int sale = list.get(0).getInt("sale");
 		return set("amount", amount - 1).set("sale", sale + 1).save();
@@ -68,7 +71,7 @@ public class Book extends Model<Book> {
 	}
 
 	// 用户为某本书评分
-	public boolean updateStar(int bookid, double star) {
+	public boolean updateStar(int bookid, int star) {
 		Book book = findById(bookid);
 		int star_number = book.getInt("star_number");
 		double oldStar = book.getDouble("star");
@@ -78,10 +81,37 @@ public class Book extends Model<Book> {
 				.update();
 	}
 
+	// 用户未某本书评论
+	public boolean addComment(int userid, int bookid, String comment) {
+		Record record = new Record().set("bookid", bookid)
+				.set("userid", userid).set("comment", comment);
+		return Db.save("t_comment", record);
+	}
+
+	// 根据id返回分类的名字
+	public String findCategoryById(int categoryid) {
+		Record record = Db.findById("t_category", categoryid, "id");
+		if (record != null)
+			return record.get("name");
+		else
+			return null;
+	}
+
+	// 根据分类的名字返回id
+	public int findIdByCategory(String category) {
+		Record record = Db.findFirst(
+				"select c.id from t_category c where c.name = ?", category);
+		if (record != null)
+			return record.getInt("id");
+		else
+			return -1;
+	}
+
 	// 根据给定条件综合查询
 	public List<Book> findBookByGivenConditions(String name, String category,
 			boolean priceSort, boolean starSort, boolean saleSort) {
 		List<Book> list;
+		int categoryid = -1;
 		String sqlSelect = "select b.id, b.name, b.price, b.category, b.amount, b.star, "
 				+ "b.desc, b.sale from t_book b ";
 		// 拼接查询字符串
@@ -90,8 +120,10 @@ public class Book extends Model<Book> {
 			sqlCondition.append("where ");
 			if (name != null)
 				sqlCondition.append("name = ? ");
-			if (category != null)
+			if (category != null
+					&& (categoryid = findIdByCategory(category)) != -1) {
 				sqlCondition.append("and category = ? ");
+			}
 		}
 		if (priceSort || starSort || saleSort) {
 			sqlCondition.append("order by ");
@@ -103,12 +135,12 @@ public class Book extends Model<Book> {
 				sqlCondition.append(", sale desc");
 		}
 		String sql = sqlSelect + sqlCondition.toString();
-		if (name != null && category != null)
-			list = find(sql, name, category);
+		if (name != null && categoryid != -1)
+			list = find(sql, name, categoryid);
 		else if (name != null)
 			list = find(sql, name);
-		else if (category != null)
-			list = find(sql, category);
+		else if (categoryid != -1)
+			list = find(sql, categoryid);
 		else
 			list = find(sql);
 		return list;

@@ -266,15 +266,15 @@ button.button:disabled {
   /* line 341, ../scss/partials/_buttons.scss */
   .button-flat-primary:hover, .button-flat-primary:focus {
     color: #ffffff;
-    background: #47d247; }
+    background: #428bca; }
   /* line 345, ../scss/partials/_buttons.scss */
   .button-flat-primary:active, .button-flat-primary.is-active, .button-flat-primary.active {
     -moz-transition-duration: 0s;
     -o-transition-duration: 0s;
     -webkit-transition-duration: 0s;
     transition-duration: 0s;
-    background: #4bb44b;
-    color: #239023; }
+    background: #428bca;
+    color: #428bca; }
   /* line 350, ../scss/partials/_buttons.scss */
   .button-flat-primary.disabled {
     -moz-box-shadow: none;

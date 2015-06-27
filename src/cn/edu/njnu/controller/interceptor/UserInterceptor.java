@@ -14,14 +14,16 @@ public class UserInterceptor implements Interceptor {
 		boolean isLogOn = false;
 		if (cookies != null) {
 			for (int i = 0; i < cookies.length; i++) {
-				if (cookies[i].getName() == "id") {
+				if (cookies[i].getName().equals("id")) {
 					isLogOn = true;
 					break;
 				}
 			}
 		}
-		if (isLogOn == true)
+		if (isLogOn == true){
 			invocation.invoke();
+			return;
+		}
 		invocation.getController().renderJson("权限不足");
 	}
 }

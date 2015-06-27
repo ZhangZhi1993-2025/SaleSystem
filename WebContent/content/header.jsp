@@ -19,32 +19,72 @@
 				<li><a href="/booksales/about" style="font-family: 微软雅黑;">关于</a></li>
 				<li><a href="/booksales/contact" style="font-family: 微软雅黑;">联系我们</a></li>
 			</ul>
-			<form action="/booksales/hot_books" class="navbar-form navbar-left"
+			<form action="/booksales/search" class="navbar-form navbar-left"
 				method="post" role="search">
-				<div class="form-group" style="margin-top: 3px;">
-					<input name="keywords" type="text" class="form-control"
-						onfocus="showConditions()" style="width: 300px;"
-						placeholder="你想要什么书？" />
-					<button type="submit" class="button button-flat-primary"
-						style="margin-left: -8px;">搜 索</button>
+				<div onmouseleave="hideConditions()" onmouseover="showConditions()">
+					<div class="form-group" style="margin-top: 3px;">
+						<input name="keywords" type="text" class="form-control"
+							style="width: 300px;" placeholder="你想要找什么书？" />
+						<button type="submit" class="button button-flat-primary"
+							style="margin-left: -8px;">搜 索</button>
+					</div>
+					<div id="conditions"
+						style="background-color: #222222; height: 60px; width: 400px; position: fixed; display: none; margin-left: -20px;">
+						<select name="category" class="col-md-4"
+							style="margin-top: 20px; float: left; margin-left: 25px;">
+							<option>全部分类</option>
+							<option>Python</option>
+							<option>Algorithms</option>
+							<option>Java</option>
+							<option>.NET</option>
+							<option>Math</option>
+							<option>HTML/CSS/JS</option>
+						</select>
+						<div class="checkbox-inline"
+							style="margin-top: 20px; margin-left: 20px;">
+							<label style="font-family: 微软雅黑; color: #ffffff;"> <input
+								name="price" type="checkbox" value="true"> 价格↑
+							</label>
+						</div>
+						<div class="checkbox-inline" style="margin-top: 20px;">
+							<label style="font-family: 微软雅黑; color: #ffffff;"> <input
+								name="sale" type="checkbox" value="true"> 销量↓
+							</label>
+						</div>
+						<div class="checkbox-inline" style="margin-top: 20px;">
+							<label style="font-family: 微软雅黑; color: #ffffff;"> <input
+								name="star" type="checkbox" value="true"> 好评↓
+							</label>
+						</div>
+					</div>
 				</div>
 			</form>
 			<%
 				Cookie[] cookies = request.getCookies();
 				boolean isLogOn = false;
+				String userid = "";
+				String name = "";
+				int score = 0;
+				String userUrl = "";
 				if (cookies != null) {
 					for (int i = 0; i < cookies.length; i++) {
-						if (cookies[i].getName() == "id") {
+						if (cookies[i].getName().equals("id")) {
+							userid = cookies[i].getValue();
 							isLogOn = true;
 							break;
 						}
 					}
 				}
 				if (isLogOn == true) {
-					String userid = cookies[0].getValue();
-					String name = cookies[1].getValue();
-					int score = Integer.parseInt(cookies[2].getValue());
-					String userUrl = "/booksales/user/history_order?user=" + userid;
+					for (int i = 0; i < cookies.length; i++) {
+						if (cookies[i].getName().equals("name")) {
+							name = cookies[i].getValue();
+						}
+						if (cookies[i].getName().equals("score")) {
+							score = Integer.parseInt(cookies[i].getValue());
+						}
+					}
+					userUrl = "/booksales/user/history_order?user=" + userid;
 			%>
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="<%=userUrl%>" id="loginLink"
@@ -67,42 +107,6 @@
 
 		</div>
 	</div>
-</div>
-
-<div id="conditions" class="col-md-offset-3"
-	style="background-color: #222222; height: 60px; width: 440px; position: fixed; display: none;">
-
-	<select id="category" name="category" class="col-md-4"
-		style="margin-top: 20px; float: left; margin-left: 30px;">
-		<option>全部分类</option>
-		<option>Python</option>
-		<option>Algorithms</option>
-		<option>Java</option>
-		<option>.NET</option>
-		<option>Math</option>
-		<option>HTML/CSS/JS</option>
-	</select>
-	<div class="checkbox-inline"
-		style="margin-top: 20px; margin-left: 20px;">
-		<label style="font-family: 微软雅黑; color: #ffffff;"> <input
-			id="price" name="price" type="checkbox"> 价格↑
-		</label>
-	</div>
-	<div class="checkbox-inline" style="margin-top: 20px;">
-		<label style="font-family: 微软雅黑; color: #ffffff;"> <input
-			id="sale" name="sale" type="checkbox"> 销量↓
-		</label>
-	</div>
-	<div class="checkbox-inline" style="margin-top: 20px;">
-		<label style="font-family: 微软雅黑; color: #ffffff;"> <input
-			id="star" name="star" type="checkbox"> 好评↓
-		</label>
-	</div>
-	<a
-		style="float: right; margin-right: 20px; margin-top: 20px; white-space: nowrap; cursor: pointer;"
-		onclick="hideConditions()"><img alt="关闭"
-		src="/booksales/resource/close.png"></a>
-
 </div>
 
 <script type="text/javascript">

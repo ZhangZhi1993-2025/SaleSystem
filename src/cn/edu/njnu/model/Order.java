@@ -31,8 +31,8 @@ public class Order extends Model<Order> {
 	// 根据用户id号及状态返回订单概要信息
 	public List<Order> findOrderByUser(int userid) {
 		List<Order> orders = find(
-				"select o.createtime, o.price, o.state, o.id from t_order o"
-						+ "where o.userid = ?", userid);
+				"select o.createtime, o.price, o.state, o.id from t_order o "
+						+ " where o.userid = ?", userid);
 		return orders;
 	}
 
@@ -40,8 +40,8 @@ public class Order extends Model<Order> {
 	public List<Order> findDetailOrderById(int orderid) {
 		List<Order> orders = find(
 				"select o.createtime, u.phone, o.id, s.name, "
-						+ "o.price, from t_user u, t_order o "
-						+ "where o.id = ? and o.userid = u.id ", orderid);
+						+ " o.price, from t_user u, t_order o "
+						+ " where o.id = ? and o.userid = u.id ", orderid);
 		// 获取详细的购买商品
 		List<Order> goodsList = find("select ob.amount, b.name, b.price, b.id "
 				+ "from t_book b, t_order_books ob where ob.orderid = ? and "
@@ -87,15 +87,15 @@ public class Order extends Model<Order> {
 				int orderid = find(
 						"select o.id from t_order o where o.userid = ?",
 						info.getUserid()).get(0).getInt("id");
-				Record goodsRecord;
+				Record record;
 				for (int i = 0; i < info.getShoppingDetail().length; i++) {
-					goodsRecord = new Record()
+					record = new Record()
 							.set("bookid",
 									info.getShoppingDetail()[i].getBookid())
 							.set("amount",
 									info.getShoppingDetail()[i].getAmount())
 							.set("orderid", orderid);
-					Db.save("t_order_books", goodsRecord);
+					Db.save("t_order_books", record);
 					
 					// t_book对应书记录的存货量与销量字段发生改变
 					bookDao.updateBookData(info.getShoppingDetail()[i]

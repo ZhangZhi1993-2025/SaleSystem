@@ -56,10 +56,10 @@ public class UserService {
 		return model;
 	}
 
-	/* 通过给定的id号返回用户手机号 */
-	public String getUserPhone(int userid) {
-		return usrDao.findPhoneById(userid);
-	}
+	/*
+	 * 通过给定的id号返回用户手机号 public String getUserPhone(int userid) { return
+	 * usrDao.findPhoneById(userid); }
+	 */
 
 	/* 3.依据给定的用户及权限代号判断用户是否符合权限 */
 	public boolean userAuthority(int userid, int authNeed) {

@@ -37,7 +37,7 @@ public class EntranceController extends Controller {
 				cookies[i].setMaxAge(60 * 20);
 				getResponse().addCookie(cookies[i]);
 			}
-			redirect("/content/main.jsp");
+			renderJson(true);
 		} else {
 			renderJson(false);
 		}
@@ -57,7 +57,7 @@ public class EntranceController extends Controller {
 			cookies[1] = new Cookie("name", model.getName());
 			cookies[2] = new Cookie("score", String.valueOf(model.getScore()));
 			for (int i = 0; i < 3; i++) {
-				cookies[i].setMaxAge(60 * 20);
+				cookies[i].setMaxAge(60 * 60 * 24);
 				getResponse().addCookie(cookies[i]);
 			}
 			redirect("/content/main.jsp");

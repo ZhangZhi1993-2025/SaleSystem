@@ -22,16 +22,18 @@ public class AdminInterceptor implements Interceptor {
 		String userid = "";
 		if (cookies != null) {
 			for (int i = 0; i < cookies.length; i++) {
-				if (cookies[i].getName() == "id") {
+				if (cookies[i].getName().equals("id")) {
 					isLogOn = true;
 					userid = cookies[i].getValue();
 					break;
 				}
 			}
-			if (isLogOn
-					&& usrService.userAuthority(Integer.valueOf(userid),
-							ADMIN_LEVEL))
-				invocation.invoke();
+		}
+		if (isLogOn
+				&& usrService.userAuthority(Integer.valueOf(userid),
+						ADMIN_LEVEL)) {
+			invocation.invoke();
+			return;
 		}
 
 		invocation.getController().renderJson("权限不足");

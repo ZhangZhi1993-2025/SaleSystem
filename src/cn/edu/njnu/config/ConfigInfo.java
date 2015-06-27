@@ -69,6 +69,7 @@ public class ConfigInfo extends JFinalConfig {
 		arp.addMapping("t_authority", Authority.class);
 		arp.addMapping("t_shoppingcar", ShoppingCar.class);
 		arp.addMapping("t_book", Book.class);
+		arp.addMapping("t_comment", Comment.class);
 
 	}
 

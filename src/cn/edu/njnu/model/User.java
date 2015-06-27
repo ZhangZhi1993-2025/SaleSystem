@@ -40,19 +40,18 @@ public class User extends Model<User> {
 
 	// 通过给定手机号查找用户，用于注册时判断账号是否已被注册
 	public List<User> findUserByGivenPhone(String phone) {
-		return find("select u.id from t_user u where t_user.phone = ?", phone);
+		return find("select u.id from t_user u where u.phone = ?", phone);
 	}
 
 	// 通过给定信息返回指定的用户信息
 	public List<User> findUserInfo(String phone) {
-		return find("select u.id, u.score, u.name"
-				+ "from t_user u where u.phone = ?", phone);
+		return find("select u.id, u.score, u.name from t_user u where u.phone = '15651817399'");
 	}
 
 	// 用于注册插入一条用户账户信息
 	public boolean saveUser(String phone, String salt, String password) {
 		return new User().set("phone", phone).set("salt", salt)
-				.set("password", password)
+				.set("password", password).set("score", 0)
 				.set("createtime", new Timestamp(System.currentTimeMillis()))
 				.save();
 	}

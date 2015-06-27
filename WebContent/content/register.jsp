@@ -19,41 +19,41 @@
 						<hr />
 
 						<div class="form-group">
-							<label class="col-md-2 control-label" for="accountNum"
+							<label class="col-md-2 control-label" for="phone"
 								style="font-family: 微软雅黑;">手机号</label>
 							<div class="col-md-10">
 								<input class="form-control" data-val="true"
-									data-val-required="手机号 字段是必需的。" id="accountNum"
-									name="accountNum" type="text" value="" /> <span
+									data-val-required="手机号 字段是必需的。" id="phone"
+									name="phone" type="text" value="" /> <span
 									class="field-validation-valid text-danger"
-									data-valmsg-for="accountNum" data-valmsg-replace="true"></span>
+									data-valmsg-for="phone" data-valmsg-replace="true"></span>
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label class="col-md-2 control-label" for="Password"
+							<label class="col-md-2 control-label" for="password"
 								style="font-family: 微软雅黑;">密码</label>
 							<div class="col-md-10">
 								<input class="form-control" data-val="true"
 									data-val-length="密码 字段至少需要6位长度,最多不超过100位"
 									data-val-length-max="100" data-val-length-min="6"
-									data-val-required="密码 字段是必需的。" id="Password" name="Password"
+									data-val-required="密码 字段是必需的。" id="password" name="password"
 									type="password" /> <span
 									class="field-validation-valid text-danger"
-									data-valmsg-for="Password" data-valmsg-replace="true"></span>
+									data-valmsg-for="password" data-valmsg-replace="true"></span>
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label class="col-md-2 control-label" for="ConfirmPassword"
+							<label class="col-md-2 control-label" for="confirmpassword"
 								style="font-family: 微软雅黑;">密码确认</label>
 							<div class="col-md-10">
 								<input class="form-control" data-val="true"
 									data-val-equalto="两次密码输入不一致"
-									data-val-equalto-other="*.Password" id="ConfirmPassword"
-									name="ConfirmPassword" type="password" /> <span
+									data-val-equalto-other="*.Password" id="confirmpassword"
+									name="confirmpassword" type="password" /> <span
 									class="field-validation-valid text-danger"
-									data-valmsg-for="ConfirmPassword" data-valmsg-replace="true"></span>
+									data-valmsg-for="confirmpassword" data-valmsg-replace="true"></span>
 							</div>
 						</div>
 
