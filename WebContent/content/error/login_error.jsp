@@ -3,19 +3,22 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>注册</title>
+<title>BookSales</title>
 </head>
 <body>
-	<%@include file="header.jsp"%>
+	<%@include file="../header.jsp"%>
+	<%
+		String oldPhone = (String) request.getAttribute("oldPhone");
+	%>
 	<div class="container body-content">
-		<h2 style="font-family: 微软雅黑;">用户注册</h2>
+		<h2 style="font-family: 微软雅黑;">用户名或密码错误</h2>
 		<div class="row">
 			<div class="col-md-8">
 				<section id="loginForm">
-					<form action="/booksales/register_validate" method="post"
+					<form action="/booksales/login_validate" method="post"
 						class="form-horizontal" role="form">
 
-						<h4 style="font-family: 微软雅黑;">请填写您的手机号与密码</h4>
+						<h4 style="font-family: 微软雅黑;">请使用您的BookSales账号登陆</h4>
 						<hr />
 
 						<div class="form-group">
@@ -24,7 +27,7 @@
 							<div class="col-md-10">
 								<input class="form-control" data-val="true"
 									data-val-required="手机号 字段是必需的。" id="phone" name="phone"
-									type="text" value="" /> <span
+									type="text" value="<%=oldPhone%>" /> <span
 									class="field-validation-valid text-danger"
 									data-valmsg-for="phone" data-valmsg-replace="true"></span>
 							</div>
@@ -35,8 +38,6 @@
 								style="font-family: 微软雅黑;">密码</label>
 							<div class="col-md-10">
 								<input class="form-control" data-val="true"
-									data-val-length="密码 字段至少需要6位长度,最多不超过100位"
-									data-val-length-max="100" data-val-length-min="6"
 									data-val-required="密码 字段是必需的。" id="password" name="password"
 									type="password" /> <span
 									class="field-validation-valid text-danger"
@@ -45,21 +46,19 @@
 						</div>
 
 						<div class="form-group">
-							<label class="col-md-2 control-label" for="confirmpassword"
-								style="font-family: 微软雅黑;">密码确认</label>
-							<div class="col-md-10">
-								<input class="form-control" data-val="true"
-									data-val-equalto="两次密码输入不一致"
-									data-val-equalto-other="*.Password" id="confirmpassword"
-									name="confirmpassword" type="password" /> <span
-									class="field-validation-valid text-danger"
-									data-valmsg-for="confirmpassword" data-valmsg-replace="true"></span>
+							<div class="col-md-offset-2 col-md-10">
+								<div class="checkbox">
+									<input data-val="true" data-val-required="记住密码 字段是必需的。"
+										id="rememberme" name="rememberme" type="checkbox" value="true" />
+									<input name="rememberme" type="hidden" value="false" /> <label
+										for="rememberme">记住密码</label>
+								</div>
 							</div>
 						</div>
 
 						<div class="form-group">
 							<div class="col-md-offset-2 col-md-10">
-								<input type="submit" class="btn btn-primary" value="注  册"
+								<input type="submit" value="登 陆" class="btn btn-primary"
 									style="font-family: 微软雅黑;" />
 							</div>
 						</div>
@@ -68,7 +67,7 @@
 				</section>
 			</div>
 		</div>
-		<%@include file="footer.jsp"%>
+		<%@include file="../footer.jsp"%>
 	</div>
 
 	<script src="/booksales/js/jquery.validate.js"></script>

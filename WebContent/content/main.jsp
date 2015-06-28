@@ -13,8 +13,8 @@
 			<h1>BookSales</h1>
 			<p class="lead" style="font-family: 微软雅黑;">BookSales是一个为大家提供在线购书服务的好网站!</p>
 			<p>
-				<a href="/booksales/hot_books?page=1" class="btn btn-primary btn-lg">热卖图书
-					&raquo;</a>
+				<a href="/booksales/hot_books?page=1" class="btn btn-primary btn-lg"
+					style="font-family: 微软雅黑;">热卖图书 &raquo;</a>
 			</p>
 		</div>
 		<div class="row">

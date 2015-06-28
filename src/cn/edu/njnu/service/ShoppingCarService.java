@@ -12,7 +12,7 @@ import cn.edu.njnu.viewmodel.ShoppingDetail;
 
 /**
  * *****************************购物车相关服务*****************************************
- * 1.购物车内的书确认下单;2.向购物车增加书;3.查看购物车;
+ * 1.购物车内的书确认下单;2.向购物车增加书;3.移除购物车内某物品;4.查看购物车;
  */
 
 public class ShoppingCarService {
@@ -28,7 +28,12 @@ public class ShoppingCarService {
 		return carDao.addItem(userid, detail);
 	}
 
-	// 3.查看购物车
+	// 3.移除购物车内某物品
+	public boolean removeItem(int userid, int bookid) {
+		return carDao.removeItem(userid, bookid);
+	}
+
+	// 4.查看购物车
 	public ShoppingCarViewModel getAllItem(int userid) {
 		List<ShoppingCar> result = carDao.findItemByUserId(userid);
 		double price = 0;

@@ -6,9 +6,12 @@
 <title>注册</title>
 </head>
 <body>
-	<%@include file="header.jsp"%>
+	<%@include file="../header.jsp"%>
+	<%
+		String errorReason = (String) request.getAttribute("errorReason");
+	%>
 	<div class="container body-content">
-		<h2 style="font-family: 微软雅黑;">用户注册</h2>
+		<h2 style="font-family: 微软雅黑;"><%=errorReason%></h2>
 		<div class="row">
 			<div class="col-md-8">
 				<section id="loginForm">
@@ -68,7 +71,7 @@
 				</section>
 			</div>
 		</div>
-		<%@include file="footer.jsp"%>
+		<%@include file="../footer.jsp"%>
 	</div>
 
 	<script src="/booksales/js/jquery.validate.js"></script>

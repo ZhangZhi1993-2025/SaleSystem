@@ -11,6 +11,7 @@ import static cn.edu.njnu.model.Order.orderDao;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Model;
+import com.jfinal.plugin.activerecord.Record;
 
 /**
  * 富领域模型ShoppingCar，对应数据库表t_shoppingcar
@@ -32,6 +33,14 @@ public class ShoppingCar extends Model<ShoppingCar> {
 		return new ShoppingCar().set("userid", userid)
 				.set("bookid", detail.getBookid())
 				.set("amount", detail.getAmount()).save();
+	}
+
+	// 根据用户id移除对应的购物车内物品
+	public boolean removeItem(int userid, int bookid) {
+		ShoppingCar sc = findFirst(
+				"select * from t_shoppingcar s where s.userid = ? and s.bookid = ?",
+				userid, bookid);
+		return sc.delete();
 	}
 
 	// 根据用户id返回购物车里的内容

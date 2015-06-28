@@ -35,11 +35,13 @@ public class EntranceController extends Controller {
 			cookies[2] = new Cookie("score", String.valueOf(model.getScore()));
 			for (int i = 0; i < 3; i++) {
 				cookies[i].setMaxAge(60 * 20);
+				cookies[i].setPath("/");
 				getResponse().addCookie(cookies[i]);
 			}
-			renderJson(true);
+			redirect("/");
 		} else {
-			renderJson(false);
+			setAttr("oldPhone", phone);
+			render("/content/error/login_error.jsp");
 		}
 	}
 
@@ -58,19 +60,21 @@ public class EntranceController extends Controller {
 			cookies[2] = new Cookie("score", String.valueOf(model.getScore()));
 			for (int i = 0; i < 3; i++) {
 				cookies[i].setMaxAge(60 * 60 * 24);
+				cookies[i].setPath("/");
 				getResponse().addCookie(cookies[i]);
 			}
-			redirect("/content/main.jsp");
-			break;
+			redirect("/");
+			return;
 		case 1:
-			renderJson("该用户名已经被注册！");
+			setAttr("errorReason", "该用户名已经被注册!");
 			break;
 		case 0:
-			renderJson("用户名不合法！");
+			setAttr("errorReason", "用户名不合法!");
 			break;
 		default:
-			renderJson("注册失败！");
+			setAttr("errorReason", "注册失败!");
 		}
+		render("/content/error/register_error.jsp");
 	}
 
 	// 3.登陆页面

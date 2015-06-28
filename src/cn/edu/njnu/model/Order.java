@@ -84,9 +84,9 @@ public class Order extends Model<Order> {
 						.save();
 
 				// t_order_books增加若干条记录，标识用户购买的商品集
-				int orderid = find(
+				int orderid = findFirst(
 						"select o.id from t_order o where o.userid = ?",
-						info.getUserid()).get(0).getInt("id");
+						info.getUserid()).getInt("id");
 				Record record;
 				for (int i = 0; i < info.getShoppingDetail().length; i++) {
 					record = new Record()
@@ -94,9 +94,10 @@ public class Order extends Model<Order> {
 									info.getShoppingDetail()[i].getBookid())
 							.set("amount",
 									info.getShoppingDetail()[i].getAmount())
-							.set("orderid", orderid);
+							.set("orderid", orderid).set("iscomment", false)
+							.set("userid", info.getUserid());// 冗余是为了提高查询效率
 					Db.save("t_order_books", record);
-					
+
 					// t_book对应书记录的存货量与销量字段发生改变
 					bookDao.updateBookData(info.getShoppingDetail()[i]
 							.getBookid());

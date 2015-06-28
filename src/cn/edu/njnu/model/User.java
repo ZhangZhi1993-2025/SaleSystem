@@ -62,14 +62,15 @@ public class User extends Model<User> {
 	}
 
 	// 当用户修改个人信息时更新记录
-	public boolean updateUser(int userid, String info, int type) {
+	public boolean updateUser(int userid, int type, String... info) {
 		switch (type) {
 		case 0:/* 修改密码 */
-			return findById(userid).set("password", info).update();
+			return findById(userid).set("password", info[0])
+					.set("salt", info[1]).update();
 		case 1:/* 修改手机号 */
-			return findById(userid).set("phone", info).update();
+			return findById(userid).set("phone", info[0]).update();
 		case 2:/* 修改昵称 */
-			return findById(userid).set("name", info).update();
+			return findById(userid).set("name", info[0]).update();
 		default:
 			return false;
 		}

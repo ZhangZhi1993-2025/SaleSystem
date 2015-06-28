@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>登陆</title>
+<title>BookSales</title>
 </head>
 <body>
 	<%@include file="header.jsp"%>
@@ -23,8 +23,8 @@
 								style="font-family: 微软雅黑;">手机号</label>
 							<div class="col-md-10">
 								<input class="form-control" data-val="true"
-									data-val-required="手机号 字段是必需的。" id="phone"
-									name="phone" type="text" value="" /> <span
+									data-val-required="手机号 字段是必需的。" id="phone" name="phone"
+									type="text" value="" /> <span
 									class="field-validation-valid text-danger"
 									data-valmsg-for="phone" data-valmsg-replace="true"></span>
 							</div>
@@ -55,10 +55,11 @@
 
 						<div class="form-group">
 							<div class="col-md-offset-2 col-md-10">
-								<input type="submit" value="登 陆" class="btn btn-primary" />
+								<input type="submit" value="登 陆" class="btn btn-primary"
+									style="font-family: 微软雅黑;" />
 							</div>
 						</div>
-						
+
 					</form>
 				</section>
 			</div>

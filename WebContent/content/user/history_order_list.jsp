@@ -16,7 +16,7 @@
 				+ userid;
 		String shoppingcarUrl = "/booksales/user/car_content?user="
 				+ userid;
-		String feedbackUrl = "/booksales/user/feedback_book?user=" + userid;
+		String feedbackUrl = "/booksales/user/feedback?user=" + userid;
 	%>
 	<div class="container body-content">
 		<div style="width: 20%; height: 100%; float: left; color: transparent">.</div>

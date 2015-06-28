@@ -16,7 +16,7 @@
 				+ userid;
 		String shoppingcarUrl = "/booksales/user/car_content?user="
 				+ userid;
-		String feedbackUrl = "/booksales/user/feedback_book?user=" + userid;
+		String feedbackUrl = "/booksales/user/feedback?user=" + userid;
 	%>
 	<div class="container body-content">
 		<div style="width: 20%; height: 100%; float: left; color: transparent">.</div>
@@ -34,7 +34,7 @@
 		</div>
 		<div style="float: left; width: 80%; height: auto; padding-left: 4%">
 
-			<h2 style="font-family: 微软雅黑;">历史订单列表</h2>
+			<h2 style="font-family: 微软雅黑;">当前订单列表</h2>
 			<%
 				List<OrderViewModel> orders = (List<OrderViewModel>) request
 						.getAttribute("currentOrder");

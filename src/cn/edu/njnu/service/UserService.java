@@ -56,17 +56,17 @@ public class UserService {
 		return model;
 	}
 
-	/*
-	 * 通过给定的id号返回用户手机号 public String getUserPhone(int userid) { return
-	 * usrDao.findPhoneById(userid); }
-	 */
+	// 通过给定的id号返回用户手机号
+	public String getUserPhone(int userid) {
+		return usrDao.findPhoneById(userid);
+	}
 
 	/* 3.依据给定的用户及权限代号判断用户是否符合权限 */
 	public boolean userAuthority(int userid, int authNeed) {
 		return authDao.hasAuthority(userid, authNeed);
 	}
 
-	/* 4.注册 */
+	/* 4.注册 1 */
 	public int userRegister(String phone, String password) {
 		// 不合法的手机号
 		Pattern p = Pattern
@@ -88,17 +88,33 @@ public class UserService {
 		return REG_SUCCESS;
 	}
 
+	/* 4.注册 2 */
+	public int userRegister(String phone) {
+		// 不合法的手机号
+		Pattern p = Pattern
+				.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
+		if (p.matcher(phone).matches() == false)
+			return INVALID_USR_NUMBER;
+
+		// 此用户已经存在
+		List<User> users = usrDao.findUserByGivenPhone(phone);
+		if (users.size() > 0)
+			return USR_HAS_EXISTED;
+		
+		return REG_SUCCESS;
+	}
+
 	/* 5.用户账户信息修改 */
 	public boolean userUpdate(int userid, String info, int type) {
 		switch (type) {
 		case 0:// 修改密码
 			String salt = randomStr();
-			info = hashPassword(salt + info);
-			return usrDao.updateUser(userid, info, type);
+			info = hashPassword(info + salt);
+			return usrDao.updateUser(userid, type, info, salt);
 		case 1:// 修改手机号
-			return usrDao.updateUser(userid, info, type);
+			return usrDao.updateUser(userid, type, info);
 		case 2:// 修改昵称
-			return usrDao.updateUser(userid, info, type);
+			return usrDao.updateUser(userid, type, info);
 		default:
 			return false;
 		}

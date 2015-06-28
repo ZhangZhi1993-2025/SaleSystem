@@ -87,10 +87,9 @@
 					userUrl = "/booksales/user/history_order?user=" + userid;
 			%>
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="<%=userUrl%>" id="loginLink"
-					style="font-family: 微软雅黑;"><%=name%></a></li>
-				<li><a href="<%=userUrl%>" id="loginLink"
-					style="font-family: 微软雅黑;">积分: <%=score%></a></li>
+				<li><a href="<%=userUrl%>" style="font-family: 微软雅黑;"><%=name%></a></li>
+				<li><a href="<%=userUrl%>" style="font-family: 微软雅黑;">积分: <%=score%></a></li>
+				<li><a href="/booksales/user/logout" style="font-family: 微软雅黑;">退出</a></li>
 			</ul>
 			<%
 				} else {
