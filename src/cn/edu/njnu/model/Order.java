@@ -62,6 +62,12 @@ public class Order extends Model<Order> {
 		return findById(orderid).set("state", false).update();
 	}
 
+	// 根据用户id查询已购买但未评论的商品
+	public List<Record> findToBeComment(int userid) {
+		return Db.find("select ob.bookid from t_order_books ob where "
+				+ " ob.userid = ? and ob.iscomment = false", userid);
+	}
+
 	// 生成用户新订单,所需事务内容如下：(1). t_order表新增一条记录;(2).t_order_books新增对应的商品集
 	public boolean createOrder(ShoppingInfo info) {
 		return Db.tx(new IAtom() {

@@ -1,8 +1,11 @@
 <%@page import="jdk.nashorn.internal.ir.RuntimeNode.Request"%>
 <%@ page contentType="text/html; charset=utf-8"%>
-<link href="/booksales/css/bootstrap.css" rel="stylesheet" />
+<link href="/booksales/css/bootstrap.min.css" rel="stylesheet">
 <link href="/booksales/css/site.css" rel="stylesheet" />
 <link href="/booksales/css/buttons.css" rel="stylesheet" />
+<script src="/booksales/js/jquery.min.js"></script>
+<link href="/booksales/css/star-rating.css" rel="stylesheet" />
+<script src="/booksales/js/star-rating.js"></script>
 
 <div class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container">

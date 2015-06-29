@@ -71,8 +71,8 @@
 		<%@include file="footer.jsp"%>
 	</div>
 
-	<script src="/booksales/js/jquery.validate.js"></script>
-	<script src="/booksales/js/jquery.validate.unobtrusive.js"></script>
+	<script src="/booksales/js/jquery.validate.min.js"></script>
+	<script src="/booksales/js/jquery.validate.unobtrusive.min.js"></script>
 
 </body>
 </html>

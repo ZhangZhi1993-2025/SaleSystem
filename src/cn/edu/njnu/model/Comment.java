@@ -25,4 +25,9 @@ public class Comment extends Model<Comment> {
 				bookid);
 	}
 
+	public boolean addComment(int userid, int bookid, String comment) {
+		return new Comment().set("userid", userid).set("bookid", bookid)
+				.set("comment", comment).update();
+	}
+
 }

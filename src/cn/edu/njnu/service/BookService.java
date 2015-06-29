@@ -75,22 +75,22 @@ public class BookService {
 
 	// 4.对某本书更新分类
 	public boolean updateBookCategory(int bookid, String newcategory) {
-		return bookDao.updateBook(bookid, 0, newcategory);
+		return bookDao.updateBook(bookid, 1, newcategory);
 	}
 
 	// 5.对某本书更新价格
 	public boolean updateBookPrice(int bookid, double newprice) {
-		return bookDao.updateBook(bookid, 0, newprice);
+		return bookDao.updateBook(bookid, 2, newprice);
 	}
 
 	// 6.对某本书更新名字
 	public boolean updateBookName(int bookid, String newname) {
-		return bookDao.updateBook(bookid, 0, newname);
+		return bookDao.updateBook(bookid, 3, newname);
 	}
 
 	// 7.对某本书更新描述
 	public boolean updateBookDesc(int bookid, String newdesc) {
-		return bookDao.updateBook(bookid, 0, newdesc);
+		return bookDao.updateBook(bookid, 4, newdesc);
 	}
 
 	// 8.对某本书评分
@@ -98,8 +98,10 @@ public class BookService {
 		return bookDao.updateStar(bookid, star);
 	}
 
-	// 9.对某本书评论
-	public boolean commentBook(int userid, int bookid, String comment) {
-		return bookDao.addComment(userid, bookid, comment);
+	// 9.增加一本书
+	public boolean addBook(String name, double price, String category,
+			int amount, String desc) {
+		return bookDao.addBook(name, price, category, amount, desc);
 	}
+
 }

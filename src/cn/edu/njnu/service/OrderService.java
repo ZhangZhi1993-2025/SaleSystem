@@ -4,12 +4,18 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.Record;
+
+import cn.edu.njnu.model.Book;
 import cn.edu.njnu.model.Order;
+import cn.edu.njnu.viewmodel.BookViewModel;
 import cn.edu.njnu.viewmodel.ShoppingDetail;
 import cn.edu.njnu.viewmodel.ShoppingInfo;
 import cn.edu.njnu.viewmodel.OrderViewModel;
 import cn.edu.njnu.viewmodel.OrderDetailViewModel;
 import static cn.edu.njnu.model.Order.orderDao;
+import static cn.edu.njnu.model.Book.bookDao;
 
 /**
  * *****************************订单相关服务*****************************************
@@ -46,5 +52,19 @@ public class OrderService {
 				result.get(0).getDouble("price"), (ShoppingDetail[]) result
 						.get(0).get("shoppingDetails"));
 		return model;
+	}
+
+	/* 4.待评价商品列表 */
+	public List<BookViewModel> getTobeComment(int userid) {
+		List<Record> records = orderDao.findToBeComment(userid);
+		List<BookViewModel> models = new ArrayList<BookViewModel>();
+		int bookid = 0;
+		for (int i = 0; i < records.size(); i++) {
+			bookid = records.get(i).getInt("bookid");
+			Book book = bookDao.findById(bookid);
+			models.add(new BookViewModel(bookid, book.getStr("name"), book
+					.getDouble("price")));
+		}
+		return models;
 	}
 }

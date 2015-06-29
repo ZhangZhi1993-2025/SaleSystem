@@ -47,6 +47,15 @@ public class Book extends Model<Book> {
 		return set("amount", amount - 1).set("sale", sale + 1).save();
 	}
 
+	// 管理员增加一本书
+	public boolean addBook(String name, double price, String category,
+			int amount, String desc) {
+		return new Book().set("name", name).set("price", price)
+				.set("category", category).set("amount", amount)
+				.set("desc", desc).set("star", 0).set("star_number", 0)
+				.set("sale", 0).set("amount", amount).update();
+	}
+
 	// 管理员更新书的信息
 	public boolean updateBook(int bookid, int type, Object info) {
 		boolean success = false;
@@ -79,13 +88,6 @@ public class Book extends Model<Book> {
 				.set("star_number", star_number + 1)
 				.set("star", (oldStar * star_number + star) / (star_number + 1))
 				.update();
-	}
-
-	// 用户未某本书评论
-	public boolean addComment(int userid, int bookid, String comment) {
-		Record record = new Record().set("bookid", bookid)
-				.set("userid", userid).set("comment", comment);
-		return Db.save("t_comment", record);
 	}
 
 	// 根据id返回分类的名字

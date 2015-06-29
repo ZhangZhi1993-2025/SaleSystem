@@ -37,7 +37,7 @@ public class UserController extends Controller {
 	OrderService orderService = new OrderService();
 	BookService bookService = new BookService();
 	ShoppingCarService carService = new ShoppingCarService();
-	CommentService CommentService = new CommentService();
+	CommentService commentService = new CommentService();
 
 	// 1.修改密码
 	@Before(UserInterceptor.class)
@@ -233,7 +233,7 @@ public class UserController extends Controller {
 		int bookid = Integer.parseInt(getPara("book"));
 		BookViewModel bmodel = bookService.findBook(bookid, true);
 		setAttr("book", bmodel);
-		List<CommentViewModel> cmodel = CommentService.getCommentById(bookid);
+		List<CommentViewModel> cmodel = commentService.getCommentById(bookid);
 		setAttr("comment", cmodel);
 		render("/content/search/book_detail.jsp");
 	}
@@ -244,18 +244,29 @@ public class UserController extends Controller {
 		int bookid = Integer.parseInt(getPara("book"));
 		int userid = Integer.parseInt(getPara("user"));
 		String comment = getPara("comment");
-		if (bookService.scoreBook(bookid, star) == true
-				&& bookService.commentBook(userid, bookid, comment) == true) {
-			String url = "/user/feedback?user=" + userid;
-			redirect(url);
-		} else {
-			renderJson("评价失败，请稍后重试!");
-		}
+		if (star != 0)
+			bookService.scoreBook(bookid, star);
+		if (comment != null)
+			commentService.commentBook(userid, bookid, comment);
+		String url = "/user/feedback?user=" + userid;
+		redirect(url);
 	}
 
-	// 带评价列表
+	// 待评价列表
+	@Before(UserInterceptor.class)
 	public void feedback() {
 		int userid = Integer.parseInt(getPara("user"));
+		List<BookViewModel> models = orderService.getTobeComment(userid);
+		setAttr("books", models);
+		render("/content/user/feedback.jsp");
+	}
+
+	// 对某本书的评价页面
+	@Before(UserInterceptor.class)
+	public void feedback_detail() {
+		int bookid = Integer.parseInt(getPara("book"));
+		setAttr("book", bookid);
+		render("/content/user/feedback_detail.jsp");
 	}
 
 }
