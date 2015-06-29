@@ -3,6 +3,9 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.Record;
+
 import cn.edu.njnu.model.Book;
 import cn.edu.njnu.viewmodel.BookViewModel;
 import static cn.edu.njnu.model.Book.bookDao;
@@ -53,15 +56,22 @@ public class BookService {
 	// 2.综合查询
 	public List<BookViewModel> search(String name, String category,
 			boolean priceSort, boolean starSort, boolean saleSort) {
-		if (category == "全部分类")
+		if (category.equals("全部分类"))
 			category = null;
+		if (name.equals(""))
+			name = null;
 		List<Book> list = bookDao.findBookByGivenConditions(name, category,
 				priceSort, starSort, saleSort);
 		List<BookViewModel> models = new ArrayList<BookViewModel>();
+		String category2 = "";
 		for (int i = 0; i < list.size(); i++) {
-			category = bookDao.findCategoryById(list.get(i).getInt("category"));
+			if (category == null)
+				category2 = bookDao.findCategoryById(list.get(i).getInt(
+						"category"));
+			else
+				category2 = category;
 			models.add(new BookViewModel(list.get(i).getInt("id"), list.get(i)
-					.getStr("name"), list.get(i).getDouble("price"), category,
+					.getStr("name"), list.get(i).getDouble("price"), category2,
 					list.get(i).getInt("sale"), list.get(i).getInt("amount"),
 					list.get(i).getDouble("star"), list.get(i).getStr("desc")));
 		}
@@ -69,13 +79,21 @@ public class BookService {
 	}
 
 	// 3.对某本书更新库存
-	public boolean updateBookAmount(int bookid, int addition) {
-		return bookDao.updateBook(bookid, 0, addition);
+	public boolean updateBookAmount(int bookid, int newamount) {
+		return bookDao.updateBook(bookid, 0, newamount);
 	}
 
 	// 4.对某本书更新分类
 	public boolean updateBookCategory(int bookid, String newcategory) {
-		return bookDao.updateBook(bookid, 1, newcategory);
+		int categoryid = bookDao.findIdByCategory(newcategory);
+		if (categoryid == -1) {
+			Record record = new Record().set("name", newcategory);
+			Db.save("t_category", record);
+			categoryid = Db.findFirst(
+					"select c.id from t_category c where c.name = ?",
+					newcategory).getInt("id");
+		}
+		return bookDao.updateBook(bookid, 1, categoryid);
 	}
 
 	// 5.对某本书更新价格

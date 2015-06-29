@@ -21,10 +21,10 @@ public class Authority extends Model<Authority> {
 	 */
 
 	// 依据给定的用户及权限代号判断用户是否符合权限
-	public boolean hasAuthority(int userID, int authNeed) {
+	public boolean hasAuthority(int userid, int authNeed) {
 		List<Authority> authList = find(
-				"select * from authority where userID = ?0 and auth = ?1",
-				userID, authNeed);
+				"select * from t_authority where userid = ? and auth = ?",
+				userid, authNeed);
 		if (authList.size() > 0)
 			return true;
 		else
@@ -32,20 +32,20 @@ public class Authority extends Model<Authority> {
 	}
 
 	// 插入新的用户权限
-	public boolean saveAuthority(int userID, int auth) {
-		return new Authority().set("userID", userID).set("auth", auth).save();
+	public boolean saveAuthority(int userid, int auth) {
+		return new Authority().set("userid", userid).set("auth", auth).save();
 	}
 
 	// 删除指定用户的指定权限
-	public boolean deleteAuthority(int userID, int auth) {
+	public boolean deleteAuthority(int userid, int auth) {
 		return Db.update(
-				"delete from authority where userID = ?0 and auth = ?1",
-				userID, auth) > 0;
+				"delete from t_authority where userid = ? and auth = ?",
+				userid, auth) > 0;
 	}
 
 	// 删除指定用户的所有权限，通常伴随着删除用户
-	public boolean deleteAuthority(int userID) {
-		return Db.update("delete from authority where userID = ?0", userID) > 0;
+	public boolean deleteAuthority(int userid) {
+		return Db.update("delete from t_authority where userid = ?", userid) > 0;
 	}
 
 }

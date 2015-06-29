@@ -29,12 +29,14 @@ public class EntranceController extends Controller {
 		if (userService.userLogin(phone, password) == true) {
 			// 验证成功，推送cookies
 			UserViewModel model = userService.getUserInfo(phone);
-			Cookie[] cookies = new Cookie[3];
+			Cookie[] cookies = new Cookie[4];
 			cookies[0] = new Cookie("id", String.valueOf(model.getId()));
 			cookies[1] = new Cookie("name", model.getName());
 			cookies[2] = new Cookie("score", String.valueOf(model.getScore()));
-			for (int i = 0; i < 3; i++) {
-				cookies[i].setMaxAge(60 * 20);
+			cookies[3] = new Cookie("admin", String.valueOf(userService
+					.userAuthority(model.getId(), 0)));
+			for (int i = 0; i < cookies.length; i++) {
+				cookies[i].setMaxAge(60 * 20 * 24);
 				cookies[i].setPath("/");
 				getResponse().addCookie(cookies[i]);
 			}
@@ -54,11 +56,12 @@ public class EntranceController extends Controller {
 		case 2:
 			// 注册成功,推送cookies
 			UserViewModel model = userService.getUserInfo(phone);
-			Cookie[] cookies = new Cookie[3];
+			Cookie[] cookies = new Cookie[4];
 			cookies[0] = new Cookie("id", String.valueOf(model.getId()));
 			cookies[1] = new Cookie("name", model.getName());
 			cookies[2] = new Cookie("score", String.valueOf(model.getScore()));
-			for (int i = 0; i < 3; i++) {
+			cookies[3] = new Cookie("admin", String.valueOf(false));
+			for (int i = 0; i < cookies.length; i++) {
 				cookies[i].setMaxAge(60 * 60 * 24);
 				cookies[i].setPath("/");
 				getResponse().addCookie(cookies[i]);

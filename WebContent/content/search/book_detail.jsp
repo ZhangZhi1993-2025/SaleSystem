@@ -23,7 +23,7 @@
 		<div>
 			<hr />
 			<dl class="dl-horizontal">
-				<dt></dt>
+				<dt>id号</dt>
 				<dd><%=book.getId()%></dd>
 
 				<dt>书名</dt>
@@ -50,7 +50,9 @@
 		</div>
 
 		<h2 style="font-family: 微软雅黑;">相关评论</h2>
-		<hr />
+		<%
+			if (comments.size() != 0) {
+		%>
 		<table class="table">
 			<tr>
 				<th>评论者</th>
@@ -68,6 +70,13 @@
 				}
 			%>
 		</table>
+		<%
+			} else {
+		%>
+		<h4 style="font-family: 微软雅黑;">暂无相关商品评论</h4>
+		<%
+			}
+		%>
 		<%@include file="../footer.jsp"%>
 	</div>
 </body>

@@ -85,6 +85,8 @@ public class UserService {
 		String salt = randomStr();
 		password = hashPassword(password + salt);
 		usrDao.saveUser(phone, salt, password);
+		int userid = usrDao.findIdByPhone(phone);
+		authDao.saveAuthority(userid, 1);
 		return REG_SUCCESS;
 	}
 
@@ -100,7 +102,7 @@ public class UserService {
 		List<User> users = usrDao.findUserByGivenPhone(phone);
 		if (users.size() > 0)
 			return USR_HAS_EXISTED;
-		
+
 		return REG_SUCCESS;
 	}
 

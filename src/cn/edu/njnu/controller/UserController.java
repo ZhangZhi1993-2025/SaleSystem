@@ -265,7 +265,8 @@ public class UserController extends Controller {
 	@Before(UserInterceptor.class)
 	public void feedback_detail() {
 		int bookid = Integer.parseInt(getPara("book"));
-		setAttr("book", bookid);
+		BookViewModel book = bookService.findBook(bookid, true);
+		setAttr("book", book);
 		render("/content/user/feedback_detail.jsp");
 	}
 

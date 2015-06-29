@@ -59,21 +59,22 @@ public class Book extends Model<Book> {
 	// 管理员更新书的信息
 	public boolean updateBook(int bookid, int type, Object info) {
 		boolean success = false;
-		List<Book> list;
 		switch (type) {
 		case 0:// 更新书的库存
-			list = find("select b.amount from t_book b where " + "b.id = ?",
-					bookid);
-			int amount = list.get(0).getInt("id");
-			success = set("amount", amount + (int) info).save();
+			success = findById(bookid).set("amount", (int) info).update();
+			break;
 		case 1:// 更新书的分类
-			success = findById(bookid).set("category", (String) info).update();
+			success = findById(bookid).set("category", (int) info).update();
+			break;
 		case 2:// 更新书的价格
 			success = findById(bookid).set("price", (double) info).update();
+			break;
 		case 3:// 更新书的名字
 			success = findById(bookid).set("name", (String) info).update();
+			break;
 		case 4:// 更新书的描述
 			success = findById(bookid).set("desc", (String) info).update();
+			break;
 		default:
 		}
 		return success;
@@ -92,9 +93,10 @@ public class Book extends Model<Book> {
 
 	// 根据id返回分类的名字
 	public String findCategoryById(int categoryid) {
-		Record record = Db.findById("t_category", categoryid, "id");
+		Record record = Db.findFirst(
+				"select c.name from t_category c where c.id = ?", categoryid);
 		if (record != null)
-			return record.get("name");
+			return record.getStr("name");
 		else
 			return null;
 	}
@@ -122,19 +124,25 @@ public class Book extends Model<Book> {
 			sqlCondition.append("where ");
 			if (name != null)
 				sqlCondition.append("name = ? ");
+			if (name != null && category != null)
+				sqlCondition.append(" and ");
 			if (category != null
 					&& (categoryid = findIdByCategory(category)) != -1) {
-				sqlCondition.append("and category = ? ");
+				sqlCondition.append("category = ? ");
 			}
 		}
 		if (priceSort || starSort || saleSort) {
 			sqlCondition.append("order by ");
 			if (priceSort)
 				sqlCondition.append("price asc");
+			if (priceSort && starSort)
+				sqlCondition.append(",");
 			if (starSort)
-				sqlCondition.append(", star desc");
+				sqlCondition.append(" star desc");
+			if (starSort && saleSort || priceSort && saleSort)
+				sqlCondition.append(",");
 			if (saleSort)
-				sqlCondition.append(", sale desc");
+				sqlCondition.append("sale desc");
 		}
 		String sql = sqlSelect + sqlCondition.toString();
 		if (name != null && categoryid != -1)

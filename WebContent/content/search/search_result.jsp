@@ -27,27 +27,44 @@
 		%>
 		<table class="table">
 			<tr>
-				<th></th>
+				<th>id</th>
 				<th>书名</th>
 				<th>分类</th>
 				<th>价格</th>
 				<th>销量</th>
 				<th>库存</th>
 				<th>评分</th>
+				<th></th>
 			</tr>
 			<%
-				for (int i = 0; i < books.size(); i++) {
-						String detail = "/booksales/book_detail?book="
-								+ books.get(i).getId();
+				boolean isAdmin = false;
+					String detail = "";
+					if (cookies != null) {
+						for (int i = 0; i < cookies.length; i++) {
+							if (cookies[i].getName().equals("admin")) {
+								isAdmin = Boolean.valueOf(cookies[i].getValue());
+								break;
+							}
+						}
+					}
+					for (int i = 0; i < books.size(); i++) {
+						if (isAdmin == false) {
+							detail = "/booksales/admin/monitor_book?book="
+									+ books.get(i).getId();
+						} else {
+							detail = "/booksales/book_detail?book="
+									+ books.get(i).getId();
+						}
 			%>
 			<tr>
 				<td><%=books.get(i).getId()%></td>
-				<td><a href="<%=detail%>"><%=books.get(i).getName()%></a></td>
+				<td><%=books.get(i).getName()%></td>
 				<td><%=books.get(i).getCategory()%></td>
 				<td><%=books.get(i).getPrice()%></td>
 				<td><%=books.get(i).getSale()%></td>
 				<td><%=books.get(i).getAmount()%></td>
 				<td><%=books.get(i).getStar()%></td>
+				<td><a href="<%=detail%>">详细</a></td>
 			</tr>
 			<%
 				}

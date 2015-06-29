@@ -38,6 +38,12 @@ public class User extends Model<User> {
 		return findById(userid).getStr("phone");
 	}
 
+	// 通过手机号返回id
+	public int findIdByPhone(String phone) {
+		return findFirst("select u.id from t_user u where u.phone = ?", phone)
+				.getInt("id");
+	}
+
 	// 通过给定手机号查找用户，用于注册时判断账号是否已被注册
 	public List<User> findUserByGivenPhone(String phone) {
 		return find("select u.id from t_user u where u.phone = ?", phone);

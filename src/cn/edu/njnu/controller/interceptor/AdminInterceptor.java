@@ -9,7 +9,7 @@ import com.jfinal.core.ActionInvocation;
 
 public class AdminInterceptor implements Interceptor {
 
-	UserService usrService;
+	UserService usrService = new UserService();
 
 	/* 管理员的权限级别 */
 	public static final int ADMIN_LEVEL = 0;
