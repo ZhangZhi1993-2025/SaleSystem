@@ -65,6 +65,7 @@
 			<%
 				Cookie[] cookies = request.getCookies();
 				boolean isLogOn = false;
+				boolean isAdmin = false;
 				String userid = "";
 				String name = "";
 				int score = 0;
@@ -80,18 +81,26 @@
 				}
 				if (isLogOn == true) {
 					for (int i = 0; i < cookies.length; i++) {
-						if (cookies[i].getName().equals("name")) {
-							name = cookies[i].getValue();
-						}
-						if (cookies[i].getName().equals("score")) {
+						if (cookies[i].getName().equals("name"))
+							name = cookies[i].getValue()+" ";
+						if (cookies[i].getName().equals("score"))
 							score = Integer.parseInt(cookies[i].getValue());
-						}
+						if (cookies[i].getName().equals("admin"))
+							isAdmin = Boolean.valueOf(cookies[i].getValue());
 					}
 					userUrl = "/booksales/user/history_order?user=" + userid;
 			%>
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="<%=userUrl%>" style="font-family: 微软雅黑;"><%=name%></a></li>
-				<li><a href="<%=userUrl%>" style="font-family: 微软雅黑;">积分: <%=score%></a></li>
+				<li><a href="<%=userUrl%>" style="font-family: 微软雅黑;"><%=name%>
+						积分:<%=score%></a></li>
+				<%
+					if (isAdmin == true) {
+				%>
+				<li><a href="/booksales/admin/add_book"
+					style="font-family: 微软雅黑;">添加新书</a></li>
+				<%
+					}
+				%>
 				<li><a href="/booksales/user/logout" style="font-family: 微软雅黑;">退出</a></li>
 			</ul>
 			<%

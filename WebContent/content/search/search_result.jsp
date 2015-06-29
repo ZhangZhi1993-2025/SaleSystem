@@ -37,18 +37,9 @@
 				<th></th>
 			</tr>
 			<%
-				boolean isAdmin = false;
 					String detail = "";
-					if (cookies != null) {
-						for (int i = 0; i < cookies.length; i++) {
-							if (cookies[i].getName().equals("admin")) {
-								isAdmin = Boolean.valueOf(cookies[i].getValue());
-								break;
-							}
-						}
-					}
 					for (int i = 0; i < books.size(); i++) {
-						if (isAdmin == false) {
+						if (isAdmin != false) {
 							detail = "/booksales/admin/monitor_book?book="
 									+ books.get(i).getId();
 						} else {

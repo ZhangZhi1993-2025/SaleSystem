@@ -50,10 +50,18 @@ public class Book extends Model<Book> {
 	// 管理员增加一本书
 	public boolean addBook(String name, double price, String category,
 			int amount, String desc) {
+		int categoryid = findIdByCategory(category);
+		if (categoryid == -1) {
+			Record record = new Record().set("name", category);
+			Db.save("t_category", record);
+			categoryid = Db.findFirst(
+					"select c.id from t_category c where c.name = ?",
+					category).getInt("id");
+		}
 		return new Book().set("name", name).set("price", price)
-				.set("category", category).set("amount", amount)
+				.set("category", categoryid).set("amount", amount)
 				.set("desc", desc).set("star", 0).set("star_number", 0)
-				.set("sale", 0).set("amount", amount).update();
+				.set("sale", 0).set("amount", amount).save();
 	}
 
 	// 管理员更新书的信息
