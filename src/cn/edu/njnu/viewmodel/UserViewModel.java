@@ -15,10 +15,20 @@ public class UserViewModel {
 	// 昵称
 	private String name;
 
+	// 激活状态
+	private boolean isAlive;
+
 	public UserViewModel(int id, int score, String name) {
 		this.name = name;
 		this.score = score;
 		this.id = id;
+	}
+
+	public UserViewModel(int id, int score, String name, boolean isAlive) {
+		this.id = id;
+		this.score = score;
+		this.name = name;
+		this.isAlive = isAlive;
 	}
 
 	/* setter and getter for every member */
@@ -45,6 +55,14 @@ public class UserViewModel {
 
 	public void setScore(int score) {
 		this.score = score;
+	}
+
+	public boolean isAlive() {
+		return isAlive;
+	}
+
+	public void setAlive(boolean isAlive) {
+		this.isAlive = isAlive;
 	}
 
 }

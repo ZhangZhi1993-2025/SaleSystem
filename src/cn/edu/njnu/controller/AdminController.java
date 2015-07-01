@@ -1,8 +1,12 @@
 ﻿package cn.edu.njnu.controller;
 
+import java.util.List;
+
 import cn.edu.njnu.controller.interceptor.AdminInterceptor;
 import cn.edu.njnu.service.BookService;
+import cn.edu.njnu.service.UserService;
 import cn.edu.njnu.viewmodel.BookViewModel;
+import cn.edu.njnu.viewmodel.UserViewModel;
 
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
@@ -17,6 +21,7 @@ import com.jfinal.core.Controller;
 public class AdminController extends Controller {
 
 	BookService bookService = new BookService();
+	UserService userService = new UserService();
 
 	// 1.查看某书的状况
 	public void monitor_book() {
@@ -57,6 +62,20 @@ public class AdminController extends Controller {
 		bookService.updateBookDesc(bookid, newdesc);
 		String url = "/monitor_book?book=" + bookid;
 		redirect(url);
+	}
+
+	// 5.用户管理界面
+	public void user_management() {
+		List<UserViewModel> models = userService.getUserList();
+		setAttr("users", models);
+		render("/content/admin/user_management.jsp");
+	}
+
+	// 6.冻结用户
+	public void user_freeze() {
+		int userid = Integer.parseInt(getPara("user"));
+		userService.freezeUser(userid);
+		redirect("/user_management");
 	}
 
 }

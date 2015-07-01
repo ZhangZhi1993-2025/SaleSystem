@@ -9,9 +9,19 @@
 	<%@include file="../header.jsp"%>
 	<%
 		String oldPhone = (String) request.getAttribute("oldPhone");
+		boolean isAlive = (boolean) request.getAttribute("isAlive");
 	%>
 	<div class="container body-content">
+		<%
+			if (isAlive != true) {
+		%>
+		<h1 style="font-family: 微软雅黑; color: #ff0000;">该账户已被冻结，正在审查中，一个月内无法登陆此账户!</h1>
+		<div style="height: 450px;">.</div>
+		<%
+			} else {
+		%>
 		<h2 style="font-family: 微软雅黑;">用户名或密码错误</h2>
+
 		<div class="row">
 			<div class="col-md-8">
 				<section id="loginForm">
@@ -67,6 +77,9 @@
 				</section>
 			</div>
 		</div>
+		<%
+			}
+		%>
 		<%@include file="../footer.jsp"%>
 	</div>
 

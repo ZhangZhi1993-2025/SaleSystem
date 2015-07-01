@@ -1,7 +1,6 @@
 <%@page contentType="text/html; charset=utf-8"%>
 <%@page import="cn.edu.njnu.viewmodel.ShoppingDetail"%>
 <%@page import="cn.edu.njnu.viewmodel.ShoppingCarViewModel"%>
-<%@page import="cn.edu.njnu.model.ShoppingCar"%>
 <%@page import="java.util.List"%>
 <!DOCTYPE html>
 <html>
@@ -52,7 +51,7 @@
 
 			<table class="table" style="clear: both;">
 				<tr>
-					<th></th>
+					<th>id</th>
 					<th>书名</th>
 					<th>单价</th>
 					<th>购买数量</th>

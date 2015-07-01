@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.regex.Pattern;
@@ -35,7 +36,9 @@ public class UserService {
 	public static final int REG_SUCCESS = 2;
 
 	/* 1.登陆 */
-	public boolean userLogin(String phone, String password) {
+	public int userLogin(String phone, String password) {
+		if (usrDao.isAlive(phone) == false)
+			return -1;
 		List<User> saltList = usrDao.findSaltByPhone(phone);
 		if (saltList.size() >= 1) {
 			String salt = saltList.get(0).getStr("salt");
@@ -43,9 +46,9 @@ public class UserService {
 			password = hashPassword(password + salt);
 			List<User> userList = usrDao.findByPhoneAndPwd(phone, password);
 			if (userList.size() == 1)
-				return true;
+				return 1;
 		}
-		return false;
+		return 0;
 	}
 
 	/* 2.通过给定手机号返回指定的用户信息 */
@@ -136,6 +139,23 @@ public class UserService {
 			}
 
 		});
+	}
+
+	/* 7.冻结用户 */
+	public boolean freezeUser(int userid) {
+		return usrDao.freezeUser(userid);
+	}
+
+	/* 8.返回用户列表 */
+	public List<UserViewModel> getUserList() {
+		List<UserViewModel> models = new ArrayList<UserViewModel>();
+		List<User> users = usrDao.findAllUsers();
+		for (int i = 0; i < users.size(); i++) {
+			models.add(new UserViewModel(users.get(i).getInt("id"), users
+					.get(i).getInt("score"), users.get(i).getStr("name"), users
+					.get(i).getBoolean("is_alive")));
+		}
+		return models;
 	}
 
 	/** 基于给定的 盐值+口令 混合串返回哈希值 */

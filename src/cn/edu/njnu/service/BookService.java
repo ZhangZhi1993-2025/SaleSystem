@@ -18,7 +18,7 @@ import static cn.edu.njnu.model.Book.bookDao;
 public class BookService {
 
 	// 0.默认根据销量查找一类书
-	public List<BookViewModel> getBooks(int page) {
+	public List<BookViewModel> getHotBooks(int page) {
 		List<BookViewModel> models = new ArrayList<BookViewModel>();
 		List<Book> list = bookDao.pushHotBooks(page);
 		String category = "";

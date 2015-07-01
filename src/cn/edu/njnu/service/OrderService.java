@@ -9,7 +9,6 @@ import com.jfinal.plugin.activerecord.Record;
 import cn.edu.njnu.model.Book;
 import cn.edu.njnu.model.Order;
 import cn.edu.njnu.viewmodel.FeedbackViewModel;
-import cn.edu.njnu.viewmodel.ShoppingDetail;
 import cn.edu.njnu.viewmodel.ShoppingInfo;
 import cn.edu.njnu.viewmodel.OrderViewModel;
 import cn.edu.njnu.viewmodel.OrderDetailViewModel;
@@ -44,12 +43,7 @@ public class OrderService {
 
 	/* 3.用户查看订单详情 */
 	public OrderDetailViewModel userDetailOrder(int orderid) {
-		Order result = orderDao.findDetailOrderById(orderid);
-		OrderDetailViewModel model = new OrderDetailViewModel(
-				result.getInt("id"), (Timestamp) result.get("createtime"),
-				result.getStr("phone"), result.getDouble("price"),
-				(ShoppingDetail[]) result.get("shoppingDetails"));
-		return model;
+		return orderDao.findDetailOrderById(orderid);
 	}
 
 	/* 4.待评价商品列表 */

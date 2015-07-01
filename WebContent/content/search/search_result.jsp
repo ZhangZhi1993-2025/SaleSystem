@@ -49,7 +49,7 @@
 			%>
 			<tr>
 				<td><%=books.get(i).getId()%></td>
-				<td><%=books.get(i).getName()%></td>
+				<td><a href="<%=detail%>"><%=books.get(i).getName()%></a></td>
 				<td><%=books.get(i).getCategory()%></td>
 				<td style="color: #ff0000"><%=books.get(i).getPrice()%></td>
 				<td><%=books.get(i).getSale()%></td>

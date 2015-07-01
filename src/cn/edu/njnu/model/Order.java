@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.sql.SQLException;
 import java.util.List;
 
+import cn.edu.njnu.viewmodel.OrderDetailViewModel;
 import cn.edu.njnu.viewmodel.ShoppingDetail;
 import cn.edu.njnu.viewmodel.ShoppingInfo;
 import static cn.edu.njnu.model.Book.bookDao;
@@ -37,7 +38,7 @@ public class Order extends Model<Order> {
 	}
 
 	// 根据订单号返回订单详细信息
-	public Order findDetailOrderById(int orderid) {
+	public OrderDetailViewModel findDetailOrderById(int orderid) {
 		Order orders = findFirst("select o.createtime, u.phone, o.id, "
 				+ " o.price from t_user u, t_order o "
 				+ " where o.id = ? and o.userid = u.id ", orderid);
@@ -51,9 +52,11 @@ public class Order extends Model<Order> {
 					goodsList.get(i).getStr("name"), goodsList.get(i).getInt(
 							"amount"), goodsList.get(i).getDouble("price"));
 		}
-		orders.set("booksDetails", booksDetails);
+		OrderDetailViewModel model = new OrderDetailViewModel(
+				orders.getInt("id"), (Timestamp) orders.get("createtime"),
+				orders.getStr("phone"), orders.getDouble("price"), booksDetails);
 
-		return orders;
+		return model;
 	}
 
 	// 关闭某订单的活动状态
@@ -99,9 +102,11 @@ public class Order extends Model<Order> {
 						.save();
 
 				// t_order_books增加若干条记录，标识用户购买的商品集
-				int orderid = findFirst(
+				List<Order> orders = find(
 						"select o.id from t_order o where o.userid = ?",
-						info.getUserid()).getInt("id");
+						info.getUserid());
+				int orderid = orders.get(orders.size() - 1).getInt("id");
+				
 				Record record;
 				for (int i = 0; i < info.getShoppingDetail().length; i++) {
 					record = new Record()

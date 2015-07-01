@@ -21,6 +21,23 @@ public class User extends Model<User> {
 	 * 封装User的数据库操纵接口
 	 */
 
+	// 判断用户是否被冻结
+	public boolean isAlive(String phone) {
+		return findFirst("select u.is_alive from t_user u where u.phone = ?",
+				phone).getBoolean("is_alive");
+	}
+
+	// 冻结用户
+	public boolean freezeUser(int userid) {
+		return findById(userid).set("is_alive", false).update();
+	}
+
+	// 返回所有的用户
+	public List<User> findAllUsers() {
+		return find("select u.id, u.score, u.name, "
+				+ " u.is_alive from t_user u, t_authority a where u.id = a.userid and a.auth = 1");
+	}
+
 	// 通过给定手机号查询盐值，找不到目标则返回空集，主要用于登陆验证用户是否存在
 	public List<User> findSaltByPhone(String phone) {
 		return find("select u.salt from t_user u where u.phone = ?", phone);
@@ -64,7 +81,7 @@ public class User extends Model<User> {
 		return new User().set("phone", phone).set("salt", salt)
 				.set("password", password).set("score", 0).set("name", name)
 				.set("createtime", new Timestamp(System.currentTimeMillis()))
-				.save();
+				.set("is_alive", true).save();
 	}
 
 	// 当用户修改个人信息时更新记录

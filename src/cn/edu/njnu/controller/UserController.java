@@ -47,13 +47,13 @@ public class UserController extends Controller {
 		String oldpassword = getPara("oldpassword");
 		String newpassword = getPara("newpassword");
 		if (userService
-				.userLogin(userService.getUserPhone(userid), oldpassword) == true) {
+				.userLogin(userService.getUserPhone(userid), oldpassword) == 1) {
 			if (userService.userUpdate(userid, newpassword, 0) == true) {
 				render("/content/user/account.jsp");
 			} else
 				renderJson("修改失败,请稍后重试!");
 		} else
-			renderJson("原密码输入错误，请重试!");
+			renderJson("原密码输入错误或账号已被冻结，请重试!");
 	}
 
 	// 2.修改手机号
@@ -103,7 +103,8 @@ public class UserController extends Controller {
 		int bookid = Integer.parseInt(getPara("book"));
 		int amount = Integer.parseInt(getPara("amount"));
 		carService.addItem(userid, bookid, amount);
-		renderJson(true);
+		String url = "/user/car_content?user=" + userid;
+		redirect(url);
 	}
 
 	// 将物品移除购物车
@@ -165,6 +166,16 @@ public class UserController extends Controller {
 		render("/content/user/current_order_list.jsp");
 	}
 
+	// 确认订单完成
+	@Before(UserInterceptor.class)
+	public void order_complete() {
+		int orderid = Integer.parseInt(getPara("order"));
+		int userid = Integer.parseInt(getPara("user"));
+		orderService.makeCompleteOrder(orderid);
+		String url = "/user/current_order?user=" + userid;
+		redirect(url);
+	}
+
 	// 7.历史订单列表
 	@Before(UserInterceptor.class)
 	public void history_order() {
@@ -188,9 +199,12 @@ public class UserController extends Controller {
 	// 9.查看订单详情
 	@Before(UserInterceptor.class)
 	public void detail_order() {
+		boolean isCurrent = Boolean.parseBoolean(getPara("iscurrent"));
 		OrderDetailViewModel model = orderService.userDetailOrder(Integer
 				.parseInt(getPara("order")));
 		setAttr("detailOrder", model);
+		setAttr("order", Integer.parseInt(getPara("order")));
+		setAttr("isCurrent", isCurrent);
 		render("/content/user/detail_order.jsp");
 	}
 
@@ -222,7 +236,7 @@ public class UserController extends Controller {
 	@ActionKey("/hot_books")
 	public void hot_books() {
 		int page = Integer.parseInt(getPara("page"));
-		List<BookViewModel> models = bookService.getBooks(page);
+		List<BookViewModel> models = bookService.getHotBooks(page);
 		setAttr("results", models);
 		setAttr("type", "hot");// 标识热门推送
 		render("/content/search/search_result.jsp");

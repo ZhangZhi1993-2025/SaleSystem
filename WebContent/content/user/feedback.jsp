@@ -42,7 +42,7 @@
 			%>
 			<table class="table">
 				<tr>
-					<th></th>
+					<th>id</th>
 					<th>书名</th>
 					<th>价格</th>
 					<th>分类</th>

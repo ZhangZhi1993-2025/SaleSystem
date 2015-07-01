@@ -106,7 +106,6 @@
 			var values = document.getElementById("values").innerHTML.split(",");
 			link.href = url + values[0] + "&book=" + values[1] + "&amount="
 					+ amount;
-			alert(link.href);
 		}
 	</script>
 </body>

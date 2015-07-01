@@ -26,7 +26,8 @@ public class EntranceController extends Controller {
 	public void login_validate() {
 		String phone = getPara("phone");
 		String password = getPara("password");
-		if (userService.userLogin(phone, password) == true) {
+		int is_alive = 0;
+		if ((is_alive = userService.userLogin(phone, password)) == 1) {
 			// 验证成功，推送cookies
 			UserViewModel model = userService.getUserInfo(phone);
 			Cookie[] cookies = new Cookie[4];
@@ -43,6 +44,10 @@ public class EntranceController extends Controller {
 			redirect("/");
 		} else {
 			setAttr("oldPhone", phone);
+			if (is_alive == 0)
+				setAttr("isAlive", true);
+			else
+				setAttr("isAlive", false);
 			render("/content/error/login_error.jsp");
 		}
 	}

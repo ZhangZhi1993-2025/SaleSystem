@@ -49,7 +49,7 @@
 				<%
 					for (int i = 0; i < orders.size(); i++) {
 						String detail = "/booksales/user/detail_order?order="
-								+ orders.get(i).getId();
+								+ orders.get(i).getId() + "&iscurrent=true";
 				%>
 				<tr>
 					<td><%=orders.get(i).getId()%></td>

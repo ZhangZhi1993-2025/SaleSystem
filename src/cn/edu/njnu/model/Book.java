@@ -27,7 +27,7 @@ public class Book extends Model<Book> {
 				page,
 				20,
 				"select b.id, b.name, b.price, b.category, b.amount, b.star, b.desc, b.sale ",
-				"from t_book b order by b.sale asc").getList();
+				"from t_book b order by b.sale desc").getList();
 	}
 
 	// 根据某本书的id号返回概要内容
