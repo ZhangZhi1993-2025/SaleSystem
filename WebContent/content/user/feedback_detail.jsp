@@ -1,7 +1,5 @@
-<%@page import="cn.edu.njnu.viewmodel.FeedbackViewModel"%>
 <%@ page contentType="text/html; charset=utf-8"%>
-<%@ page import="cn.edu.njnu.viewmodel.FeedbackViewModel"%>
-<%@ page import="java.util.List"%>
+<%@ page import="cn.edu.njnu.viewmodel.BookViewModel"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,36 +33,60 @@
 		</div>
 		<div style="float: left; width: 80%; height: auto; padding-left: 4%">
 
-			<h2 style="font-family: 微软雅黑;">待评价的商品</h2>
+			<h2 style="font-family: 微软雅黑; margin-bottom: 60px;">评价商品</h2>
 			<%
-				List<FeedbackViewModel> books = (List<FeedbackViewModel>) request
-						.getAttribute("books");
+				BookViewModel book = (BookViewModel) request.getAttribute("book");
+				int orderid = (int) request.getAttribute("order");
+				String commentUrl = "/booksales/user/feedback_book?user=" + userid
+						+ "&book=" + book.getId() + "&order=" + orderid;
 			%>
+
 			<table class="table">
 				<tr>
-					<th></th>
 					<th>书名</th>
 					<th>价格</th>
 					<th>分类</th>
-					<th></th>
+					<th>描述</th>
 				</tr>
-				<%
-					for (int i = 0; i < books.size(); i++) {
-						String detail = "/booksales/user/feedback_detail?book="
-								+ books.get(i).getBookid() + "&order="
-								+ books.get(i).getOrderid();
-				%>
+
 				<tr>
-					<td><%=books.get(i).getBookid()%></td>
-					<td><%=books.get(i).getName()%></td>
-					<td><%=books.get(i).getPrice()%></td>
-					<td><%=books.get(i).getCategory()%></td>
-					<td><a href="<%=detail%>">评价</a></td>
+					<td><%=book.getName()%></td>
+					<td><%=book.getPrice()%></td>
+					<td><%=book.getCategory()%></td>
+					<td><%=book.getDesc()%></td>
 				</tr>
-				<%
-					}
-				%>
 			</table>
+
+			<div class="row">
+				<div class="col-md-8">
+					<section id="loginForm">
+						<form action="<%=commentUrl%>" method="post"
+							class="form-horizontal" role="form">
+
+							<h4 style="font-family: 微软雅黑;">评分</h4>
+							<hr />
+							<input id="input-22" name="star" value="0" type="number"
+								class="rating" min=0 max=5 step=1 data-rtl=0
+								data-container-class='text-left' data-glyphicon=0>
+
+							<h4 style="font-family: 微软雅黑;">评论</h4>
+							<hr />
+							<div class="form-group">
+								<div class="col-md-10">
+									<textarea rows="3" class="form-control" name="comment"></textarea>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<div class="col-md-10">
+									<input type="submit" value="提  交" class="btn btn-primary"
+										style="font-family: 微软雅黑;" />
+								</div>
+							</div>
+						</form>
+					</section>
+				</div>
+			</div>
 		</div>
 		<div
 			style="width: 100%; height: 120px; clear: both; color: transparent">.</div>

@@ -19,7 +19,7 @@
 		String shoppingcarUrl = "/booksales/user/car_content?user="
 				+ userid;
 		String feedbackUrl = "/booksales/user/feedback?user=" + userid;
-		String createOrderUrl = "/booksales/create_order_by_shoppingcar?user="
+		String createOrderUrl = "/booksales/user/create_order_by_shoppingcar?user="
 				+ userid;
 	%>
 	<div class="container body-content">
@@ -36,17 +36,20 @@
 			</ul>
 			<div style="background-color: #428bca; height: 7px; width: 100%;">.</div>
 		</div>
+
+		<%
+			ShoppingCarViewModel car = (ShoppingCarViewModel) request
+					.getAttribute("shoppingcar");
+			double price = car.getPrice();
+		%>
+
 		<div style="float: left; width: 80%; height: auto; padding-left: 4%">
 
-			<h2 style="font-family: 微软雅黑;">我的购物车</h2>
-			<%
-				ShoppingCarViewModel car = (ShoppingCarViewModel) request
-						.getAttribute("shoppingcar");
-				double price = car.getPrice();
-			%>
-			<h3 style="float: left;">
+			<h2 style="font-family: 微软雅黑; float: left; margin-right: 20px;">我的购物车</h2>
+			<h2 style="float: left; color: #ff0000; margin-top: 22px;">
 				￥
-				<%=price%></h3>
+				<%=price%></h2>
+
 			<table class="table" style="clear: both;">
 				<tr>
 					<th></th>
@@ -58,7 +61,7 @@
 				<%
 					ShoppingDetail[] detailList = car.getShoppingDetail();
 					for (int i = 0; i < detailList.length; i++) {
-						String remove = "/booksales/remove_item_from_car?user="
+						String remove = "/booksales/user/remove_item_from_car?user="
 								+ userid + "&book=" + detailList[i].getBookid();
 				%>
 				<tr>
@@ -72,8 +75,19 @@
 					}
 				%>
 			</table>
+			<%
+				if (detailList.length != 0) {
+			%>
 			<a href="<%=createOrderUrl%>" class="btn btn-primary btn-lg"
-				style="font-family: 微软雅黑;">一键下单</a>
+				style="font-family: 微软雅黑; float: right; margin-right: 90px; margin-top: 30px;">一键下单</a>
+			<%
+				} else {
+			%>
+			<a class="btn btn-primary btn-lg"
+				style="font-family: 微软雅黑; float: right; margin-right: 90px; margin-top: 30px;">一键下单</a>
+			<%
+				}
+			%>
 		</div>
 		<div
 			style="width: 100%; height: 120px; clear: both; color: transparent">.</div>

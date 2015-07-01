@@ -82,7 +82,7 @@
 				if (isLogOn == true) {
 					for (int i = 0; i < cookies.length; i++) {
 						if (cookies[i].getName().equals("name"))
-							name = cookies[i].getValue()+" ";
+							name = cookies[i].getValue() + " ";
 						if (cookies[i].getName().equals("score"))
 							score = Integer.parseInt(cookies[i].getValue());
 						if (cookies[i].getName().equals("admin"))
@@ -91,8 +91,7 @@
 					userUrl = "/booksales/user/history_order?user=" + userid;
 			%>
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="<%=userUrl%>" style="font-family: 微软雅黑;"><%=name%>
-						积分:<%=score%></a></li>
+				<li><a href="<%=userUrl%>" style="font-family: 微软雅黑;"><%=name%>&nbsp;&nbsp;&nbsp;积分:<%=score%></a></li>
 				<%
 					if (isAdmin == true) {
 				%>

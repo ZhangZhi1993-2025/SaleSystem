@@ -45,6 +45,14 @@ public class BookViewModel {
 		this.price = price;
 	}
 	
+	public BookViewModel(int id, String name, double price, String category) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.price = price;
+		this.category = category;
+	}
+
 	public BookViewModel(int id, double price) {
 		super();
 		this.id = id;

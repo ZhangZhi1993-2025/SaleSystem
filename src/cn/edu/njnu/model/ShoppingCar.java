@@ -11,7 +11,6 @@ import static cn.edu.njnu.model.Order.orderDao;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Model;
-import com.jfinal.plugin.activerecord.Record;
 
 /**
  * 富领域模型ShoppingCar，对应数据库表t_shoppingcar

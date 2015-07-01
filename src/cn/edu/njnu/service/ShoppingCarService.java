@@ -3,6 +3,7 @@
 import static cn.edu.njnu.model.ShoppingCar.carDao;
 import static cn.edu.njnu.model.Book.bookDao;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import cn.edu.njnu.model.Book;
@@ -36,19 +37,24 @@ public class ShoppingCarService {
 	// 4.查看购物车
 	public ShoppingCarViewModel getAllItem(int userid) {
 		List<ShoppingCar> result = carDao.findItemByUserId(userid);
+		DecimalFormat df = new DecimalFormat("#.##");
 		double price = 0;
 		String name = "";
+		int amount = 0;
 		Book book;
 		ShoppingDetail[] details = new ShoppingDetail[result.size()];
 		for (int i = 0; i < result.size(); i++) {
 			int bookid = result.get(i).getInt("bookid");
 			book = bookDao.findBookById(bookid).get(0);
 			name = book.getStr("name");
-			price += book.getDouble("price");
-			details[i] = new ShoppingDetail(bookid, name, result.get(i).getInt(
-					"amount"), book.getDouble("price"));
+			amount = result.get(i).getInt("amount");
+			price += book.getDouble("price") * amount;
+			details[i] = new ShoppingDetail(bookid, name, amount,
+					book.getDouble("price"));
 		}
-		ShoppingCarViewModel model = new ShoppingCarViewModel(price, details);
+		String priceStr = df.format(price);
+		ShoppingCarViewModel model = new ShoppingCarViewModel(
+				Double.parseDouble(priceStr), details);
 		return model;
 	}
 }

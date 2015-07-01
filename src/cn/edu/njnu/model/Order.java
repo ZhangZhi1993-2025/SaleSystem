@@ -29,19 +29,18 @@ public class Order extends Model<Order> {
 	 */
 
 	// 根据用户id号及状态返回订单概要信息
-	public List<Order> findOrderByUser(int userid) {
+	public List<Order> findOrderByUser(int userid, int state) {
 		List<Order> orders = find(
 				"select o.createtime, o.price, o.state, o.id from t_order o "
-						+ " where o.userid = ?", userid);
+						+ " where o.userid = ? and o.state = ?", userid, state);
 		return orders;
 	}
 
 	// 根据订单号返回订单详细信息
-	public List<Order> findDetailOrderById(int orderid) {
-		List<Order> orders = find(
-				"select o.createtime, u.phone, o.id, s.name, "
-						+ " o.price, from t_user u, t_order o "
-						+ " where o.id = ? and o.userid = u.id ", orderid);
+	public Order findDetailOrderById(int orderid) {
+		Order orders = findFirst("select o.createtime, u.phone, o.id, "
+				+ " o.price from t_user u, t_order o "
+				+ " where o.id = ? and o.userid = u.id ", orderid);
 		// 获取详细的购买商品
 		List<Order> goodsList = find("select ob.amount, b.name, b.price, b.id "
 				+ "from t_book b, t_order_books ob where ob.orderid = ? and "
@@ -52,7 +51,7 @@ public class Order extends Model<Order> {
 					goodsList.get(i).getStr("name"), goodsList.get(i).getInt(
 							"amount"), goodsList.get(i).getDouble("price"));
 		}
-		orders.get(0).set("booksDetails", booksDetails);
+		orders.set("booksDetails", booksDetails);
 
 		return orders;
 	}
@@ -62,10 +61,18 @@ public class Order extends Model<Order> {
 		return findById(orderid).set("state", false).update();
 	}
 
+	// 使评论状态变为 已评论
+	public boolean makeisComment(int userid, int orderid, int bookid) {
+		return Db.update("update t_order_books set iscomment = true "
+				+ " where userid = ? and orderid = ? and bookid = ?", userid,
+				orderid, bookid) == 1;
+	}
+
 	// 根据用户id查询已购买但未评论的商品
 	public List<Record> findToBeComment(int userid) {
-		return Db.find("select ob.bookid from t_order_books ob where "
-				+ " ob.userid = ? and ob.iscomment = false", userid);
+		return Db.find(
+				"select ob.bookid, ob.orderid from t_order_books ob where "
+						+ " ob.userid = ? and ob.iscomment = false", userid);
 	}
 
 	// 生成用户新订单,所需事务内容如下：(1). t_order表新增一条记录;(2).t_order_books新增对应的商品集
@@ -78,12 +85,14 @@ public class Order extends Model<Order> {
 				// 生成总价
 				double price = 0;
 				for (int i = 0; i < info.getShoppingDetail().length; i++) {
-					price += info.getShoppingDetail()[i].getPrice();
+					price += info.getShoppingDetail()[i].getPrice()
+							* info.getShoppingDetail()[i].getAmount();
 				}
 
 				// t_order增加一条记录
 				set("userid", info.getUserid())
-						.set("state", false)
+						.set("state", true)
+						// 订单是激活的
 						.set("price", price)
 						.set("createtime",
 								new Timestamp(System.currentTimeMillis()))

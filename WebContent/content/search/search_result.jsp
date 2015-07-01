@@ -37,7 +37,7 @@
 				<th></th>
 			</tr>
 			<%
-					String detail = "";
+				String detail = "";
 					for (int i = 0; i < books.size(); i++) {
 						if (isAdmin != false) {
 							detail = "/booksales/admin/monitor_book?book="
@@ -51,7 +51,7 @@
 				<td><%=books.get(i).getId()%></td>
 				<td><%=books.get(i).getName()%></td>
 				<td><%=books.get(i).getCategory()%></td>
-				<td><%=books.get(i).getPrice()%></td>
+				<td style="color: #ff0000"><%=books.get(i).getPrice()%></td>
 				<td><%=books.get(i).getSale()%></td>
 				<td><%=books.get(i).getAmount()%></td>
 				<td><%=books.get(i).getStar()%></td>

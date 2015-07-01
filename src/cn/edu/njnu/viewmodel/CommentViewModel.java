@@ -6,11 +6,11 @@ public class CommentViewModel {
 	private String comment;
 
 	// 评论用户
-	private int userid;
+	private String user;
 
-	public CommentViewModel(String comment, int userid) {
+	public CommentViewModel(String comment, String user) {
 		this.comment = comment;
-		this.userid = userid;
+		this.user = user;
 	}
 
 	/* setter and getter for every member */
@@ -23,12 +23,12 @@ public class CommentViewModel {
 		this.comment = comment;
 	}
 
-	public int getUserid() {
-		return userid;
+	public String getUser() {
+		return user;
 	}
 
-	public void setUserid(int userid) {
-		this.userid = userid;
+	public void setUser(String user) {
+		this.user = user;
 	}
 
 }

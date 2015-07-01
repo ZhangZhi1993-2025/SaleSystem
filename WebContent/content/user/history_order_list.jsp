@@ -48,7 +48,7 @@
 				</tr>
 				<%
 					for (int i = 0; i < orders.size(); i++) {
-						String detail = "/booksales/detail_order?order="
+						String detail = "/booksales/user/detail_order?order="
 								+ orders.get(i).getId();
 				%>
 				<tr>

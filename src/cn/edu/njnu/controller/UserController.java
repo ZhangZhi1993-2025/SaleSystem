@@ -13,6 +13,7 @@ import cn.edu.njnu.service.UserService;
 import static cn.edu.njnu.service.UserService.REG_SUCCESS;
 import cn.edu.njnu.viewmodel.BookViewModel;
 import cn.edu.njnu.viewmodel.CommentViewModel;
+import cn.edu.njnu.viewmodel.FeedbackViewModel;
 import cn.edu.njnu.viewmodel.OrderDetailViewModel;
 import cn.edu.njnu.viewmodel.ShoppingCarViewModel;
 import cn.edu.njnu.viewmodel.ShoppingDetail;
@@ -159,7 +160,7 @@ public class UserController extends Controller {
 	@Before(UserInterceptor.class)
 	public void current_order() {
 		int userid = Integer.parseInt(getPara("user"));
-		List<OrderViewModel> models = orderService.userGetOrder(userid);
+		List<OrderViewModel> models = orderService.userGetOrder(userid, 1);
 		setAttr("currentOrder", models);
 		render("/content/user/current_order_list.jsp");
 	}
@@ -168,7 +169,7 @@ public class UserController extends Controller {
 	@Before(UserInterceptor.class)
 	public void history_order() {
 		int userid = Integer.parseInt(getPara("user"));
-		List<OrderViewModel> models = orderService.userGetOrder(userid);
+		List<OrderViewModel> models = orderService.userGetOrder(userid, 0);
 		setAttr("historyOrder", models);
 		render("/content/user/history_order_list.jsp");
 	}
@@ -243,11 +244,13 @@ public class UserController extends Controller {
 		int star = Integer.parseInt(getPara("star"));
 		int bookid = Integer.parseInt(getPara("book"));
 		int userid = Integer.parseInt(getPara("user"));
+		int orderid = Integer.parseInt(getPara("order"));
 		String comment = getPara("comment");
 		if (star != 0)
 			bookService.scoreBook(bookid, star);
 		if (comment != null)
 			commentService.commentBook(userid, bookid, comment);
+		orderService.makeisComment(userid, orderid, bookid);
 		String url = "/user/feedback?user=" + userid;
 		redirect(url);
 	}
@@ -256,7 +259,7 @@ public class UserController extends Controller {
 	@Before(UserInterceptor.class)
 	public void feedback() {
 		int userid = Integer.parseInt(getPara("user"));
-		List<BookViewModel> models = orderService.getTobeComment(userid);
+		List<FeedbackViewModel> models = orderService.getTobeComment(userid);
 		setAttr("books", models);
 		render("/content/user/feedback.jsp");
 	}
@@ -265,8 +268,10 @@ public class UserController extends Controller {
 	@Before(UserInterceptor.class)
 	public void feedback_detail() {
 		int bookid = Integer.parseInt(getPara("book"));
+		int orderid = Integer.parseInt(getPara("order"));
 		BookViewModel book = bookService.findBook(bookid, true);
 		setAttr("book", book);
+		setAttr("order", orderid);
 		render("/content/user/feedback_detail.jsp");
 	}
 

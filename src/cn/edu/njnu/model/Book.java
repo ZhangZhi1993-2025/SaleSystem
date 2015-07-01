@@ -33,7 +33,7 @@ public class Book extends Model<Book> {
 	// 根据某本书的id号返回概要内容
 	public List<Book> findBookById(int bookid) {
 		List<Book> books = find(
-				"select b.id, b.name, b.price, b.amount from t_book where b.id = ?",
+				"select b.id, b.name, b.price, b.amount from t_book b where b.id = ?",
 				bookid);
 		return books;
 	}
@@ -42,9 +42,10 @@ public class Book extends Model<Book> {
 	public boolean updateBookData(int bookid) {
 		List<Book> list = find(
 				"select b.amount, b.sale from t_book b where b.id = ?", bookid);
-		int amount = list.get(0).getInt("id");
+		int amount = list.get(0).getInt("amount");
 		int sale = list.get(0).getInt("sale");
-		return set("amount", amount - 1).set("sale", sale + 1).save();
+		return findById(bookid).set("amount", amount - 1).set("sale", sale + 1)
+				.update();
 	}
 
 	// 管理员增加一本书
@@ -55,8 +56,8 @@ public class Book extends Model<Book> {
 			Record record = new Record().set("name", category);
 			Db.save("t_category", record);
 			categoryid = Db.findFirst(
-					"select c.id from t_category c where c.name = ?",
-					category).getInt("id");
+					"select c.id from t_category c where c.name = ?", category)
+					.getInt("id");
 		}
 		return new Book().set("name", name).set("price", price)
 				.set("category", categoryid).set("amount", amount)

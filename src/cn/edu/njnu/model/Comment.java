@@ -27,7 +27,7 @@ public class Comment extends Model<Comment> {
 
 	public boolean addComment(int userid, int bookid, String comment) {
 		return new Comment().set("userid", userid).set("bookid", bookid)
-				.set("comment", comment).update();
+				.set("comment", comment).save();
 	}
 
 }
