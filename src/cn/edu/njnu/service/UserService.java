@@ -64,6 +64,11 @@ public class UserService {
 		return usrDao.findPhoneById(userid);
 	}
 
+	// 通过给定的id号返回用户积分
+	public int getUserScore(int userid) {
+		return usrDao.findById(userid).getInt("score");
+	}
+
 	/* 3.依据给定的用户及权限代号判断用户是否符合权限 */
 	public boolean userAuthority(int userid, int authNeed) {
 		return authDao.hasAuthority(userid, authNeed);
@@ -143,7 +148,12 @@ public class UserService {
 
 	/* 7.冻结用户 */
 	public boolean freezeUser(int userid) {
-		return usrDao.freezeUser(userid);
+		return usrDao.changeUserState(userid, false);
+	}
+
+	/* 解冻用户 */
+	public boolean unfreezeUser(int userid) {
+		return usrDao.changeUserState(userid, true);
 	}
 
 	/* 8.返回用户列表 */

@@ -27,9 +27,9 @@ public class User extends Model<User> {
 				phone).getBoolean("is_alive");
 	}
 
-	// 冻结用户
-	public boolean freezeUser(int userid) {
-		return findById(userid).set("is_alive", false).update();
+	// 冻结/解冻用户
+	public boolean changeUserState(int userid, boolean state) {
+		return findById(userid).set("is_alive", state).update();
 	}
 
 	// 返回所有的用户
@@ -97,6 +97,11 @@ public class User extends Model<User> {
 		default:
 			return false;
 		}
+	}
+
+	// 更新用户积分
+	public boolean updateScore(int userid, int score) {
+		return findById(userid).set("score", score).update();
 	}
 
 	// 注销用户操作

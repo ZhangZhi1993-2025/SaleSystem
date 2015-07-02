@@ -171,7 +171,18 @@ public class UserController extends Controller {
 	public void order_complete() {
 		int orderid = Integer.parseInt(getPara("order"));
 		int userid = Integer.parseInt(getPara("user"));
-		orderService.makeCompleteOrder(orderid);
+		if (orderService.makeCompleteOrder(orderid) == true) {
+			int score = userService.getUserScore(userid);
+			Cookie[] cookies = getRequest().getCookies();
+			for (int i = 0; i < cookies.length; i++) {
+				if (cookies[i].getName().equals("score")) {
+					cookies[i].setValue(String.valueOf(score));
+					cookies[i].setPath("/");
+					getResponse().addCookie(cookies[i]);
+					break;
+				}
+			}
+		}
 		String url = "/user/current_order?user=" + userid;
 		redirect(url);
 	}

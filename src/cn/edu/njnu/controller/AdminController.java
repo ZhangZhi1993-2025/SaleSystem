@@ -74,8 +74,15 @@ public class AdminController extends Controller {
 	// 6.冻结用户
 	public void user_freeze() {
 		int userid = Integer.parseInt(getPara("user"));
-		userService.freezeUser(userid);
-		redirect("/user_management");
+		boolean state = userService.freezeUser(userid);
+		renderJson(state);
+	}
+
+	// 6.解冻用户
+	public void user_unfreeze() {
+		int userid = Integer.parseInt(getPara("user"));
+		boolean state = userService.unfreezeUser(userid);
+		renderJson(state);
 	}
 
 }

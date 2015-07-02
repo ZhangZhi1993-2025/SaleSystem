@@ -93,7 +93,8 @@ public class Order extends Model<Order> {
 				}
 
 				// t_order增加一条记录
-				set("userid", info.getUserid())
+				new Order()
+						.set("userid", info.getUserid())
 						.set("state", true)
 						// 订单是激活的
 						.set("price", price)
@@ -106,7 +107,7 @@ public class Order extends Model<Order> {
 						"select o.id from t_order o where o.userid = ?",
 						info.getUserid());
 				int orderid = orders.get(orders.size() - 1).getInt("id");
-				
+
 				Record record;
 				for (int i = 0; i < info.getShoppingDetail().length; i++) {
 					record = new Record()

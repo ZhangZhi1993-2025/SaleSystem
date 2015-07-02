@@ -1,9 +1,12 @@
 ﻿package cn.edu.njnu.service;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Record;
 
 import cn.edu.njnu.model.Book;
@@ -14,6 +17,7 @@ import cn.edu.njnu.viewmodel.OrderViewModel;
 import cn.edu.njnu.viewmodel.OrderDetailViewModel;
 import static cn.edu.njnu.model.Order.orderDao;
 import static cn.edu.njnu.model.Book.bookDao;
+import static cn.edu.njnu.model.User.usrDao;
 
 /**
  * *****************************订单相关服务*****************************************
@@ -65,7 +69,19 @@ public class OrderService {
 
 	/* 5.改变某本书的订单状态 */
 	public boolean makeCompleteOrder(int orderid) {
-		return orderDao.changeOrderState(orderid);
+		return Db.tx(new IAtom() {
+
+			@Override
+			public boolean run() throws SQLException {
+				orderDao.changeOrderState(orderid);
+				double price = orderDao.findById(orderid).getDouble("price");
+				int userid = orderDao.findById(orderid).getInt("userid");
+				int score = usrDao.findById(userid).getInt("score");
+				score = (int) price + score;
+				usrDao.updateScore(userid, score);
+				return true;
+			}
+		});
 	}
 
 	// 6.使评论状态变为 已评论

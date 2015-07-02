@@ -1,9 +1,11 @@
 <%@page import="jdk.nashorn.internal.ir.RuntimeNode.Request"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <link href="/booksales/css/bootstrap.min.css" rel="stylesheet">
+<link href="/booksales/css/bootstrap-switch.min.css" rel="stylesheet" />
 <link href="/booksales/css/site.css" rel="stylesheet" />
 <link href="/booksales/css/buttons.css" rel="stylesheet" />
 <script src="/booksales/js/jquery.min.js"></script>
+<script src="/booksales/js/bootstrap-switch.min.js"></script>
 <link href="/booksales/css/star-rating.css" rel="stylesheet" />
 <script src="/booksales/js/star-rating.js"></script>
 
@@ -97,6 +99,8 @@
 				%>
 				<li><a href="/booksales/admin/add_book"
 					style="font-family: 微软雅黑;">添加新书</a></li>
+				<li><a href="/booksales/admin/user_management"
+					style="font-family: 微软雅黑;">用户管理</a></li>
 				<%
 					}
 				%>
