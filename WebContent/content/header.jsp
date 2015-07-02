@@ -93,10 +93,14 @@
 					userUrl = "/booksales/user/history_order?user=" + userid;
 			%>
 			<ul class="nav navbar-nav navbar-right">
+				<%
+					if (isAdmin == false) {
+				%>
 				<li><a href="<%=userUrl%>" style="font-family: 微软雅黑;"><%=name%>&nbsp;&nbsp;&nbsp;积分:<%=score%></a></li>
 				<%
-					if (isAdmin == true) {
+					} else {
 				%>
+				<li><a href="<%=userUrl%>" style="font-family: 微软雅黑;"><%=name%></a></li>
 				<li><a href="/booksales/admin/add_book"
 					style="font-family: 微软雅黑;">添加新书</a></li>
 				<li><a href="/booksales/admin/user_management"

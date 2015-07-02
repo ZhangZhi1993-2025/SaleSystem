@@ -5,5 +5,5 @@
 		Reserved</p>
 </footer>
 
-<script src="/booksales/js/bootstrap.js"></script>
+<script src="/booksales/js/bootstrap.min.js"></script>
 <script src="/booksales/js/buttons.js"></script>
