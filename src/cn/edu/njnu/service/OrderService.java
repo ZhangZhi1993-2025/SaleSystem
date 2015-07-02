@@ -38,7 +38,7 @@ public class OrderService {
 		List<OrderViewModel> models = new ArrayList<OrderViewModel>();
 		for (int i = 0; i < result.size(); i++) {
 			models.add(new OrderViewModel(result.get(i).getInt("id"),
-					(Timestamp) result.get(0).get("createtime"), result.get(i)
+					(Timestamp) result.get(i).get("createtime"), result.get(i)
 							.getBoolean("state"), result.get(i).getDouble(
 							"price"), userid));
 		}
