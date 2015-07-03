@@ -26,3 +26,5 @@ Server_IDE/.settings/org.eclipse.wst.common.project.facet.core.xml
 .gitignore
 *.container
 /build/
+
+*.prefs
