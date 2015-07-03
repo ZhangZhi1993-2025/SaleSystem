@@ -35,6 +35,9 @@
 				<dt>价格</dt>
 				<dd style="color: #ff0000"><%=book.getPrice()%></dd>
 
+				<dt>出版社</dt>
+				<dd><%=book.getPress()%></dd>
+
 				<dt>销量</dt>
 				<dd><%=book.getSale()%></dd>
 
@@ -47,26 +50,33 @@
 				<dt>详细描述</dt>
 				<dd><%=book.getDesc()%></dd>
 			</dl>
+
+			<div
+				style="width: 100%; height: 30px; clear: both; color: transparent">.</div>
+
+			<form action="<%=createOrderUrl%>" method="post"
+				class="form-horizontal" role="form">
+				<div class="form-group">
+					<label class="col-md-2 control-label" style="font-family: 微软雅黑;">数量</label>
+					<input
+						style="width: 45px; margin: 5px 15px 5px -10px; padding-left: 5px; float: left;"
+						name="amount" id="amount" value="1" type="number" min=1 step=1 />
+					<input type="submit" value="确认购买" class="btn btn-primary"
+						style="font-family: 微软雅黑; margin-left: 45px; float: left;" /> <a
+						class="btn btn-info" id="car" onclick="getUrl()"
+						style="font-family: 微软雅黑; float: left; margin-left: 15px;">加入购物车</a>
+				</div>
+			</form>
+
 		</div>
 		<div style="float: left; width: 40%; padding-left: 4%">
-			<p style="margin-top: 0px;">图片</p>
+			<p style="margin-top: 0px;">
+				<img alt="图书图片" src="<%=book.getPic()%>"
+					style="width: 180px; height: 240px;">
+			</p>
 		</div>
 
 		<div style="width: 100%; height: 0; clear: both; color: transparent">.</div>
-
-		<form action="<%=createOrderUrl%>" method="post"
-			class="form-horizontal" role="form">
-			<div class="form-group">
-				<label class="col-md-2 control-label" style="font-family: 微软雅黑;">数量</label>
-				<input
-					style="width: 45px; margin: 5px 15px 5px -10px; padding-left: 5px; float: left;"
-					name="amount" id="amount" value="1" type="number" min=1 step=1 />
-				<input type="submit" value="确认购买" class="btn btn-primary"
-					style="font-family: 微软雅黑; margin-left: 45px; float: left;" /> <a
-					class="btn btn-info" id="car" onclick="getUrl()"
-					style="font-family: 微软雅黑; float: left; margin-left: 15px;">加入购物车</a>
-			</div>
-		</form>
 
 		<h2 style="font-family: 微软雅黑;">相关评论</h2>
 		<%

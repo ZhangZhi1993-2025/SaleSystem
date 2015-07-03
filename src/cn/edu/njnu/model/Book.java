@@ -38,7 +38,17 @@ public class Book extends Model<Book> {
 		return books;
 	}
 
-	// 下单后修改状态
+	// 返回书的所有分类别
+	public List<Record> findAllCategory() {
+		return Db.find("select c.name from t_category c");
+	}
+
+	// 返回所有出版社
+	public List<Record> findAllPress() {
+		return Db.find("select p.name from t_press p");
+	}
+
+	// 下单后修改图书的销量与库存
 	public boolean updateBookData(int bookid) {
 		List<Book> list = find(
 				"select b.amount, b.sale from t_book b where b.id = ?", bookid);
@@ -50,7 +60,7 @@ public class Book extends Model<Book> {
 
 	// 管理员增加一本书
 	public boolean addBook(String name, double price, String category,
-			int amount, String desc) {
+			int amount, String desc, String press, String picAddress) {
 		int categoryid = findIdByCategory(category);
 		if (categoryid == -1) {
 			Record record = new Record().set("name", category);
@@ -59,10 +69,19 @@ public class Book extends Model<Book> {
 					"select c.id from t_category c where c.name = ?", category)
 					.getInt("id");
 		}
+		int pressid = findIdByPress(press);
+		if (pressid == -1) {
+			Record record = new Record().set("name", press);
+			Db.save("t_press", record);
+			pressid = Db.findFirst(
+					"select p.id from t_press p where p.name = ?", press)
+					.getInt("id");
+		}
 		return new Book().set("name", name).set("price", price)
 				.set("category", categoryid).set("amount", amount)
 				.set("desc", desc).set("star", 0).set("star_number", 0)
-				.set("sale", 0).set("amount", amount).save();
+				.set("sale", 0).set("amount", amount).set("press", pressid)
+				.set("pic", picAddress).save();
 	}
 
 	// 管理员更新书的信息
@@ -83,6 +102,12 @@ public class Book extends Model<Book> {
 			break;
 		case 4:// 更新书的描述
 			success = findById(bookid).set("desc", (String) info).update();
+			break;
+		case 5:// 更新书的出版社
+			success = findById(bookid).set("press", (String) info).update();
+			break;
+		case 6:// 更新书的图片资源
+			success = findById(bookid).set("pic", (String) info).update();
 			break;
 		default:
 		}
@@ -110,10 +135,30 @@ public class Book extends Model<Book> {
 			return null;
 	}
 
+	// 根据id返回出版社的名字
+	public String findPressById(int pressid) {
+		Record record = Db.findFirst(
+				"select p.name from t_press p where p.id = ?", pressid);
+		if (record != null)
+			return record.getStr("name");
+		else
+			return null;
+	}
+
 	// 根据分类的名字返回id
 	public int findIdByCategory(String category) {
 		Record record = Db.findFirst(
 				"select c.id from t_category c where c.name = ?", category);
+		if (record != null)
+			return record.getInt("id");
+		else
+			return -1;
+	}
+
+	// 根据出版社名字返回id
+	public int findIdByPress(String press) {
+		Record record = Db.findFirst(
+				"select p.id from t_press p where p.name = ?", press);
 		if (record != null)
 			return record.getInt("id");
 		else
@@ -126,7 +171,7 @@ public class Book extends Model<Book> {
 		List<Book> list;
 		int categoryid = -1;
 		String sqlSelect = "select b.id, b.name, b.price, b.category, b.amount, b.star, "
-				+ "b.desc, b.sale from t_book b ";
+				+ "b.desc, b.sale, b.press from t_book b ";
 		// 拼接查询字符串
 		StringBuffer sqlCondition = new StringBuffer("");
 		if (name != null || category != null) {

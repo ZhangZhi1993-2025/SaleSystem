@@ -1,5 +1,9 @@
 ﻿package cn.edu.njnu.viewmodel;
 
+/**
+ * 图书视图模型
+ */
+
 public class BookViewModel {
 
 	// id号
@@ -26,6 +30,12 @@ public class BookViewModel {
 	// 描述
 	private String desc;
 
+	// 图片
+	private String pic;
+
+	// 出版社
+	private String press;
+
 	public BookViewModel(int id, String name, double price, String category,
 			int sale, int amount, double star, String desc) {
 		this.id = id;
@@ -38,13 +48,41 @@ public class BookViewModel {
 		this.desc = desc;
 	}
 
+	public BookViewModel(int id, String name, double price, String category,
+			int sale, int amount, double star, String desc, String press) {
+		this.id = id;
+		this.name = name;
+		this.price = price;
+		this.category = category;
+		this.sale = sale;
+		this.amount = amount;
+		this.star = star;
+		this.desc = desc;
+		this.press = press;
+	}
+
+	public BookViewModel(int id, String name, double price, String category,
+			int sale, int amount, double star, String desc, String pic,
+			String press) {
+		this.press = press;
+		this.id = id;
+		this.name = name;
+		this.price = price;
+		this.category = category;
+		this.sale = sale;
+		this.amount = amount;
+		this.star = star;
+		this.desc = desc;
+		this.pic = pic;
+	}
+
 	public BookViewModel(int id, String name, double price) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.price = price;
 	}
-	
+
 	public BookViewModel(int id, String name, double price, String category) {
 		super();
 		this.id = id;
@@ -123,6 +161,22 @@ public class BookViewModel {
 
 	public void setDesc(String desc) {
 		this.desc = desc;
+	}
+
+	public String getPic() {
+		return pic;
+	}
+
+	public void setPic(String pic) {
+		this.pic = pic;
+	}
+
+	public String getPress() {
+		return press;
+	}
+
+	public void setPress(String press) {
+		this.press = press;
 	}
 
 }

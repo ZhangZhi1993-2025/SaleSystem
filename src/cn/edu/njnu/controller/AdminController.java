@@ -10,6 +10,7 @@ import cn.edu.njnu.viewmodel.UserViewModel;
 
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
+import com.jfinal.upload.UploadFile;
 
 /**
  * ********************AdminController(管理员)***********************************
@@ -27,29 +28,46 @@ public class AdminController extends Controller {
 	public void monitor_book() {
 		int bookid = Integer.parseInt(getPara("book"));
 		BookViewModel book = bookService.findBook(bookid, true);
+		List<String> categories = bookService.getAllCategory();
+		List<String> presses = bookService.getAllPress();
+		setAttr("categories", categories);
+		setAttr("presses", presses);
 		setAttr("book", book);
 		render("/content/admin/monitor_book.jsp");
 	}
 
 	// 2.增加一本书
 	public void add_a_book() {
+		UploadFile file = getFile("pic", "/resource/bookpic", 1000 * 1024,
+				"utf-8");
+		String picAddress = "./resource/bookpic/" + file.getFileName();
 		String name = getPara("name");
+		String press = getPara("press");
 		double price = Double.parseDouble(getPara("price"));
 		String category = getPara("category");
 		int amount = Integer.parseInt(getPara("amount"));
 		String desc = getPara("desc");
-		bookService.addBook(name, price, category, amount, desc);
+		bookService.addBook(name, price, category, amount, desc, press,
+				picAddress);
 		redirect("/");
 	}
 
 	// 3.增加书的界面
 	public void add_book() {
+		List<String> categories = bookService.getAllCategory();
+		List<String> presses = bookService.getAllPress();
+		setAttr("categories", categories);
+		setAttr("presses", presses);
 		render("/content/admin/add_book.jsp");
 	}
 
 	// 4.对某本书更新
 	public void update_book() {
+		UploadFile file = getFile("pic", "/resource/bookpic", 1000 * 1024,
+				"utf-8");
+		String picAddress = "./resource/bookpic/" + file.getFileName();
 		int bookid = Integer.parseInt(getPara("book"));
+		bookService.updateBookPic(bookid, picAddress);
 		int newamount = Integer.parseInt(getPara("newamount"));
 		bookService.updateBookAmount(bookid, newamount);
 		String newcategory = getPara("newcategory");
@@ -60,6 +78,8 @@ public class AdminController extends Controller {
 		bookService.updateBookName(bookid, newname);
 		String newdesc = getPara("newdesc");
 		bookService.updateBookDesc(bookid, newdesc);
+		String newpress = getPara("newpress");
+		bookService.updateBookPress(bookid, newpress);
 		String url = "/monitor_book?book=" + bookid;
 		redirect(url);
 	}

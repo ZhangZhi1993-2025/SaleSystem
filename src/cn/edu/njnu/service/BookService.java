@@ -45,10 +45,11 @@ public class BookService {
 		else {
 			book = bookDao.findById(bookid);
 			String category = bookDao.findCategoryById(book.getInt("category"));
+			String press = bookDao.findPressById(book.getInt("press"));
 			model = new BookViewModel(bookid, book.getStr("name"),
 					book.getDouble("price"), category, book.getInt("sale"),
 					book.getInt("amount"), book.getDouble("star"),
-					book.getStr("desc"));
+					book.getStr("desc"), book.getStr("pic"), press);
 		}
 		return model;
 	}
@@ -70,10 +71,12 @@ public class BookService {
 						"category"));
 			else
 				category2 = category;
+			String press = bookDao.findPressById(list.get(i).getInt("press"));
 			models.add(new BookViewModel(list.get(i).getInt("id"), list.get(i)
 					.getStr("name"), list.get(i).getDouble("price"), category2,
 					list.get(i).getInt("sale"), list.get(i).getInt("amount"),
-					list.get(i).getDouble("star"), list.get(i).getStr("desc")));
+					list.get(i).getDouble("star"), list.get(i).getStr("desc"),
+					press));
 		}
 		return models;
 	}
@@ -111,6 +114,24 @@ public class BookService {
 		return bookDao.updateBook(bookid, 4, newdesc);
 	}
 
+	// 对某本书更新出版社
+	public boolean updateBookPress(int bookid, String newpress) {
+		int categoryid = bookDao.findIdByPress(newpress);
+		if (categoryid == -1) {
+			Record record = new Record().set("name", newpress);
+			Db.save("t_press", record);
+			categoryid = Db.findFirst(
+					"select p.id from t_press c where p.name = ?", newpress)
+					.getInt("id");
+		}
+		return bookDao.updateBook(bookid, 5, newpress);
+	}
+
+	// 对某本书更新图片
+	public boolean updateBookPic(int bookid, String picAddress) {
+		return bookDao.updateBook(bookid, 6, picAddress);
+	}
+
 	// 8.对某本书评分
 	public boolean scoreBook(int bookid, int star) {
 		return bookDao.updateStar(bookid, star);
@@ -118,8 +139,27 @@ public class BookService {
 
 	// 9.增加一本书
 	public boolean addBook(String name, double price, String category,
-			int amount, String desc) {
-		return bookDao.addBook(name, price, category, amount, desc);
+			int amount, String desc, String press, String picAddress) {
+		return bookDao.addBook(name, price, category, amount, desc, press,
+				picAddress);
+	}
+
+	// 10.找到所有的书类别
+	public List<String> getAllCategory() {
+		List<Record> records = bookDao.findAllCategory();
+		List<String> list = new ArrayList<String>();
+		for (int i = 0; i < records.size(); i++)
+			list.add(records.get(i).getStr("name"));
+		return list;
+	}
+
+	// 11.找到所有出版社
+	public List<String> getAllPress() {
+		List<Record> records = bookDao.findAllPress();
+		List<String> list = new ArrayList<String>();
+		for (int i = 0; i < records.size(); i++)
+			list.add(records.get(i).getStr("name"));
+		return list;
 	}
 
 }

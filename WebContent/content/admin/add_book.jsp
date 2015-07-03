@@ -30,6 +30,11 @@
 						<input class="form-control" name="category" type="text" value="" />
 					</dd>
 
+					<dt style="margin-top: 10px;">出版社</dt>
+					<dd style="margin-top: 10px; margin-bottom: 10px;">
+						<input class="form-control" name="press" type="text" value="" />
+					</dd>
+
 					<dt style="margin-top: 10px;">库存</dt>
 					<dd style="margin-top: 10px; margin-bottom: 10px;">
 						<input class="form-control" name="amount" type="text" value="" />
@@ -42,8 +47,14 @@
 
 					<dt style="margin-top: 10px;">详细描述</dt>
 					<dd style="margin-top: 10px; margin-bottom: 10px;">
-						<input class="form-control" name="desc" type="text" value="" />
+						<textarea class="form-control" name="newdesc"></textarea>
 					</dd>
+
+					<dt style="margin-top: 10px;">图片</dt>
+					<dd style="margin-top: 10px; margin-bottom: 10px;">
+						<input style="margin-top: 10px;" type="file" value="" />
+					</dd>
+
 				</dl>
 
 				<div class="form-group">

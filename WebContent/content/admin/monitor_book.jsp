@@ -40,6 +40,12 @@
 							value="<%=book.getCategory()%>" />
 					</dd>
 
+					<dt style="margin-top: 10px;">出版社</dt>
+					<dd style="margin-top: 10px; margin-bottom: 10px;">
+						<input class="form-control" name="newpress" type="text"
+							value="<%=book.getPress()%>" />
+					</dd>
+
 					<dt style="margin-top: 10px;">库存</dt>
 					<dd style="margin-top: 10px; margin-bottom: 10px;">
 						<input class="form-control" name="newamount" type="text"
@@ -54,12 +60,18 @@
 
 					<dt style="margin-top: 10px;">详细描述</dt>
 					<dd style="margin-top: 10px; margin-bottom: 10px;">
-						<input class="form-control" name="newdesc" type="text"
-							value="<%=book.getDesc()%>" />
+						<textarea class="form-control" name="newdesc"><%=book.getDesc()%></textarea>
 					</dd>
+
+					<dt style="margin-top: 10px;">图片</dt>
+					<dd style="margin-top: 10px; margin-bottom: 10px;">
+						<input style="margin-top: 10px;" type="file" value="" />
+					</dd>
+
 				</dl>
 
-				<div class="form-group">
+				<div class="fo
+				rm-group">
 					<div class="col-md-offset-2 col-md-10">
 						<input type="submit" value="提  交" class="btn btn-primary"
 							style="font-family: 微软雅黑;" />

@@ -29,6 +29,7 @@
 			<tr>
 				<th>id</th>
 				<th>书名</th>
+				<th>出版社</th>
 				<th>分类</th>
 				<th>价格</th>
 				<th>销量</th>
@@ -50,6 +51,7 @@
 			<tr>
 				<td><%=books.get(i).getId()%></td>
 				<td><a href="<%=detail%>"><%=books.get(i).getName()%></a></td>
+				<td><%=books.get(i).getPress()%></td>
 				<td><%=books.get(i).getCategory()%></td>
 				<td style="color: #ff0000"><%=books.get(i).getPrice()%></td>
 				<td><%=books.get(i).getSale()%></td>

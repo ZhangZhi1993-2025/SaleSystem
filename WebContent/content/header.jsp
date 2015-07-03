@@ -38,12 +38,14 @@
 						<select name="category" class="col-md-4"
 							style="margin-top: 20px; float: left; margin-left: 25px;">
 							<option>全部分类</option>
+							<option>笔试/面试</option>
 							<option>Python</option>
 							<option>Algorithms</option>
 							<option>Java</option>
 							<option>.NET</option>
 							<option>Math</option>
 							<option>HTML/CSS/JS</option>
+							<option>C++</option>
 						</select>
 						<div class="checkbox-inline"
 							style="margin-top: 20px; margin-left: 20px;">
