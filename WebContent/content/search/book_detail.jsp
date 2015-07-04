@@ -61,7 +61,7 @@
 					<input
 						style="width: 45px; margin: 5px 15px 5px -10px; padding-left: 5px; float: left;"
 						name="amount" id="amount" value="1" type="number" min=1 step=1 />
-					<input type="submit" value="确认购买" class="btn btn-primary"
+					<input type="submit" value="立即购买" class="btn btn-primary"
 						style="font-family: 微软雅黑; margin-left: 45px; float: left;" /> <a
 						class="btn btn-info" id="car" onclick="getUrl()"
 						style="font-family: 微软雅黑; float: left; margin-left: 15px;">加入购物车</a>

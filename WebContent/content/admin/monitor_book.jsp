@@ -23,7 +23,7 @@
 			<h4 style="font-family: 微软雅黑;">请在需要更新的栏目上修改并提交</h4>
 			<hr />
 			<form action="<%=submitUrl%>" method="post" class="form-horizontal"
-				role="form">
+				role="form" enctype="multipart/form-data">
 				<dl class="dl-horizontal">
 					<dt>id号</dt>
 					<dd><%=book.getId()%></dd>
@@ -65,7 +65,7 @@
 
 					<dt style="margin-top: 10px;">图片</dt>
 					<dd style="margin-top: 10px; margin-bottom: 10px;">
-						<input style="margin-top: 10px;" type="file" value="" />
+						<input style="margin-top: 10px;" name="newpic" type="file" value="" />
 					</dd>
 
 				</dl>

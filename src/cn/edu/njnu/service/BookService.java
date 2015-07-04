@@ -3,7 +3,6 @@
 import java.util.ArrayList;
 import java.util.List;
 
-import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 
 import cn.edu.njnu.model.Book;
@@ -88,15 +87,7 @@ public class BookService {
 
 	// 4.对某本书更新分类
 	public boolean updateBookCategory(int bookid, String newcategory) {
-		int categoryid = bookDao.findIdByCategory(newcategory);
-		if (categoryid == -1) {
-			Record record = new Record().set("name", newcategory);
-			Db.save("t_category", record);
-			categoryid = Db.findFirst(
-					"select c.id from t_category c where c.name = ?",
-					newcategory).getInt("id");
-		}
-		return bookDao.updateBook(bookid, 1, categoryid);
+		return bookDao.updateBook(bookid, 1, newcategory);
 	}
 
 	// 5.对某本书更新价格
@@ -116,15 +107,7 @@ public class BookService {
 
 	// 对某本书更新出版社
 	public boolean updateBookPress(int bookid, String newpress) {
-		int categoryid = bookDao.findIdByPress(newpress);
-		if (categoryid == -1) {
-			Record record = new Record().set("name", newpress);
-			Db.save("t_press", record);
-			categoryid = Db.findFirst(
-					"select p.id from t_press c where p.name = ?", newpress)
-					.getInt("id");
-		}
-		return bookDao.updateBook(bookid, 5, newpress);
+		return bookDao.updateBook(bookid, 5,newpress);
 	}
 
 	// 对某本书更新图片

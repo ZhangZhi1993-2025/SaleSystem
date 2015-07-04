@@ -10,6 +10,7 @@ import cn.edu.njnu.viewmodel.UserViewModel;
 
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
+import com.jfinal.kit.PathKit;
 import com.jfinal.upload.UploadFile;
 
 /**
@@ -38,8 +39,8 @@ public class AdminController extends Controller {
 
 	// 2.增加一本书
 	public void add_a_book() {
-		UploadFile file = getFile("pic", "/resource/bookpic", 1000 * 1024,
-				"utf-8");
+		UploadFile file = getFile("pic", PathKit.getWebRootPath()
+				+ "/resource/bookpic", 1000 * 1024, "utf-8");
 		String picAddress = "./resource/bookpic/" + file.getFileName();
 		String name = getPara("name");
 		String press = getPara("press");
@@ -63,8 +64,8 @@ public class AdminController extends Controller {
 
 	// 4.对某本书更新
 	public void update_book() {
-		UploadFile file = getFile("pic", "/resource/bookpic", 1000 * 1024,
-				"utf-8");
+		UploadFile file = getFile("newpic", PathKit.getWebRootPath()
+				+ "/resource/bookpic", 1000 * 1024, "utf-8");
 		String picAddress = "./resource/bookpic/" + file.getFileName();
 		int bookid = Integer.parseInt(getPara("book"));
 		bookService.updateBookPic(bookid, picAddress);

@@ -21,11 +21,9 @@ public class ConfigInfo extends JFinalConfig {
 	@Override
 	public void configConstant(Constants constants) {
 
-		// 加载全局配置文件
-		// loadPropertyFile("properties.txt");
-
-		constants.setDevMode(true/* getPropertyToBoolean("devMode") */);
+		constants.setDevMode(true);
 		constants.setViewType(ViewType.JSP);
+		//constants.setUploadedFileSaveDirectory("/resource/bookpic");
 	}
 
 	/**
@@ -50,11 +48,6 @@ public class ConfigInfo extends JFinalConfig {
 	@Override
 	public void configPlugin(Plugins plugins) {
 
-		// 配置C3p0数据库连接池插件
-		/*
-		 * C3p0Plugin c3p0Plugin = new C3p0Plugin(getProperty("jdbcUrl"),
-		 * getProperty("username"), getProperty("password"));
-		 */
 		C3p0Plugin c3p0Plugin = new C3p0Plugin(
 				"jdbc:mysql://localhost:3306/salesystem", "root", "931065");
 		plugins.add(c3p0Plugin);

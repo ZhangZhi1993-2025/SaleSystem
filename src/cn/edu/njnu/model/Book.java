@@ -92,7 +92,15 @@ public class Book extends Model<Book> {
 			success = findById(bookid).set("amount", (int) info).update();
 			break;
 		case 1:// 更新书的分类
-			success = findById(bookid).set("category", (int) info).update();
+			int categoryid = findIdByCategory((String) info);
+			if (categoryid == -1) {
+				Record record = new Record().set("name", info);
+				Db.save("t_category", record);
+				categoryid = Db.findFirst(
+						"select c.id from t_category c where c.name = ?",
+						(String) info).getInt("id");
+			}
+			success = findById(bookid).set("category", categoryid).update();
 			break;
 		case 2:// 更新书的价格
 			success = findById(bookid).set("price", (double) info).update();
@@ -104,7 +112,15 @@ public class Book extends Model<Book> {
 			success = findById(bookid).set("desc", (String) info).update();
 			break;
 		case 5:// 更新书的出版社
-			success = findById(bookid).set("press", (String) info).update();
+			int pressid = findIdByPress((String) info);
+			if (pressid == -1) {
+				Record record = new Record().set("name", info);
+				Db.save("t_press", record);
+				pressid = Db.findFirst(
+						"select p.id from t_press c where p.name = ?",
+						(String) info).getInt("id");
+			}
+			success = findById(bookid).set("press", pressid).update();
 			break;
 		case 6:// 更新书的图片资源
 			success = findById(bookid).set("pic", (String) info).update();

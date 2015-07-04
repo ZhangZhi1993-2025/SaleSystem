@@ -17,7 +17,7 @@
 			<h4 style="font-family: 微软雅黑;">请填写必要的图书信息并提交</h4>
 			<hr />
 			<form action="/booksales/admin/add_a_book" method="post"
-				class="form-horizontal" role="form">
+				class="form-horizontal" role="form" enctype="multipart/form-data">
 				<dl class="dl-horizontal" style="font-family: 微软雅黑;">
 
 					<dt style="margin-top: 10px;">书名</dt>
@@ -47,12 +47,12 @@
 
 					<dt style="margin-top: 10px;">详细描述</dt>
 					<dd style="margin-top: 10px; margin-bottom: 10px;">
-						<textarea class="form-control" name="newdesc"></textarea>
+						<textarea class="form-control" name="desc"></textarea>
 					</dd>
 
 					<dt style="margin-top: 10px;">图片</dt>
 					<dd style="margin-top: 10px; margin-bottom: 10px;">
-						<input style="margin-top: 10px;" type="file" value="" />
+						<input style="margin-top: 10px;" name="pic" type="file" value="" />
 					</dd>
 
 				</dl>
